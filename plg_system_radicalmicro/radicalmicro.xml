@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   pkg_radicalmicro
+  ~ @version   1.0.0
+  ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
+  ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
+  ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+  ~ @link      https://fictionlabs.ru/
+  -->
+
+<extension type="plugin" group="system" method="upgrade" version="3">
+	<name>plg_system_radicalmicro</name>
+	<author>Jan Pavelka (www.phoca.cz)</author>
+	<creationDate>12/09/2019</creationDate>
+	<authorEmail></authorEmail>
+	<authorUrl>https://www.phoca.cz</authorUrl>
+	<copyright>Jan Pavelka</copyright>
+	<license>GNU/GPL</license>
+	<version>4.0</version>
+	<description>PLG_SYSTEM_PHOCAOPENGRAPH_DESCRIPTION</description>
+	<projectName>RadicalMicro</projectName>
+
+	<files>
+		<folder>helpers</folder>
+		<filename plugin="radicalmicro">radicalmicro.php</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.sys.ini</language>
+		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.ini</language>
+		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.sys.ini</language>
+	</languages>
+
+	<administration>
+		<languages>
+			<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.sys.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.sys.ini</language>
+		</languages>
+	</administration>
+
+	<config>
+		
+	</config>
+
+</extension>
