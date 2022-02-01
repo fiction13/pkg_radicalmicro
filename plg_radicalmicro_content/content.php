@@ -63,7 +63,7 @@ class plgRadicalmicroContent extends CMSPlugin
 		$schema_article_id = 'plugin-article-' . $article->id;
 
 		$micro->addChild('root', [
-			'id'      => $schema_article_id,
+			'uid'      => $schema_article_id,
 			'name'    => '@context',
 			'content' => 'https://schema.org'
 		])->addChild($schema_article_id, [
