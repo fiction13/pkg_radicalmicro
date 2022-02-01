@@ -8,16 +8,19 @@
  * @link      https://fictionlabs.ru/
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use RadicalMicro\Helpers\MainHelper;
 
 // Radical Micro Class
 
 class plgSystemRadicalMicro extends CMSPlugin
 {
+
+
 	/**
 	 * Application object
 	 *
@@ -26,13 +29,21 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 */
 	protected $app;
 
+
 	/**
-	 * Database object
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
-	 * @var    DatabaseDriver
+	 * @var    boolean
 	 * @since  1.0.0
 	 */
-	protected $db;
+	protected $autoloadLanguage = true;
+
+
+	public function onAfterInitialise()
+	{
+		// регистрируем namespaces, далее доступно по всей joomla в любой части
+		JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src');
+	}
 
 
 	/**
@@ -43,16 +54,27 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 * @since   2.5
 	 */
 	public function onAfterRender()
-	{	
+	{
 		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		// Get integrations plugins
+		$data = [];
 
-		PluginHelper::importPlugin('radicalmicro_integration');
+		// Get provider plugins
+		PluginHelper::importPlugin('radicalmicro');
+		Factory::getApplication()->triggerEvent('onRadicalmicroProvider', [&$data]);
 
-    	$this->app->triggerEvent('onRenderRadicalMicro');
+		$body      = $this->app->getBody();
+		$schema    = MainHelper::buildSchema($body);
+		$opengraph = MainHelper::buildOpengraph($body);
+
+		$body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
+
+		$this->app->setBody($body);
+
 	}
+
+
 }

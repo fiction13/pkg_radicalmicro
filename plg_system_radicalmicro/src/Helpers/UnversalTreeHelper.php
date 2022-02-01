@@ -1,4 +1,4 @@
-<?php
+<?php namespace RadicalMicro\Helpers;
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -10,42 +10,45 @@
 
 defined('_JEXEC') or die;
 
-namespace RadicalMicro\Helpers;
-
 use Closure;
 
-class RadicalMicroHelper
+class UnversalTreeHelper
 {
-	protected static $instances = [];
 
 
-	protected $map = [];
+	protected static $_instances = [];
+
+
+	protected $_map = [];
 
 
 	protected $_override = [];
 
 
+	protected static $default_priority = 0.5;
+
+
 	public static function getInstance($name = 'default')
 	{
-		if (isset(static::$instances[$name]))
+		if (isset(static::$_instances[$name]))
 		{
-			return static::$instances[$name];
+			return static::$_instances[$name];
 		}
 
-		static::$instances[$name] = new static();
-		static::$instances[$name]->setMap(['name' => 'root', 'child' => []]);
+		static::$_instances[$name] = new static();
+		static::$_instances[$name]->setMap(['uid' => 'root', 'child' => []]);
 
-		return static::$instances[$name];
+		return static::$_instances[$name];
 	}
 
 
-	public function getBuild($name = null)
+	public function getBuild($uid = null)
 	{
 		$output = [];
-		$map    = &$this->map;
+		$map    = &$this->_map;
 
 		$override = &$this->_override;
-		$this->findNode($map, $map, '', static function (&$element) use (&$output, $name, $override) {
+		$this->findNode($map, $map, '', static function (&$element) use (&$output, $uid, $override) {
 
 			foreach ($element as $key => $value)
 			{
@@ -57,9 +60,9 @@ class RadicalMicroHelper
 				$item[$key] = $value;
 			}
 
-			if (isset($item['name'], $override[$item['name']]))
+			if (isset($item['uid'], $override[$item['uid']]))
 			{
-				$override = $override[$element['name']];
+				$override = $override[$element['uid']];
 
 				foreach ($override as $key => $value)
 				{
@@ -68,9 +71,9 @@ class RadicalMicroHelper
 
 			}
 
-			if(
-				isset($item['name']) &&
-				$item['name'] === $name
+			if (
+				isset($item['uid']) &&
+				$item['uid'] === $uid
 			)
 			{
 				return;
@@ -86,7 +89,7 @@ class RadicalMicroHelper
 
 	public function setMap($map)
 	{
-		$this->map = $map;
+		$this->_map = $map;
 	}
 
 
@@ -98,11 +101,16 @@ class RadicalMicroHelper
 
 	public function addChild($name, $item)
 	{
-		$map = &$this->map;
+		$map = &$this->_map;
 		$this->findNode($map, $map, $name, static function (&$element) use ($item) {
 			if (!isset($element['child']))
 			{
 				$element['child'] = [];
+			}
+
+			if (!isset($item['priority']))
+			{
+				$item['priority'] = static::$default_priority;
 			}
 
 			$element['child'][] = $item;
@@ -114,7 +122,7 @@ class RadicalMicroHelper
 
 	public function replace($name, $item)
 	{
-		$map = &$this->map;
+		$map = &$this->_map;
 
 		$this->findNode($map, $map, $name, static function (&$element) use ($item) {
 			$element = array_merge($element, $item);
@@ -126,7 +134,7 @@ class RadicalMicroHelper
 
 	public function replaceChild($name, $item)
 	{
-		$map = &$this->map;
+		$map = &$this->_map;
 
 		$this->findNode($map, $map, $name, static function (&$element) use ($item) {
 
@@ -143,9 +151,9 @@ class RadicalMicroHelper
 	}
 
 
-	protected function findNode(&$element, &$parent, $name, Closure $callback, $first = true)
+	protected function findNode(&$element, &$parent, $uid, Closure $callback, $first = true)
 	{
-		if (empty($name))
+		if (empty($uid))
 		{
 			$result = $callback($element, $parent);
 
@@ -156,7 +164,7 @@ class RadicalMicroHelper
 		}
 		else
 		{
-			if (isset($element['name']) && ($element['name'] === $name))
+			if (isset($element['uid']) && ($element['uid'] === $uid))
 			{
 				$result = $callback($element, $parent);
 
@@ -175,7 +183,7 @@ class RadicalMicroHelper
 		{
 			foreach ($element['child'] as &$child)
 			{
-				$result = $this->findNode($child, $element, $name, $callback, $first);
+				$result = $this->findNode($child, $element, $uid, $callback, $first);
 
 				if ($result instanceof Closure)
 				{
@@ -185,4 +193,5 @@ class RadicalMicroHelper
 			}
 		}
 	}
+
 }

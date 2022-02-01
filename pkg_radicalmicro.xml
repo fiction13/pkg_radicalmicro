@@ -16,5 +16,10 @@
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
     <version>1.0.0</version>
-    <description>RadicalMicro - Package</description>
+    <description>Package - RadicalMicro</description>
+
+    <files>
+        <folder type="plugin" group="system" id="radicalmicro">plg_system_radicalmicro</folder>
+    </files>
+
 </extension>
