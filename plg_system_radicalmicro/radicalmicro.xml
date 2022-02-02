@@ -9,19 +9,19 @@
   -->
 
 <extension type="plugin" group="system" method="upgrade" version="3">
-	<name>plg_system_radicalmicro</name>
-	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>12/09/2019</creationDate>
-	<authorEmail></authorEmail>
-	<authorUrl>https://www.phoca.cz</authorUrl>
-	<copyright>Jan Pavelka</copyright>
-	<license>GNU/GPL</license>
-	<version>4.0</version>
-	<description>PLG_SYSTEM_PHOCAOPENGRAPH_DESCRIPTION</description>
-	<projectName>RadicalMicro</projectName>
+	<name>PLG_SYSTEM_RADICALMICRO</name>
+	<creationDate>February 2022</creationDate>
+	<author>Dmitriy Vasyukov</author>
+	<copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>info@fictionlabs.ru</authorEmail>
+	<authorUrl>https://fictionlabs.ru</authorUrl>
+	<version>0.0.1</version>
+	<description>PLG_SYSTEM_RADICALMICRO_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
 
 	<files>
-		<folder>helpers</folder>
+		<folder>src</folder>
 		<filename plugin="radicalmicro">radicalmicro.php</filename>
 	</files>
 
@@ -32,17 +32,10 @@
 		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.sys.ini</language>
 	</languages>
 
-	<administration>
-		<languages>
-			<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.ini</language>
-			<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.sys.ini</language>
-			<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.ini</language>
-			<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.sys.ini</language>
-		</languages>
-	</administration>
-
 	<config>
-		
+		<fields name="params">
+			<fieldset name="basic"></fieldset>
+		</fields>
 	</config>
 
 </extension>

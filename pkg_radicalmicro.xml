@@ -15,11 +15,12 @@
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <description>Package - RadicalMicro</description>
 
     <files>
         <folder type="plugin" group="system" id="radicalmicro">plg_system_radicalmicro</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro_content">plg_radicalmicro_content</folder>
     </files>
 
 </extension>

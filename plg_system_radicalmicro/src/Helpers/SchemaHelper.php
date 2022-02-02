@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-
 class SchemaHelper extends UnversalTreeHelper
 {
 

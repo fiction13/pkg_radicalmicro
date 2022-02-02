@@ -15,12 +15,15 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use RadicalMicro\Helpers\MainHelper;
 
-// Radical Micro Class
+/**
+ * Radicalmicro
+ *
+ * @package   plgSystemRadicalmicro
+ * @since     1.0.0
+ */
 
 class plgSystemRadicalMicro extends CMSPlugin
 {
-
-
 	/**
 	 * Application object
 	 *
@@ -28,7 +31,6 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 * @since  1.0.0
 	 */
 	protected $app;
-
 
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -38,13 +40,17 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
-
+    /**
+     * OnAfterInitialise event
+     *
+	 * Register RadicalMicro namespace.
+	 *
+	 * @since  1.0.0
+	 */
 	public function onAfterInitialise()
 	{
-		// регистрируем namespaces, далее доступно по всей joomla в любой части
 		JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src');
 	}
-
 
 	/**
 	 * OnAfterRender event.
@@ -55,6 +61,7 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
+        // Check site client
 		if ($this->app->isClient('administrator'))
 		{
 			return false;
@@ -66,6 +73,7 @@ class plgSystemRadicalMicro extends CMSPlugin
 		PluginHelper::importPlugin('radicalmicro');
 		Factory::getApplication()->triggerEvent('onRadicalmicroProvider', [&$data]);
 
+        // Set Schema.org and Opengraph to the end of body
 		$body      = $this->app->getBody();
 		$schema    = MainHelper::buildSchema($body);
 		$opengraph = MainHelper::buildOpengraph($body);
@@ -73,8 +81,5 @@ class plgSystemRadicalMicro extends CMSPlugin
 		$body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
 
 		$this->app->setBody($body);
-
 	}
-
-
 }

@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-
 class OGHelper extends UnversalTreeHelper
 {
 

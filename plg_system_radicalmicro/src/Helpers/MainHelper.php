@@ -10,10 +10,8 @@
 
 defined('_JEXEC') or die;
 
-
 class MainHelper
 {
-
 
 	public static function buildSchema(&$to_string)
 	{

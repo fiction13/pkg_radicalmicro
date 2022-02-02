@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\SchemaHelper;
+use RadicalMicro\Helpers\OGHelper;
 
 /**
  * Radicalmicro
@@ -25,7 +26,6 @@ use RadicalMicro\Helpers\SchemaHelper;
  */
 class plgRadicalmicroContent extends CMSPlugin
 {
-
 	/**
 	 * Application object
 	 *
@@ -33,7 +33,6 @@ class plgRadicalmicroContent extends CMSPlugin
 	 * @since  1.0.0
 	 */
 	protected $app;
-
 
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -43,7 +42,13 @@ class plgRadicalmicroContent extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
-
+    /**
+	 * OnRadicalmicroProvider event
+     *
+     * @return array.
+	 *
+	 * @since  1.0.0
+	 */
 	public function onRadicalmicroProvider(&$data)
 	{
 		if (!$this->isArticleView())
@@ -58,7 +63,7 @@ class plgRadicalmicroContent extends CMSPlugin
 		$article->load($article_id);
 		$image = $this->getImage($article);
 
-		// Добавляем микроразметку
+		// Add microdata
 		$micro             = SchemaHelper::getInstance();
 		$schema_article_id = 'plugin-article-' . $article->id;
 
@@ -80,7 +85,7 @@ class plgRadicalmicroContent extends CMSPlugin
 			'content' => $article->publish_up //TODO преобразовывать вроде надо
 		]);
 
-		// image
+		// Check image
 		if ($image)
 		{
 			$micro->addChild($schema_article_id, [
@@ -95,7 +100,11 @@ class plgRadicalmicroContent extends CMSPlugin
 
 	}
 
-	// Is article
+	/**
+	 * Check article page view
+	 *
+	 * @since  1.1.0
+	 */
 	public function isArticleView()
 	{
 		$input = Factory::getApplication()->input;
@@ -103,28 +112,27 @@ class plgRadicalmicroContent extends CMSPlugin
 		return $input->getCmd('option') === 'com_content' && $input->getCmd('view') === 'article' && is_null($input->getCmd('task'));
 	}
 
-
-	// Get image
-	public function getImage($article)
+	/**
+	 * Get image from Article object
+     *
+     * @return void|string.
+	 *
+	 * @since  1.1.0
+	 */
+	public function getImage(object $article)
 	{
-		$image = '';
-		$json  = json_decode($article->images);
+		$jsonImgObj = json_decode($article->images);
 
-		if (!empty($json->image_fulltext))
+		if (!empty($jsonImgObj->image_fulltext))
 		{
-			$image = URI::root() . $json->image_fulltext;
-
-			return $image;
+			return URI::root() . $jsonImgObj->image_fulltext;
 		}
 
 		if (!empty($json->image_intro))
 		{
-			$image = URI::root() . $json->image_intro;
-
-			return $image;
+			return URI::root() . $jsonImgObj->image_intro;
 		}
 
-		return $image;
+		return;
 	}
-
 }

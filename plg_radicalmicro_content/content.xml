@@ -9,22 +9,22 @@
   -->
 
 <extension type="plugin" version="3.8" group="radicalmicro" method="upgrade">
-	<name>PLG_RADICALMICRO_PROVIDER_CONTENT</name>
+	<name>PLG_RADICALMICRO_CONTENT</name>
 	<creationDate>February 2022</creationDate>
 	<author>Dmitriy Vasyukov</author>
 	<copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>info@fictionlabs.ru</authorEmail>
 	<authorUrl>https://fictionlabs.ru</authorUrl>
-	<version>1.0.0</version>
-	<description>PLG_RADICALMICRO_PROVIDER_CONTENT_DESCRIPTION</description>
+	<version>0.0.1</version>
+	<description>PLG_RADICALMICRO_CONTENT_DESCRIPTION</description>
 
 	<!-- Language files -->
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_radicalmicro_provider_content.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_radicalmicro_provider_content.sys.ini</language>
-		<language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_provider_content.ini</language>
-		<language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_provider_content.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_radicalmicro_content.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_radicalmicro_content.sys.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_content.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_content.sys.ini</language>
 	</languages>
 
 	<!-- Plugin files -->
@@ -36,7 +36,6 @@
 	<!-- Config parameter -->
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic"></fieldset>
 		</fields>
 	</config>
