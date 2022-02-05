@@ -13,7 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\MainHelper;
+use RadicalMicro\Helpers\SchemaHelper;
 
 /**
  * Radicalmicro
@@ -49,7 +51,7 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src');
+		JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src', false, false, 'psr4');
 	}
 
 	/**
@@ -73,13 +75,54 @@ class plgSystemRadicalMicro extends CMSPlugin
 		PluginHelper::importPlugin('radicalmicro');
 		Factory::getApplication()->triggerEvent('onRadicalmicroProvider', [&$data]);
 
+		// Add website schema
+
+		if ($this->params->get('add_website_type', 1))
+		{
+			$data[] = $this->getWebsiteObject();
+		}
+
+		// Add logo schema
+
+		if ($this->params->get('add_logo_type', 1) && $this->params->get('add_logo_type_image'))
+		{
+			$data[] = $this->getLogoObject();
+		}
+
+		// No data
+		if (empty($data))
+		{
+			return;
+		}
+
         // Set Schema.org and Opengraph to the end of body
 		$body      = $this->app->getBody();
-		$schema    = MainHelper::buildSchema($body);
-		$opengraph = MainHelper::buildOpengraph($body);
+		$schema    = MainHelper::buildSchema($body, $data);
+		$opengraph = MainHelper::buildOpengraph($body, $data);
 
 		$body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
 
 		$this->app->setBody($body);
+	}
+
+	// Get website object
+
+	public function getWebsiteObject()
+	{
+		$object = new stdClass();
+		$object->type = 'website';
+
+		return $object;
+	}
+
+	// Get logo object
+
+	public function getLogoObject()
+	{
+		$object = new stdClass();
+		$object->type = 'logo';
+		$object->logo = Uri::root().ltrim($this->params->get('add_logo_type_image'), '/');
+
+		return $object;
 	}
 }

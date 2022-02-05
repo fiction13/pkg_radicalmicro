@@ -15,8 +15,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use RadicalMicro\Helpers\SchemaHelper;
 use RadicalMicro\Helpers\OGHelper;
+use RadicalMicro\Helpers\MainHelper;
 
 /**
  * Radicalmicro
@@ -51,6 +53,7 @@ class plgRadicalmicroContent extends CMSPlugin
 	 */
 	public function onRadicalmicroProvider(&$data)
 	{
+		// Check is article view
 		if (!$this->isArticleView())
 		{
 			return;
@@ -61,43 +64,31 @@ class plgRadicalmicroContent extends CMSPlugin
 		// Get Article
 		$article = Table::getInstance('Content', 'JTable');
 		$article->load($article_id);
+
+		// Get image
 		$image = $this->getImage($article);
 
-		// Add microdata
-		$micro             = SchemaHelper::getInstance();
-		$schema_article_id = 'plugin-article-' . $article->id;
+		// Data object
+		$object = new stdClass();
+		$object->id = $article->id;
+		$object->type = $this->params->get('type', 'article');
+		$object->title = $article->title;
+		$object->description = $article->introtext.$article->fulltext;
+		$object->url = Uri::current();
+		$object->published = MainHelper::date($article->publish_up);
+        $object->created = MainHelper::date($article->created);
+		$object->modified = MainHelper::date($article->modified);
+		$object->author = Factory::getUser($article->created_by)->name;
 
-		$micro->addChild('root', [
-			'uid'      => $schema_article_id,
-			'name'    => '@context',
-			'content' => 'https://schema.org'
-		])->addChild($schema_article_id, [
-			'name'    => '@type',
-			'content' => 'NewsArticle'
-		])->addChild($schema_article_id, [
-			'name'    => 'headline',
-			'content' => $article->title
-		])->addChild($schema_article_id, [
-			'name'    => 'author',
-			'content' => Factory::getUser($article->created_by)->name
-		])->addChild($schema_article_id, [
-			'name'    => 'datePublished',
-			'content' => $article->publish_up //TODO преобразовывать вроде надо
-		]);
-
-		// Check image
 		if ($image)
 		{
-			$micro->addChild($schema_article_id, [
-				'name'    => 'image',
-				'content' => $image
-			]);
+			$object->image = $image;
 		}
 
+		// Add object to data
+		$data[] = $object;
 
-		// TODO Добавляем Opengraph
-
-
+		return;
 	}
 
 	/**

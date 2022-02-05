@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Helpers;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,25 +8,40 @@
  * @link      https://fictionlabs.ru/
  */
 
+namespace RadicalMicro\Helpers;
+
+use DateTimeZone;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 class MainHelper
 {
-
-	public static function buildSchema(&$to_string)
+	// Build Schema.org
+	public static function buildSchema(&$to_string, $data)
 	{
-		$output = [];
-		$schema = SchemaHelper::getBuild('root');
+		$jsonLd = array();
 
-		// достаем из $to_string уже записи про json+ld и удаляем лишнее
+		// Set data to tree helper
+		self::setSchemaData($data);
 
-		// проходим массив и собираем
+		// Get data from tree
+		$schemaData = SchemaHelper::getInstance()->getBuild('root');
 
-		return '<script type="application/ld+json">' . json_encode($output) . '</script>';
+		#TODO Проверить текущие схемы на странице
+
+		foreach ($schemaData as $schema) {
+			$jsonLd[] = '<script type="application/ld+json">' . json_encode($schema) . '</script>';
+		}
+
+		return implode("\n", $jsonLd);
+
 	}
 
+	// Build Opengrapgh
 
-	public static function buildOpengraph(&$to_string)
+	public static function buildOpengraph(&$to_string, $data)
 	{
 		$output = '';
 
@@ -35,4 +50,50 @@ class MainHelper
 		return $output;
 	}
 
+	// Set Schema via schema helper
+
+	public static function setSchemaData($data)
+	{
+		foreach ($data as $item)
+		{
+			// Get data by current schema type
+			$function   = 'getSchema'.ucfirst($item->type);
+			$schemaData = SchemaHelper::$function($item);
+
+			// Set data to tree
+			$micro      = SchemaHelper::getInstance();
+            $micro->addChild('root', $schemaData);
+		}
+
+		return;
+	}
+
+	// Transform date
+
+	public static function date($date, $modify_offset = false)
+	{
+		$date = is_string($date) ? trim($date) : $date;
+
+		if (empty($date) || is_null($date) || $date == '0000-00-00 00:00:00')
+		{
+			return $date;
+		}
+
+		// Skip if date is already in ISO8601 format
+		if (strpos($date, 'T') !== false)
+		{
+			return $date;
+		}
+
+		try {
+			$timeZone = new DateTimeZone(Factory::getConfig()->get('offset', 'UTC'));
+
+			$date = new Date($date, $timeZone);
+
+			return $date->toISO8601(true);
+
+		} catch (\Exception $e) {
+			return $date;
+		}
+	}
 }

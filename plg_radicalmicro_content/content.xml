@@ -36,7 +36,14 @@
 	<!-- Config parameter -->
 	<config>
 		<fields name="params">
-			<fieldset name="basic"></fieldset>
+			<fieldset name="basic">
+				<field name="type" type="list" default="article"
+					label="PLG_RADICALMICRO_CONTENT_TYPE"
+					description="PLG_RADICALMICRO_CONTENT_DESC">
+					<option value="article">Article</option>
+					<option value="newsArticle">NewsArticle</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>

@@ -35,6 +35,32 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic"></fieldset>
+			<fieldset name="schema">
+				<field name="add_website_type" type="radio" default="1"
+					class="btn-group"
+					label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_WEBSITE"
+					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_WEBSITE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field name="add_logo_type" type="radio" default="1"
+					class="btn-group"
+					label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO"
+					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+                	name="add_logo_type_image"
+                	type="media"
+                	default=""
+					showon="add_logo_type:1"
+                	label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_IMAGE"
+					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_IMAGE_DESC" />
+			</fieldset>
+			<fieldset name="opengraph"></fieldset>
 		</fields>
 	</config>
 

@@ -15,7 +15,6 @@ use Closure;
 class UnversalTreeHelper
 {
 
-
 	protected static $_instances = [];
 
 
@@ -83,6 +82,12 @@ class UnversalTreeHelper
 
 		}, false);
 
+		// Sort by result element
+		uasort($output, function($a, $b) { return $a->priority <=> $b->priority; });
+
+		// Сollapse element with the same name value
+		$output = array_column($output, null, 'uid');
+
 		return $output;
 	}
 
@@ -90,6 +95,12 @@ class UnversalTreeHelper
 	public function setMap($map)
 	{
 		$this->_map = $map;
+	}
+
+
+	public function getMap()
+	{
+		return $this->_map;
 	}
 
 
