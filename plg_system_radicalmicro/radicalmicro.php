@@ -15,7 +15,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\MainHelper;
-use RadicalMicro\Helpers\SchemaHelper;
+use RadicalMicro\Helpers\ProviderHelper;
 
 /**
  * Radicalmicro
@@ -73,32 +73,24 @@ class plgSystemRadicalMicro extends CMSPlugin
 
 		// Get provider plugins
 		PluginHelper::importPlugin('radicalmicro');
-		Factory::getApplication()->triggerEvent('onRadicalmicroProvider', [&$data]);
+		Factory::getApplication()->triggerEvent('onRadicalmicroProvider');
 
 		// Add website schema
-
 		if ($this->params->get('add_website_type', 1))
 		{
-			$data[] = $this->getWebsiteObject();
+			ProviderHelper::website();
 		}
 
 		// Add logo schema
-
-		if ($this->params->get('add_logo_type', 1) && $this->params->get('add_logo_type_image'))
+		if ($this->params->get('add_logo_type', 1) && $logoUrl = $this->params->get('add_logo_type_image'))
 		{
-			$data[] = $this->getLogoObject();
-		}
-
-		// No data
-		if (empty($data))
-		{
-			return;
+			ProviderHelper::logo($logoUrl);
 		}
 
         // Set Schema.org and Opengraph to the end of body
 		$body      = $this->app->getBody();
-		$schema    = MainHelper::buildSchema($body, $data);
-		$opengraph = MainHelper::buildOpengraph($body, $data);
+		$schema    = MainHelper::buildSchema($body);
+		$opengraph = MainHelper::buildOpengraph($body);
 
 		$body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
 

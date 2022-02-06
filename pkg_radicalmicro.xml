@@ -15,7 +15,7 @@
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <description>Package - RadicalMicro</description>
 
     <files>

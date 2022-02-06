@@ -15,10 +15,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
 use RadicalMicro\Helpers\SchemaHelper;
-use RadicalMicro\Helpers\OGHelper;
-use RadicalMicro\Helpers\MainHelper;
+use RadicalMicro\Helpers\DateHelper;
+use RadicalMicro\Helpers\TypesHelper;
 
 /**
  * Radicalmicro
@@ -51,7 +50,7 @@ class plgRadicalmicroContent extends CMSPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onRadicalmicroProvider(&$data)
+	public function onRadicalmicroProvider()
 	{
 		// Check is article view
 		if (!$this->isArticleView())
@@ -65,6 +64,9 @@ class plgRadicalmicroContent extends CMSPlugin
 		$article = Table::getInstance('Content', 'JTable');
 		$article->load($article_id);
 
+		// Get schema type
+		$type = $this->params->get('type', 'article');
+
 		// Get image
 		$image = $this->getImage($article);
 
@@ -75,9 +77,9 @@ class plgRadicalmicroContent extends CMSPlugin
 		$object->title = $article->title;
 		$object->description = $article->introtext.$article->fulltext;
 		$object->url = Uri::current();
-		$object->published = MainHelper::date($article->publish_up);
-        $object->created = MainHelper::date($article->created);
-		$object->modified = MainHelper::date($article->modified);
+		$object->published = DateHelper::format($article->publish_up);
+        $object->created = DateHelper::format($article->created);
+		$object->modified = DateHelper::format($article->modified);
 		$object->author = Factory::getUser($article->created_by)->name;
 
 		if ($image)
@@ -85,16 +87,18 @@ class plgRadicalmicroContent extends CMSPlugin
 			$object->image = $image;
 		}
 
-		// Add object to data
-		$data[] = $object;
+		// Get schema data
+		$schemaData = TypesHelper::execute($type, $object);
 
-		return;
+		// Set data
+		$micro      = SchemaHelper::getInstance();
+		$micro->addChild('root', $schemaData);
 	}
 
 	/**
 	 * Check article page view
 	 *
-	 * @since  1.1.0
+	 * @since  1.0.0
 	 */
 	public function isArticleView()
 	{
