@@ -18,6 +18,8 @@ use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\SchemaHelper;
 use RadicalMicro\Helpers\DateHelper;
 use RadicalMicro\Helpers\TypesHelper;
+use RadicalMicro\Helpers\MetaHelper;
+use RadicalMicro\Helpers\OGHelper;
 
 /**
  * Radicalmicro
@@ -43,6 +45,14 @@ class plgRadicalmicroContent extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	/**
+	 * Opengraph type.
+	 *
+	 * @var    string
+	 * @since  1.0.0
+	 */
+	protected $ogType = 'og';
+
     /**
 	 * OnRadicalmicroProvider event
      *
@@ -50,7 +60,35 @@ class plgRadicalmicroContent extends CMSPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onRadicalmicroProvider()
+	public function onRadicalmicroProvider($params)
+	{
+		$object = $this->getProviderData();
+
+		if (!$object) {
+			return;
+		}
+
+		// Get schema type
+		$type = $this->params->get('type', 'article');
+
+		// Get schema data
+		$schemaData = TypesHelper::execute($type, $object);
+
+		// Get opengraph data
+		$ogData = MetaHelper::execute($this->ogType, $object);
+
+		// Set data
+		SchemaHelper::getInstance()->addChild('root', $schemaData);
+        OGHelper::getInstance()->addChild('root', $ogData);
+	}
+
+
+	/**
+	 * Method get provider data
+	 *
+	 * @since 1.0.0
+	 */
+	public function getProviderData()
 	{
 		// Check is article view
 		if (!$this->isArticleView())
@@ -64,9 +102,6 @@ class plgRadicalmicroContent extends CMSPlugin
 		$article = Table::getInstance('Content', 'JTable');
 		$article->load($article_id);
 
-		// Get schema type
-		$type = $this->params->get('type', 'article');
-
 		// Get image
 		$image = $this->getImage($article);
 
@@ -77,22 +112,22 @@ class plgRadicalmicroContent extends CMSPlugin
 		$object->title = $article->title;
 		$object->description = $article->introtext.$article->fulltext;
 		$object->url = Uri::current();
-		$object->published = DateHelper::format($article->publish_up);
-        $object->created = DateHelper::format($article->created);
-		$object->modified = DateHelper::format($article->modified);
+		$object->datePublished = DateHelper::format($article->publish_up);
+        $object->dateCreated = DateHelper::format($article->created);
+		$object->dateModified = DateHelper::format($article->modified);
 		$object->author = Factory::getUser($article->created_by)->name;
+
+		// Check if YOOtheme Pro is loaded
+        if ($this->isYoothemeBuider($object->description)) {
+            $object->description = '';
+        }
 
 		if ($image)
 		{
 			$object->image = $image;
 		}
 
-		// Get schema data
-		$schemaData = TypesHelper::execute($type, $object);
-
-		// Set data
-		$micro      = SchemaHelper::getInstance();
-		$micro->addChild('root', $schemaData);
+		return $object;
 	}
 
 	/**
@@ -129,5 +164,19 @@ class plgRadicalmicroContent extends CMSPlugin
 		}
 
 		return;
+	}
+
+	public function isYoothemeBuider($description)
+	{
+		if (strlen($description) == 0) {
+			return false;
+		}
+
+		if (substr($description, 0, 4) === '<!--' && substr($description, -3) == '-->')
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

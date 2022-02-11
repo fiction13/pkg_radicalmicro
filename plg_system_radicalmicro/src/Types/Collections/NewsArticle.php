@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types\Classes;
+<?php namespace RadicalMicro\Types\Collections;
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -9,27 +9,32 @@
  */
 
 use Joomla\CMS\Uri\Uri;
-use RadicalMicro\Types\TypesInterface;
+use RadicalMicro\Types\InterfaceTypes;
 
 defined('_JEXEC') or die;
 
-class NewsArticle implements TypesInterface
+class NewsArticle implements InterfaceTypes
 {
 
-	public function execute(object $item)
+	public function execute($item)
 	{
+		if (is_array($item))
+		{
+			$item = (object) $item;
+		}
+
 		$dataId = 'radicalmicro.schema.article.'.$item->id;
 
 		$data = [
-			'uid'               =>$dataId,
+			'uid'               => $dataId,
 			'@context'          => 'https://schema.org',
 			'@type'             => 'NewsArticle',
 			'url'               => Uri::current(),
 			'mainEntityOfPage'  => Uri::current(),
 			'headline'          => $item->title,
 			'articleBody'       => $item->description,
-			'datePublished'     => $item->published,
-			'dateModified'      => $item->modified,
+			'datePublished'     => $item->datePublished,
+			'dateModified'      => $item->datePublished,
 			'publisher'         => [
 				"@type" => "Person",
 	            "name" => $item->author
@@ -44,6 +49,11 @@ class NewsArticle implements TypesInterface
 		}
 
 		return $data;
+	}
+
+	public function getConfig($params = null)
+	{
+
 	}
 
 }

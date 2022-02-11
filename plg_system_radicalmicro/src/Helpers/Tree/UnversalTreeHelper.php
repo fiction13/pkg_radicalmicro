@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Helpers;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -7,6 +7,8 @@
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link      https://fictionlabs.ru/
  */
+
+namespace RadicalMicro\Helpers\Tree;
 
 defined('_JEXEC') or die;
 

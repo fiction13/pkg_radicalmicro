@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types\Classes;
+<?php namespace RadicalMicro\Types\Collections;
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -9,24 +9,33 @@
  */
 
 use Joomla\CMS\Uri\Uri;
-use RadicalMicro\Types\TypesInterface;
+use RadicalMicro\Types\InterfaceTypes;
 
 defined('_JEXEC') or die;
 
-class Logo implements TypesInterface
+class Website implements InterfaceTypes
 {
 
-	public function execute(object $item)
+	public function execute($item)
 	{
+		if (is_array($item))
+		{
+			$item = (object) $item;
+		}
+
 		$data = [
-			'uid'       => 'radicalmicro.schema.logo',
+			'uid'       => 'radicalmicro.schema.website',
 			'@context'  => 'https://schema.org',
-			'@type'     => 'Organization',
+			'@type'     => 'WebSite',
 			'url'       => Uri::root(),
-			'logo'      => $item->image
 		];
 
 		return $data;
+	}
+
+	public function getConfig($params = null)
+	{
+
 	}
 
 }

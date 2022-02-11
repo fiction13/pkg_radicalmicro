@@ -1,0 +1,31 @@
+{
+    "@import": "./element.php",
+    "name": "radicalmicro.meta",
+    "title": "RadicalMicro Meta",
+    "group": "RadicalMicro",
+    "icon": "${url:images/icon.svg}",
+    "iconSmall": "${url:images/iconSmall.svg}",
+    "element": true,
+    "width": 500,
+    "defaults": {
+        "type": "website",
+        "meta": "og"
+    },
+    "templates": {
+        "render": "./templates/template.php",
+        "content": "./templates/content.php"
+    },
+    "fields": {
+        "name": "${builder.name}",
+        "status": "${builder.status}",
+        "source": "${builder.source}"
+    },
+    "fieldset": {
+        "default": {
+            "type": "tabs",
+            "fields": [
+                "${builder.advanced}"
+            ]
+        }
+    }
+}

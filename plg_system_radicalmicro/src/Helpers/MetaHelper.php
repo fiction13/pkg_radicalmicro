@@ -10,33 +10,33 @@
 
 defined('_JEXEC') or die;
 
-class TypesHelper
+class MetaHelper
 {
 
-	public static function execute(string $type, $data)
+	public static function execute(string $type, $data, $priority = 0.5)
 	{
 		if (empty($type))
 		{
 			return;
 		}
 
-		$class_name = '\\RadicalMicro\\Types\\Collections\\'.ucfirst($type);
+		$class_name = '\\RadicalMicro\\Meta\\Collections\\'.ucfirst($type);
 
 		if(!class_exists($class_name) )
 		{
 			return false;
 		}
 
-		$typeClass = new $class_name($data);
+		$typeClass = new $class_name();
 
-		$result = $typeClass->execute($data);
+		$result = $typeClass->execute($data, $priority);
 
 		return $result;
 	}
 
 	public static function getConfig($type)
 	{
-		$class_name = '\\RadicalMicro\\Types\\Collections\\'.ucfirst($type);
+		$class_name = '\\RadicalMicro\\Meta\\Collections\\'.ucfirst($type);
 
 		if(!class_exists($class_name) )
 		{
@@ -49,4 +49,5 @@ class TypesHelper
 
 		return $result;
 	}
+
 }

@@ -21,6 +21,7 @@
 	<scriptfile>script.php</scriptfile>
 
 	<files>
+		<filename>bootstrap.php</filename>
 		<folder>src</folder>
 		<filename plugin="radicalmicro">radicalmicro.php</filename>
 	</files>
@@ -34,9 +35,24 @@
 
 	<config>
 		<fields name="params">
-			<fieldset name="basic"></fieldset>
+			<fieldset name="basic">
+				<field name="enable_schema" type="radio" default="1"
+					class="btn-group"
+					label="PLG_SYSTEM_RADICALMICRO_ENABLE_SCHEMA"
+					description="PLG_SYSTEM_RADICALMICRO_ENABLE_SCHEMA_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="enable_og" type="radio" default="1"
+					class="btn-group"
+					label="PLG_SYSTEM_RADICALMICRO_ENABLE_OG"
+					description="PLG_SYSTEM_RADICALMICRO_ENABLE_OG_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
 			<fieldset name="schema">
-				<field name="add_website_type" type="radio" default="1"
+				<field name="schema_add_website_type" type="radio" default="1"
 					class="btn-group"
 					label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_WEBSITE"
 					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_WEBSITE_DESC">
@@ -44,7 +60,7 @@
 					<option value="1">JYES</option>
 				</field>
 
-				<field name="add_logo_type" type="radio" default="1"
+				<field name="schema_add_logo_type" type="radio" default="1"
 					class="btn-group"
 					label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO"
 					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_DESC">
@@ -53,14 +69,29 @@
 				</field>
 
 				<field
-                	name="add_logo_type_image"
+                	name="schema_add_logo_type_image"
                 	type="media"
                 	default=""
-					showon="add_logo_type:1"
+					showon="schema_add_logo_type:1"
                 	label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_IMAGE"
 					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_IMAGE_DESC" />
 			</fieldset>
-			<fieldset name="opengraph"></fieldset>
+			<fieldset name="opengraph">
+				<field name="og_add_facebook" type="radio" default="1"
+					class="btn-group"
+					label="PLG_SYSTEM_RADICALMICRO_ADD_FACEBOOK"
+					description="PLG_SYSTEM_RADICALMICRO_ADD_FACEBOOK_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="og_add_twitter" type="radio" default="1"
+					class="btn-group"
+					label="PLG_SYSTEM_RADICALMICRO_ADD_TWITTER"
+					description="PLG_SYSTEM_RADICALMICRO_ADD_TWITTER_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 

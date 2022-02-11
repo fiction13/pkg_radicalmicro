@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Helpers;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,7 +8,7 @@
  * @link      https://fictionlabs.ru/
  */
 
-use Joomla\CMS\Uri\Uri;
+namespace RadicalMicro\Helpers\Tree;
 
 defined('_JEXEC') or die;
 

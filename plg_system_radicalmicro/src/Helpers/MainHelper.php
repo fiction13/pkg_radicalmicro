@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 class MainHelper
 {
 	/**
-	 * Method to build JSON-LD schema.ord
+	 * Method to build JSON-LD schema.org
 	 *
 	 * @param $body
 	 *
@@ -48,11 +48,25 @@ class MainHelper
 	 */
 	public static function buildOpengraph(&$body)
 	{
-		$output = '';
+		$meta = [];
 
-		// собираем метатеги
+		// Get data from tree
+		$ogData = OGHelper::getInstance()->getBuild('root');
 
-		return $output;
+		#TODO Проверить текущие схемы на странице
+
+		foreach ($ogData as $og)
+		{
+			foreach ($og as $property => $content)
+			{
+				if (!empty($content))
+				{
+					$meta[] = '<meta property="' . $property . '" content="' . $content . '" />';
+				}
+			}
+		}
+
+		return implode("\n", $meta);
 	}
 
 }

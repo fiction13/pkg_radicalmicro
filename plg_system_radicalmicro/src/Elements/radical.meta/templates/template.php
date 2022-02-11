@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,10 +8,9 @@
  * @link      https://fictionlabs.ru/
  */
 
-defined('_JEXEC') or die;
+use RadicalMicro\Helpers\MetaHelper;
+use RadicalMicro\Helpers\OGHelper;
 
-interface TypesInterface {
+$ogData = MetaHelper::execute($props['meta'], $props, 0.6);
 
-	public function execute(object $item);
-
-}
+OGHelper::getInstance()->addChild('root', $ogData);

@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\MainHelper;
 use RadicalMicro\Helpers\ProviderHelper;
+use YOOtheme\Application;
 
 /**
  * Radicalmicro
@@ -23,7 +23,6 @@ use RadicalMicro\Helpers\ProviderHelper;
  * @package   plgSystemRadicalmicro
  * @since     1.0.0
  */
-
 class plgSystemRadicalMicro extends CMSPlugin
 {
 	/**
@@ -42,9 +41,9 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
-    /**
-     * OnAfterInitialise event
-     *
+	/**
+	 * OnAfterInitialise event
+	 *
 	 * Register RadicalMicro namespace.
 	 *
 	 * @since  1.0.0
@@ -52,6 +51,9 @@ class plgSystemRadicalMicro extends CMSPlugin
 	public function onAfterInitialise()
 	{
 		JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src', false, false, 'psr4');
+
+		// Init Yootheme Pro
+		$this->initYoothemePro();
 	}
 
 	/**
@@ -63,58 +65,66 @@ class plgSystemRadicalMicro extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-        // Check site client
+		// Check site client
 		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		$data = [];
-
 		// Get provider plugins
+		$params = $this->params;
+
 		PluginHelper::importPlugin('radicalmicro');
-		Factory::getApplication()->triggerEvent('onRadicalmicroProvider');
+		Factory::getApplication()->triggerEvent('onRadicalmicroProvider', [$params]);
 
-		// Add website schema
-		if ($this->params->get('add_website_type', 1))
+		// Set Schema.org and Opengraph to the end of body
+		$body   = $this->app->getBody();
+		$schema = $og = '';
+
+		// Add Schema.org
+		if ($this->params->get('enable_schema', 1))
 		{
-			ProviderHelper::website();
+			// Add website schema
+			if ($this->params->get('schema_add_website_type', 1))
+			{
+				ProviderHelper::website();
+			}
+
+			// Add logo schema
+			if ($this->params->get('schema_add_logo_type', 1) && $logoUrl = $this->params->get('schema_add_logo_type_image'))
+			{
+				ProviderHelper::logo($logoUrl);
+			}
+
+			$schema = MainHelper::buildSchema($body);
 		}
 
-		// Add logo schema
-		if ($this->params->get('add_logo_type', 1) && $logoUrl = $this->params->get('add_logo_type_image'))
+		// Add Opengraph
+		if ($this->params->get('enable_og', 1))
 		{
-			ProviderHelper::logo($logoUrl);
+			$opengraph = MainHelper::buildOpengraph($body);
 		}
-
-        // Set Schema.org and Opengraph to the end of body
-		$body      = $this->app->getBody();
-		$schema    = MainHelper::buildSchema($body);
-		$opengraph = MainHelper::buildOpengraph($body);
 
 		$body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
 
 		$this->app->setBody($body);
 	}
 
-	// Get website object
 
-	public function getWebsiteObject()
+	/**
+	 * Init Yootheme Pro if loaded
+	 *
+	 * @since version
+	 */
+	public function initYoothemePro()
 	{
-		$object = new stdClass();
-		$object->type = 'website';
+		// Check if YOOtheme Pro is loaded
+        if (!class_exists(Application::class, false)) {
+            return;
+        }
 
-		return $object;
-	}
-
-	// Get logo object
-
-	public function getLogoObject()
-	{
-		$object = new stdClass();
-		$object->type = 'logo';
-		$object->logo = Uri::root().ltrim($this->params->get('add_logo_type_image'), '/');
-
-		return $object;
+        // Load a single module from the same directory
+        $app = Application::getInstance();
+        $app->load(__DIR__ . '/bootstrap.php');
 	}
 }
