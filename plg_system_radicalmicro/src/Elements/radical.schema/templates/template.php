@@ -11,6 +11,6 @@
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\SchemaHelper;
 
-$schemaData = TypesHelper::execute($props['meta'], $props, 0.6);
+$schemaData = TypesHelper::execute('schema', $props['meta'], $props, 0.6);
 
 SchemaHelper::getInstance()->addChild('root', $schemaData);

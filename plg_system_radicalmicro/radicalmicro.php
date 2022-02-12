@@ -11,10 +11,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use RadicalMicro\Helpers\MainHelper;
+use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\ProviderHelper;
+use RadicalMicro\Helpers\TypesHelper;
 use YOOtheme\Application;
 
 /**
@@ -54,6 +57,31 @@ class plgSystemRadicalMicro extends CMSPlugin
 
 		// Init Yootheme Pro
 		$this->initYoothemePro();
+
+		// Init collections
+		$this->initCollections();
+	}
+
+	/**
+	 * Adds forms for override
+	 *
+	 * @param  JForm $form The form to be altered.
+	 * @param  mixed $data The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0
+	 */
+	public function onContentPrepareForm(Form $form, object $data)
+	{
+		// Extend JForm plugins
+		$this->addRadicalMicroTypeXML($form, $data);
+
+		// Extend JForm menu
+		#TODO Extend menu JForm
+		$this->addRadicalMicroMenuXML($form, $data);
+
+		return true;
 	}
 
 	/**
@@ -74,12 +102,13 @@ class plgSystemRadicalMicro extends CMSPlugin
 		// Get provider plugins
 		$params = $this->params;
 
+		// Trigger for data providers
 		PluginHelper::importPlugin('radicalmicro');
 		Factory::getApplication()->triggerEvent('onRadicalmicroProvider', [$params]);
 
 		// Set Schema.org and Opengraph to the end of body
 		$body   = $this->app->getBody();
-		$schema = $og = '';
+		$schema = $opengraph = '';
 
 		// Add Schema.org
 		if ($this->params->get('enable_schema', 1))
@@ -87,13 +116,13 @@ class plgSystemRadicalMicro extends CMSPlugin
 			// Add website schema
 			if ($this->params->get('schema_add_website_type', 1))
 			{
-				ProviderHelper::website();
+				// ProviderHelper::website();
 			}
 
 			// Add logo schema
 			if ($this->params->get('schema_add_logo_type', 1) && $logoUrl = $this->params->get('schema_add_logo_type_image'))
 			{
-				ProviderHelper::logo($logoUrl);
+				// ProviderHelper::logo($logoUrl);
 			}
 
 			$schema = MainHelper::buildSchema($body);
@@ -126,5 +155,47 @@ class plgSystemRadicalMicro extends CMSPlugin
         // Load a single module from the same directory
         $app = Application::getInstance();
         $app->load(__DIR__ . '/bootstrap.php');
+	}
+
+
+	/**
+	 * @param   Form    $form
+	 * @param   object  $data
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function addRadicalMicroTypeXML(Form $form, object $data)
+	{
+		return true;
+	}
+
+
+	/**
+	 * @param   Form    $form
+	 * @param   object  $data
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function addRadicalMicroMenuXML(Form $form, object $data)
+	{
+		return true;
+	}
+
+
+	/**
+	 * Init types of each collections
+	 *
+	 * @throws Exception
+	 * @since 1.0.0
+	 */
+	public function initCollections()
+	{
+		// Trigger onRadicalmicroRegisterTypes to collect paths and register types classes
+		PluginHelper::importPlugin('radicalmicro');
+		Factory::getApplication()->triggerEvent('onRadicalmicroRegisterTypes');
 	}
 }

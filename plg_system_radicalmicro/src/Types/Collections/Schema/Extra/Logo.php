@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types\Collections;
+<?php namespace RadicalMicro\Types\Collections\Schema\Extra;
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -13,10 +13,10 @@ use RadicalMicro\Types\InterfaceTypes;
 
 defined('_JEXEC') or die;
 
-class Website implements InterfaceTypes
+class Logo implements InterfaceTypes
 {
 
-	public function execute($item)
+	public function execute($item, $priority)
 	{
 		if (is_array($item))
 		{
@@ -24,10 +24,11 @@ class Website implements InterfaceTypes
 		}
 
 		$data = [
-			'uid'       => 'radicalmicro.schema.website',
+			'uid'       => 'radicalmicro.schema.logo',
 			'@context'  => 'https://schema.org',
-			'@type'     => 'WebSite',
+			'@type'     => 'Organization',
 			'url'       => Uri::root(),
+			'logo'      => $item->image
 		];
 
 		return $data;

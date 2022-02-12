@@ -54,7 +54,7 @@ class YooHelper
     {
         if (isset($type) && isset($type['group']) && $type['group'] === 'RadicalMicro')
 		{
-			$collections = ['og', 'twitter'];
+			$collections = PathHelper::getInstance()->getTypes('meta');
 			$config      = ['meta'];
 			$typeField   = [
 				'label'       => 'Type',
@@ -67,7 +67,8 @@ class YooHelper
 			foreach ($collections as $collection)
 			{
 				$typeField['options'][ucfirst($collection)] = $collection;
-				$collectionConfig = MetaHelper::getConfig($collection);
+
+				$collectionConfig = TypesHelper::getConfig('meta', $collection);
 
 				unset($collectionConfig['uid']);
 

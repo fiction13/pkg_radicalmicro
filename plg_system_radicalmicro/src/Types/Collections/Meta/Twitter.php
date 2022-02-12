@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Meta\Collections;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,17 +8,22 @@
  * @link      https://fictionlabs.ru/
  */
 
-use RadicalMicro\Meta\InterfaceMeta;
+namespace RadicalMicro\Types\Collections\Meta;
+
+use Joomla\CMS\Uri\Uri;
+use RadicalMicro\Types\InterfaceTypes;
 
 defined('_JEXEC') or die;
 
-class Og implements InterfaceMeta
+class Twitter implements InterfaceTypes
 {
+
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private $uid = 'radicalmicro.meta.og';
+	private $uid = 'radicalmicro.meta.twitter';
+
 
 	/**
 	 * @param $item
@@ -35,18 +40,17 @@ class Og implements InterfaceMeta
 			$item = (object) $item;
 		}
 
-		$config = $this->getConfig();
-
-		$data['uid']            = $this->uid;
-		$data['og:title']       = isset($item->title) ? $item->title : '';
-		$data['og:description'] = isset($item->description) ? $item->description : '';
-		$data['og:type']        = isset($item->type) ? $item->type : 'website';
-		$data['og:url']         = isset($item->url) ? $item->url : '' ;
-		$data['og:image']       = isset($item->image) ? $item->image : '' ;
-		$data['priority']       = $priority;
+		$data['uid']                 = $this->uid;
+		$data['twitter:card']        = 'summary';
+		$data['twitter:title']       = isset($item->title) ? $item->title : '';
+		$data['twitter:description'] = isset($item->description) ? $item->description : '';
+		$data['twitter:site']        = isset($item->site) ? $item->site : Uri::root();
+		$data['twitter:image']       = isset($item->image) ? : $item->image;
+		$data['priority']            = $priority;
 
 		return $data;
 	}
+
 
 	/**
 	 * Get config for JForm and Yootheme Pro elements
@@ -60,9 +64,7 @@ class Og implements InterfaceMeta
 	public function getConfig($params = null)
 	{
 		$config = [
-			'uid'         => 'radicalmicro.meta.og',
-			'url'         => '',
-			'type'        => 'website',
+			'site'        => '',
 			'title'       => '',
 			'description' => '',
 			'image'       => '',
@@ -70,5 +72,4 @@ class Og implements InterfaceMeta
 
 		return $config;
 	}
-
 }

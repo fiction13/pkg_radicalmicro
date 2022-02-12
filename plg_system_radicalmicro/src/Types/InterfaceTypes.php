@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 interface InterfaceTypes
 {
 
-	public function execute($item);
+	public function execute($item, $priority);
 
 	public function getConfig($params = null);
 

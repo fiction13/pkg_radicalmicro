@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types\Collections;
+<?php namespace RadicalMicro\Types\Collections\Schema;
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -13,10 +13,10 @@ use RadicalMicro\Types\InterfaceTypes;
 
 defined('_JEXEC') or die;
 
-class Article implements InterfaceTypes
+class NewsArticle implements InterfaceTypes
 {
 
-	public function execute($item)
+	public function execute($item, $priority)
 	{
 		if (is_array($item))
 		{
@@ -28,22 +28,20 @@ class Article implements InterfaceTypes
 		$data = [
 			'uid'               => $dataId,
 			'@context'          => 'https://schema.org',
-			'@type'             => 'Article',
+			'@type'             => 'NewsArticle',
+			'url'               => Uri::current(),
+			'mainEntityOfPage'  => Uri::current(),
 			'headline'          => $item->title,
-			'description'       => $item->description,
-			'mainEntityOfPage'  => [
-				'@type' => 'WebPage',
-				'id'    => Uri::current()
-			],
+			'articleBody'       => $item->description,
 			'datePublished'     => $item->datePublished,
-			'dateModified'      => $item->dateModified,
-			'author'            => [
+			'dateModified'      => $item->datePublished,
+			'publisher'         => [
 				"@type" => "Person",
 	            "name" => $item->author
 			]
 		];
 
-		if (isset($item->image)) {
+		if (isset($data->image)) {
 			$data['image'] = [
 				'@type' => 'ImageObject',
 				'url' => $item->image
