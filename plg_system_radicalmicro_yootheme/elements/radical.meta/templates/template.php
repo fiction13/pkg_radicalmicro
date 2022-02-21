@@ -8,18 +8,9 @@
  * @link      https://fictionlabs.ru/
  */
 
-namespace YOOtheme;
+use RadicalMicro\Helpers\TypesHelper;
+use RadicalMicro\Helpers\Tree\OGHelper;
 
-return [
-    'transforms' => [
-	    'render' => function ($node)
-	    {
-			unset($node->props['animation']);
-			unset($node->props['name']);
-			unset($node->props['status']);
-			unset($node->props['source']);
+$ogData = TypesHelper::execute('meta', $props['meta'], $props, 0.6);
 
-            return $node;
-        },
-    ]
-];
+OGHelper::getInstance()->addChild('root', $ogData);

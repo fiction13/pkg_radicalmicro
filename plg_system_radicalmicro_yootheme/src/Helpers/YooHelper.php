@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Helpers;
+<?php namespace RadicalMicroYootheme\Helpers;
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -7,6 +7,10 @@
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link      https://fictionlabs.ru/
  */
+
+use Joomla\CMS\Language\Text;
+use RadicalMicro\Helpers\PathHelper;
+use RadicalMicro\Helpers\TypesHelper;
 
 defined('_JEXEC') or die;
 
@@ -20,10 +24,10 @@ class YooHelper
      * @param object $node
      * @param array  $params
      */
-    public function __invoke($node, array $params)
-    {
-
-    }
+//    public function __invoke($node, array $params)
+//    {
+//
+//    }
 
 	/**
 	 *
@@ -54,11 +58,23 @@ class YooHelper
     {
         if (isset($type) && isset($type['group']) && $type['group'] === 'RadicalMicro')
 		{
-			$collections = PathHelper::getInstance()->getTypes('meta');
-			$config      = ['meta'];
+			list(, $radicalType) = explode('.', $type['name']);
+
+			// Get all collections of types
+			$collections = PathHelper::getInstance()->getTypes($radicalType);
+
+			// Add extra schema types
+			if ($radicalType == 'schema')
+			{
+				$collections = array_merge($collections, PathHelper::getInstance()->getTypes('schema_extra'));
+			}
+
+			$config      = [$radicalType];
+
+			// Add core field for meta type choice
 			$typeField   = [
 				'label'       => 'Type',
-	            'description' => 'Type of metadata.',
+	            'description' => Text::_('PLG_SYSTEM_RADICALMICRO_YOOTHEME_TYPE'),
 	            'type'        => 'select',
 				'options'     => []
 			];
@@ -68,7 +84,7 @@ class YooHelper
 			{
 				$typeField['options'][ucfirst($collection)] = $collection;
 
-				$collectionConfig = TypesHelper::getConfig('meta', $collection);
+				$collectionConfig = TypesHelper::getConfig($radicalType, $collection);
 
 				unset($collectionConfig['uid']);
 
@@ -78,11 +94,12 @@ class YooHelper
 				{
 					foreach ($collectionConfig as $field)
 					{
+						// Configure new field by collection source
 						$newField = [
 							'label'  => ucfirst($field),
 							'source' => true,
-							'show'   => 'meta == "'.$collection.'"',
-							'enable' => 'meta == "'.$collection.'"'
+							'show'   => $radicalType . ' == "' . $collection . '"',
+							'enable' => $radicalType . ' == "' . $collection . '"'
 						];
 
 						if ($fieldType = self::getFieldType($field))
@@ -96,8 +113,8 @@ class YooHelper
 							$type['fields'][$field] = $newField;
 						} else
 						{
-							$type['fields'][$field]['enable'] .= ' || meta == "'.$collection.'"';
-							$type['fields'][$field]['show'] .= ' || meta == "'.$collection.'"';
+							$type['fields'][$field]['enable'] .= ' || ' . $radicalType . ' == "'.$collection.'"';
+							$type['fields'][$field]['show'] .= ' || ' . $radicalType . ' == "'.$collection.'"';
 						}
 					}
 				}
@@ -105,10 +122,11 @@ class YooHelper
 				$config = array_merge($config, $collectionConfig);
 			}
 
-			$type['fields']['meta'] = $typeField;
+			$type['fields'][$radicalType] = $typeField;
 
+			// Add new fieldset settings tab
 			$newFieldset = [
-				'title'  => 'Settings',
+				'title'  => Text::_('PLG_SYSTEM_RADICALMICRO_YOOTHEME_SETTINGS'),
 				'fields' => array_unique($config)
 			];
 
@@ -143,7 +161,7 @@ class YooHelper
 			return 'link';
 		}
 
-		return;
+		return 'text';
     }
 
 }

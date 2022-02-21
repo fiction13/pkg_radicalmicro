@@ -10,6 +10,9 @@
 
 defined('_JEXEC') or die;
 
+use RadicalMicro\Helpers\Tree\OGHelper;
+use RadicalMicro\Helpers\Tree\SchemaHelper;
+
 class MainHelper
 {
 	/**

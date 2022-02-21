@@ -34,7 +34,12 @@ class TypesHelper
 
 		if(!class_exists($class_name) )
 		{
-			return false;
+			$class_name = '\\RadicalMicro\\Types\\Collections\\'. ucfirst($collectionType) . '\\Extra\\' . ucfirst($type);
+
+			if(!class_exists($class_name) )
+			{
+				return false;
+			}
 		}
 
 		$typeClass = new $class_name($data);
@@ -61,7 +66,12 @@ class TypesHelper
 
 		if(!class_exists($class_name) )
 		{
-			return false;
+			$class_name = '\\RadicalMicro\\Types\\Collections\\'. ucfirst($collectionType) . '\\Extra\\' . ucfirst($type);
+
+			if(!class_exists($class_name) )
+			{
+				return false;
+			}
 		}
 
 		$typeClass = new $class_name();

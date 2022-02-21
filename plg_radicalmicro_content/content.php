@@ -16,10 +16,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\PathHelper;
-use RadicalMicro\Helpers\SchemaHelper;
+use RadicalMicro\Helpers\Tree\SchemaHelper;
+use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\DateHelper;
 use RadicalMicro\Helpers\TypesHelper;
-use RadicalMicro\Helpers\OGHelper;
 
 /**
  * Radicalmicro
@@ -64,12 +64,9 @@ class plgRadicalmicroContent extends CMSPlugin
 		// $path - absolute path of directory with your types of each collection
 		//
 		// PathHelper::getInstance()->register($path, 'schema');
+		// PathHelper::getInstance()->register($path, 'schema_extra');
 		// PathHelper::getInstance()->register($path, 'meta');
-		// PathHelper::getInstance()->register($path, 'extra');
 	}
-
-
-
 
     /**
 	 * OnRadicalmicroProvider event
@@ -94,6 +91,8 @@ class plgRadicalmicroContent extends CMSPlugin
 
 		// Get opengraph data
 		$ogData = TypesHelper::execute('meta', $this->ogType, $object);
+
+		#TODO Добавить все активные типы meta
 
 		// Set data
 		SchemaHelper::getInstance()->addChild('root', $schemaData);
@@ -167,7 +166,7 @@ class plgRadicalmicroContent extends CMSPlugin
 	 *
 	 * @since  1.1.0
 	 */
-	public function getImage(object $article)
+	public function getImage( $article)
 	{
 		$jsonImgObj = json_decode($article->images);
 

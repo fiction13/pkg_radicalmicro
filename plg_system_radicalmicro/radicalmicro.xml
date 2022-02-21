@@ -16,12 +16,11 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>info@fictionlabs.ru</authorEmail>
 	<authorUrl>https://fictionlabs.ru</authorUrl>
-	<version>0.0.2</version>
+	<version>0.0.5</version>
 	<description>PLG_SYSTEM_RADICALMICRO_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
 
 	<files>
-		<filename>bootstrap.php</filename>
 		<folder>src</folder>
 		<filename plugin="radicalmicro">radicalmicro.php</filename>
 	</files>
@@ -43,51 +42,51 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="enable_og" type="radio" default="1"
+				<field name="enable_meta" type="radio" default="1"
 					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_ENABLE_OG"
-					description="PLG_SYSTEM_RADICALMICRO_ENABLE_OG_DESC">
+					label="PLG_SYSTEM_RADICALMICRO_ENABLE_META"
+					description="PLG_SYSTEM_RADICALMICRO_ENABLE_META_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset name="schema">
-				<field name="schema_add_website_type" type="radio" default="1"
+				<field name="schema_enable_type_website" type="radio" default="1"
 					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_WEBSITE"
-					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_WEBSITE_DESC">
+					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_WEBSITE"
+					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_WEBSITE_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 
-				<field name="schema_add_logo_type" type="radio" default="1"
+				<field name="schema_enable_type_logo" type="radio" default="1"
 					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO"
-					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_DESC">
+					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_LOGO"
+					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_LOGO_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 
 				<field
-                	name="schema_add_logo_type_image"
+                	name="schema_type_logo_image"
                 	type="media"
                 	default=""
-					showon="schema_add_logo_type:1"
-                	label="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_IMAGE"
-					description="PLG_SYSTEM_RADICALMICRO_SCHEMA_ADD_LOGO_IMAGE_DESC" />
+					showon="schema_enable_type_logo:1"
+                	label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_LOGO_IMAGE_IMAGE"
+					description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_LOGO_IMAGE_DESC" />
 			</fieldset>
-			<fieldset name="opengraph">
-				<field name="og_add_facebook" type="radio" default="1"
+			<fieldset name="meta">
+				<field name="meta_enable_openraph" type="radio" default="1"
 					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_ADD_FACEBOOK"
-					description="PLG_SYSTEM_RADICALMICRO_ADD_FACEBOOK_DESC">
+					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_OPENGRAPH"
+					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_OPENGRAPH_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="og_add_twitter" type="radio" default="1"
+				<field name="meta_enable_twitter" type="radio" default="1"
 					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_ADD_TWITTER"
-					description="PLG_SYSTEM_RADICALMICRO_ADD_TWITTER_DESC">
+					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_TWITTER"
+					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_TWITTER_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

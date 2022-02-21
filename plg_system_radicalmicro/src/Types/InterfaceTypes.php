@@ -15,6 +15,6 @@ interface InterfaceTypes
 
 	public function execute($item, $priority);
 
-	public function getConfig($params = null);
+	public function getConfig($addUid = true);
 
 }

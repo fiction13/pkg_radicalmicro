@@ -8,7 +8,7 @@
  * @link      https://fictionlabs.ru/
  */
 
-use RadicalMicro\Helpers\YooHelper;
+use RadicalMicroYootheme\Helpers\YooHelper;
 use YOOtheme\Builder;
 use YOOtheme\Path;
 
@@ -27,8 +27,8 @@ return [
     'extend' => [
 
         Builder::class => function (Builder $builder) {
-            $builder->addTransform('preload', YooHelper::getInstance());
-			$builder->addTypePath(Path::get('./src/Elements/*/element.json'));
+//	        $builder->addTransform('preload', YooHelper::getInstance());
+			$builder->addTypePath(Path::get('./elements/*/element.json'));
         }
 
     ]

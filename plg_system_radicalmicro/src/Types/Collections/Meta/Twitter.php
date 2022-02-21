@@ -55,13 +55,13 @@ class Twitter implements InterfaceTypes
 	/**
 	 * Get config for JForm and Yootheme Pro elements
 	 *
-	 * @param   null  $params
+	 * @param   bool  $addUid
 	 *
 	 * @return string[]
 	 *
 	 * @since 1.0.0
 	 */
-	public function getConfig($params = null)
+	public function getConfig($addUid = true)
 	{
 		$config = [
 			'site'        => '',
@@ -69,6 +69,11 @@ class Twitter implements InterfaceTypes
 			'description' => '',
 			'image'       => '',
 		];
+
+		if ($addUid)
+		{
+			$config['uid'] = $this->uid;
+		}
 
 		return $config;
 	}

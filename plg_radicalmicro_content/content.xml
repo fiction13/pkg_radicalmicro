@@ -16,7 +16,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>info@fictionlabs.ru</authorEmail>
 	<authorUrl>https://fictionlabs.ru</authorUrl>
-	<version>0.0.2</version>
+	<version>0.0.5</version>
 	<description>PLG_RADICALMICRO_CONTENT_DESCRIPTION</description>
 
 	<!-- Language files -->
@@ -35,13 +35,12 @@
 
 	<!-- Config parameter -->
 	<config>
-		<fields name="params">
+		<fields name="params" addfieldpath="/plugins/system/radicalmicro/fields">
 			<fieldset name="basic">
-				<field name="type" type="list" default="article"
+				<field name="type" type="schematypes" default="article"
 					label="PLG_RADICALMICRO_CONTENT_TYPE"
-					description="PLG_RADICALMICRO_CONTENT_DESC">
-					<option value="article">Article</option>
-					<option value="newsArticle">NewsArticle</option>
+					description="PLG_RADICALMICRO_CONTENT_TYPE_DESC">
+					<option value="article"/>
 				</field>
 			</fieldset>
 		</fields>

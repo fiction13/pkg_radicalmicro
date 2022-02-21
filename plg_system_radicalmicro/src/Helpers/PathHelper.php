@@ -30,7 +30,7 @@ class PathHelper {
 	    'schema' => [
 			JPATH_PLUGINS.'/system/radicalmicro/src/Types/Collections/Schema'
 	    ],
-	    'extra' => [
+	    'schema_extra' => [
 			JPATH_PLUGINS.'/system/radicalmicro/src/Types/Collections/Schema/Extra'
 	    ]
     );

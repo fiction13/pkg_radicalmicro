@@ -9,7 +9,7 @@
     "width": 500,
     "defaults": {
         "type": "website",
-        "meta": "og"
+        "schema": "article"
     },
     "templates": {
         "render": "./templates/template.php",
