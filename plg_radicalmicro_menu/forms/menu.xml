@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <fields name="params">
+        <fieldset name="radicalmicro">
+            <field name="radicalmicro_menu_enable" type="radio" default="0"
+                   class="btn-group"
+                   label="PLG_RADICALMICRO_MENU_PARAM_ENABLE"
+                   description="PLG_RADICALMICRO_MENU_PARAM_ENABLE_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+        </fieldset>
+    </fields>
+</form>

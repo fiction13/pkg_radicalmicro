@@ -8,9 +8,11 @@
  * @link      https://fictionlabs.ru/
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 
-$schemaData = TypesHelper::execute('schema', $props['meta'], $props, 0.6);
+$schemaData = TypesHelper::execute('schema', $props['meta'], $props, 1);
 
 SchemaHelper::getInstance()->addChild('root', $schemaData);

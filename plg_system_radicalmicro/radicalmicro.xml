@@ -8,90 +8,263 @@
   ~ @link      https://fictionlabs.ru/
   -->
 
-<extension type="plugin" group="system" method="upgrade" version="3">
-	<name>PLG_SYSTEM_RADICALMICRO</name>
-	<creationDate>February 2022</creationDate>
-	<author>Dmitriy Vasyukov</author>
-	<copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>info@fictionlabs.ru</authorEmail>
-	<authorUrl>https://fictionlabs.ru</authorUrl>
-	<version>0.0.5</version>
-	<description>PLG_SYSTEM_RADICALMICRO_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
+<extension type="plugin" group="system" method="upgrade" version="3.9">
+    <name>PLG_SYSTEM_RADICALMICRO</name>
+    <creationDate>February 2022</creationDate>
+    <author>Dmitriy Vasyukov</author>
+    <copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>info@fictionlabs.ru</authorEmail>
+    <authorUrl>https://fictionlabs.ru</authorUrl>
+    <version>0.0.6</version>
+    <description>PLG_SYSTEM_RADICALMICRO_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
 
-	<files>
-		<folder>src</folder>
-		<filename plugin="radicalmicro">radicalmicro.php</filename>
-	</files>
+    <files>
+        <folder>src</folder>
+        <filename plugin="radicalmicro">radicalmicro.php</filename>
+    </files>
 
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.sys.ini</language>
-		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.ini</language>
-		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.sys.ini</language>
-	</languages>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro.sys.ini</language>
+        <language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.ini</language>
+        <language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro.sys.ini</language>
+    </languages>
 
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field name="enable_schema" type="radio" default="1"
-					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_ENABLE_SCHEMA"
-					description="PLG_SYSTEM_RADICALMICRO_ENABLE_SCHEMA_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field name="enable_meta" type="radio" default="1"
-					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_ENABLE_META"
-					description="PLG_SYSTEM_RADICALMICRO_ENABLE_META_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-			</fieldset>
-			<fieldset name="schema">
-				<field name="schema_enable_type_website" type="radio" default="1"
-					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_WEBSITE"
-					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_WEBSITE_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+	<media folder="media" destination="plg_system_radicalmicro">
+		<folder>fonts</folder>
+		<folder>images</folder>
+	</media>
 
-				<field name="schema_enable_type_logo" type="radio" default="1"
-					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_LOGO"
-					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_LOGO_DESC">
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="enable_schema" type="radio" default="1"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="enable_meta" type="radio" default="1"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_META"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_META_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="schema">
+                <field name="schema_enable_type_website" type="radio" default="1"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_WEBSITE"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_WEBSITE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="schema_enable_type_logo" type="radio" default="1"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_LOGO"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_SCHEMA_TYPE_LOGO_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                        name="schema_type_logo_image"
+                        type="media"
+                        default=""
+                        showon="schema_enable_type_logo:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_LOGO_IMAGE"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_LOGO_IMAGE_DESC"/>
+            </fieldset>
+            <fieldset name="meta">
+                <field name="meta_enable_openraph" type="radio" default="1"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_OPENGRAPH"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_OPENGRAPH_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="meta_enable_twitter" type="radio" default="1"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_TWITTER"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_TWITTER_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+				<field type="note" name="meta_note_default" label="PLG_SYSTEM_RADICALMICRO_PARAM_SPACER_DEFAULT" />
+
+				<field
+						name="meta_site_name"
+						type="text"
+						default=""
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_SITE_NAME"
+				/>
+
+				<field
+						name="meta_site_description"
+						type="text"
+						default=""
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_SITE_DESCRIPTION"
+				/>
+
+				<field type="note" name="meta_note_image" label="PLG_SYSTEM_RADICALMICRO_PARAM_SPACER_IMAGE" />
+
+				<field
+						name="meta_imagefixsize"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGEFIXSIZE"
+						size="1"
+						default="0">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+                    <option value="1">JYES</option>
 				</field>
 
 				<field
-                	name="schema_type_logo_image"
-                	type="media"
-                	default=""
-					showon="schema_enable_type_logo:1"
-                	label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_LOGO_IMAGE_IMAGE"
-					description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_LOGO_IMAGE_DESC" />
-			</fieldset>
-			<fieldset name="meta">
-				<field name="meta_enable_openraph" type="radio" default="1"
-					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_OPENGRAPH"
-					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_OPENGRAPH_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+						name="meta_imagetype"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE"
+						size="1"
+						default="image">
+					<option value="image">PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_IMAGE</option>
+					<option value="generate">PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE</option>
 				</field>
-				<field name="meta_enable_twitter" type="radio" default="1"
-					class="btn-group"
-					label="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_TWITTER"
-					description="PLG_SYSTEM_RADICALMICRO_PARAM_ENABLE_TWITTER_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+
+
+				<field
+						name="meta_image"
+						type="media"
+						default=""
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_IMAGE_IMAGE"
+						description=""
+						showon="meta_imagetype:image"
+				/>
+
+				<field
+						name="meta_imagetype_generate_cache"
+						type="radio"
+						class="btn-group"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_CACHE"
+						size="1"
+						default="images"
+						showon="meta_imagetype:generate">
+					<option value="images">PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_CACHE_IMAGES</option>
+					<option value="cache">PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_CACHE_CACHE</option>
 				</field>
-			</fieldset>
-		</fields>
-	</config>
+
+				<field name="meta_imagetype_generate_cache_subfolder" type="radio" default="0"
+                       class="btn-group"
+                       label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_CACHE_SUBFOLDER"
+                       description="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_CACHE_SUBFOLDER_DESC"
+					   showon="meta_imagetype:generate">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+				<field
+						name="meta_imagetype_generate_image_for_error"
+						type="media"
+						default=""
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_IMAGE_FOR_ERROR"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background"
+						type="radio"
+						class="btn-group"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND"
+						size="1"
+						default="fill"
+						showon="meta_imagetype:generate">
+					<option value="fill">PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_FILL</option>
+					<option value="static">PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_STATIC</option>
+				</field>
+
+				<field
+						name="meta_imagetype_generate_background_color"
+						type="color"
+						default="#000"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_COLOR"
+						description=""
+						showon="meta_imagetype:generate[AND]meta_imagetype_generate_background:fill"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_image"
+						type="media"
+						default=""
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_IMAGE"
+						description=""
+						showon="meta_imagetype:generate[AND]meta_imagetype_generate_background:static"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_text_background"
+						type="color"
+						default="#000"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_BACKGROUND"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_text_color"
+						type="color"
+						default="#fff"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_COLOR"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_text_font"
+						type="text"
+						default=""
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_FONT"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_text_fontsize"
+						type="text"
+						default="20"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_FONT_SIZE"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_text_margin"
+						type="text"
+						default="10"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_MARGIN"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+				<field
+						name="meta_imagetype_generate_background_text_padding"
+						type="text"
+						default="10"
+						label="PLG_SYSTEM_RADICALMICRO_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_PADDING"
+						description=""
+						showon="meta_imagetype:generate"
+				/>
+
+            </fieldset>
+        </fields>
+    </config>
 
 </extension>

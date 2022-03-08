@@ -8,41 +8,76 @@
   ~ @link      https://fictionlabs.ru/
   -->
 
-<extension type="plugin" version="3.8" group="radicalmicro" method="upgrade">
-	<name>PLG_RADICALMICRO_CONTENT</name>
-	<creationDate>February 2022</creationDate>
-	<author>Dmitriy Vasyukov</author>
-	<copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>info@fictionlabs.ru</authorEmail>
-	<authorUrl>https://fictionlabs.ru</authorUrl>
-	<version>0.0.5</version>
-	<description>PLG_RADICALMICRO_CONTENT_DESCRIPTION</description>
+<extension type="plugin" version="3.9" group="radicalmicro" method="upgrade">
+    <name>PLG_RADICALMICRO_CONTENT</name>
+    <creationDate>February 2022</creationDate>
+    <author>Dmitriy Vasyukov</author>
+    <copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>info@fictionlabs.ru</authorEmail>
+    <authorUrl>https://fictionlabs.ru</authorUrl>
+    <version>0.0.6</version>
+    <description>PLG_RADICALMICRO_CONTENT_DESCRIPTION</description>
 
-	<!-- Language files -->
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_radicalmicro_content.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_radicalmicro_content.sys.ini</language>
-		<language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_content.ini</language>
-		<language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_content.sys.ini</language>
-	</languages>
+    <!-- Language files -->
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_radicalmicro_content.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_radicalmicro_content.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_content.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_content.sys.ini</language>
+    </languages>
 
-	<!-- Plugin files -->
-	<files>
-		<filename plugin="content">content.php</filename>
-		<folder>language</folder>
-	</files>
+    <!-- Plugin files -->
+    <files>
+        <filename plugin="content">content.php</filename>
+        <folder>language</folder>
+        <folder>fields</folder>
+    </files>
 
-	<!-- Config parameter -->
-	<config>
-		<fields name="params" addfieldpath="/plugins/system/radicalmicro/fields">
-			<fieldset name="basic">
-				<field name="type" type="schematypes" default="article"
-					label="PLG_RADICALMICRO_CONTENT_TYPE"
-					description="PLG_RADICALMICRO_CONTENT_TYPE_DESC">
-					<option value="article"/>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
+    <!-- Config parameter -->
+    <config>
+        <fields name="params" addfieldpath="/plugins/radicalmicro/content/fields">
+            <fieldset name="basic" addfieldpath="/plugins/system/radicalmicro/fields">
+
+                <field
+                        type="note"
+                        name="note-default"
+                        class="alert alert-info"
+                        label="PLG_CONTENT_RADICALMICRO_PARAM_NOTE_DEFAULT"
+                        description="PLG_CONTENT_RADICALMICRO_PARAM_NOTE_DEFAULT_DESC"/>
+
+                <field
+                        name="title"
+                        type="fields"
+                        label="PLG_CONTENT_RADICALMICRO_PARAM_TITLE"
+                />
+
+                <field
+                        name="description"
+                        type="fields"
+                        label="PLG_CONTENT_RADICALMICRO_PARAM_DESCRIPTION"
+                />
+
+                <field
+                        name="image"
+                        type="fields"
+                        label="PLG_CONTENT_RADICALMICRO_PARAM_IMAGE"
+                        addoptions="default:_default_"
+                />
+
+                <field type="note"
+                       name="note"
+                       class="alert alert-info"
+                       label="PLG_CONTENT_RADICALMICRO_PARAM_SPACER_SCHEMA"
+                       description="PLG_CONTENT_RADICALMICRO_PARAM_SPACER_SCHEMA_DESC"
+                />
+
+                <field type="schematypes"
+                       name="type"
+                       default="article"
+                       label="PLG_CONTENT_RADICALMICRO_PARAM_TYPE">
+                </field>
+            </fieldset>
+        </fields>
+    </config>
 </extension>

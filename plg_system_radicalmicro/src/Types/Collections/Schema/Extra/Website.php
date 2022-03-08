@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types\Collections\Schema\Extra;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,63 +8,65 @@
  * @link      https://fictionlabs.ru/
  */
 
-use Joomla\CMS\Uri\Uri;
-use RadicalMicro\Types\InterfaceTypes;
+namespace RadicalMicro\Types\Collections\Schema\Extra;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use RadicalMicro\Types\InterfaceTypes;
+
 class Website implements InterfaceTypes
 {
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	private $uid = 'radicalmicro.schema.website';
+    /**
+     * @var string
+     * @since 1.0.0
+     */
+    private $uid = 'radicalmicro.schema.website';
 
-	/**
-	 * @param $item
-	 * @param $priority
-	 *
-	 * @return array
-	 *
-	 * @since 1.0.0
-	 */
-	public function execute($item, $priority)
-	{
-		if (is_array($item))
-		{
-			$item = (object) $item;
-		}
+    /**
+     * @param $item
+     * @param $priority
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function execute($item, $priority)
+    {
+        if (is_array($item))
+        {
+            $item = (object) $item;
+        }
 
-		$data = [
-			'uid'       => 'radicalmicro.schema.website',
-			'@context'  => 'https://schema.org',
-			'@type'     => 'WebSite',
-			'url'       => Uri::root(),
-		];
+        $data = [
+            'uid'      => 'radicalmicro.schema.website',
+            '@context' => 'https://schema.org',
+            '@type'    => 'WebSite',
+            'url'      => Uri::root(),
+        ];
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Get config for JForm and Yootheme Pro elements
-	 *
-	 * @param   bool  $addUid
-	 *
-	 * @return string[]
-	 *
-	 * @since 1.0.0
-	 */
-	public function getConfig($addUid = true)
-	{
-		$config = [];
+    /**
+     * Get config for JForm and Yootheme Pro elements
+     *
+     * @param   bool  $addUid
+     *
+     * @return string[]
+     *
+     * @since 1.0.0
+     */
+    public function getConfig($addUid = true)
+    {
+        $config = [];
 
-		if ($addUid)
-		{
-			$config['uid'] = $this->uid;
-		}
+        if ($addUid)
+        {
+            $config['uid'] = $this->uid;
+        }
 
-		return array();
-	}
+        return array();
+    }
 
 }

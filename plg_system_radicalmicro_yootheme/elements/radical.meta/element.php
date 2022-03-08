@@ -10,9 +10,11 @@
 
 namespace YOOtheme;
 
+defined('_JEXEC') or die('Restricted access');
+
 return [
     'transforms' => [
-	    'render' => function ($node)
+	    'render' => static function ($node)
 	    {
 			unset(
 				$node->props['animation'],

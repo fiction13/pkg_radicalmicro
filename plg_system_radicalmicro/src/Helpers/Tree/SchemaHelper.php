@@ -28,8 +28,9 @@ class SchemaHelper extends UnversalTreeHelper
 		{
 			// $output = array_values($output);
 
-			foreach ($output as $item){
-			    unset($item->priority);
+			foreach ($output as $item)
+			{
+				unset($item->priority);
 				unset($item->uid);
 			}
 		}

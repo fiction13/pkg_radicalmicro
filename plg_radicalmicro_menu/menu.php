@@ -13,10 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use RadicalMicro\Helpers\Tree\SchemaHelper;
+use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\TypesHelper;
-use RadicalMicro\Helpers\PathHelper;
 
 /**
  * Radicalmicro
@@ -24,7 +23,7 @@ use RadicalMicro\Helpers\PathHelper;
  * @package   plgRadicalmicroContent
  * @since     1.0.0
  */
-class plgRadicalmicroContent extends CMSPlugin
+class plgRadicalmicroMenu extends CMSPlugin
 {
     /**
      * Application object
@@ -38,7 +37,6 @@ class plgRadicalmicroContent extends CMSPlugin
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     *
      * @since  1.0.0
      */
     protected $autoloadLanguage = true;
@@ -54,49 +52,36 @@ class plgRadicalmicroContent extends CMSPlugin
         parent::__construct($subject, $config);
 
         // Include helper
-        JLoader::register('plgRadicalMicroContentHelper', __DIR__ . '/src/Helpers/Helper.php');
+        JLoader::register('plgRadicalMicroMenuHelper', __DIR__ . '/src/Helpers/Helper.php');
 
         // Helper
-        $this->helper = new plgRadicalMicroContentHelper($this->params);
-    }
-
-
-    /**
-     * OnRadicalmicroRegisterTypes for init your types for each collection
-     *
-     * @since 1.0.0
-     */
-    public function onRadicalmicroRegisterTypes()
-    {
-        // $path - absolute path of directory with your types of each collection
-        //
-        // PathHelper::getInstance()->register($path, 'schema');
-        // PathHelper::getInstance()->register($path, 'schema_extra');
-        // PathHelper::getInstance()->register($path, 'meta');
+        $this->helper = new plgRadicalMicroMenuHelper($this->params);
     }
 
     /**
      * Adds forms for override
      *
-     * @param   Form   $form  The form to be altered.
+     * @param   JForm  $form  The form to be altered.
      * @param   mixed  $data  The associated data for the form.
      *
      * @return  boolean
      *
-     * @since   1.0.0
+     * @since   1.0
      */
     public function onContentPrepareForm(Form $form, $data)
     {
-        // Check current plugin form edit
-        if ($this->app->isClient('administrator') && $form->getName() == 'com_plugins.plugin')
-        {
-            $plugin = PluginHelper::getPlugin('radicalmicro', 'content');
+        $component = $this->app->input->get('option');
+        $layout    = $this->app->input->get('layout');
 
-            if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
-            {
-                // Set Schema.org params fields
-                $this->helper->setShemaFields($form);
-            }
+        // Check menu edit form
+        if ($this->app->isClient('administrator') && $component === 'com_menus' && $layout === 'edit')
+        {
+            // Add fieldset for menu
+            Form::addFormPath(__DIR__ . '/forms');
+            $form->loadFile('menu', true);
+
+            // Set fields
+            $this->helper->setMetaFields($form);
         }
 
         return true;
@@ -105,7 +90,7 @@ class plgRadicalmicroContent extends CMSPlugin
     /**
      * OnRadicalmicroProvider event
      *
-     * @return void
+     * @return array|void
      *
      * @since  1.0.0
      */
@@ -113,27 +98,24 @@ class plgRadicalmicroContent extends CMSPlugin
     {
         $object = $this->helper->getProviderData();
 
-        if (empty($object))
+        if (!$object)
         {
             return;
         }
 
-        // Get schema type
-        $type = $this->params->get('type', 'article');
-
-        // Get and set schema data
-        $schemaData = TypesHelper::execute('schema', $type, $object);
-        SchemaHelper::getInstance()->addChild('root', $schemaData);
+        // Check enable menu
+        if (!$this->params->get('radicalmicro_menu_enable'))
+        {
+            return;
+        }
 
         // Get and set opengraph data
         $collections = PathHelper::getInstance()->getTypes('meta');
 
         foreach ($collections as $collection)
         {
-            $ogData = TypesHelper::execute('meta', $collection, $object);
+            $ogData = TypesHelper::execute('meta', $collection, $object, 0.6);
             OGHelper::getInstance()->addChild('root', $ogData);
         }
-
-        return;
     }
 }

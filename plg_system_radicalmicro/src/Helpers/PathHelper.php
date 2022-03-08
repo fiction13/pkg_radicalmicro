@@ -10,145 +10,155 @@
 
 namespace RadicalMicro\Helpers;
 
+defined('_JEXEC') or die;
+
 use JLoader;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Uri\Uri;
 
-class PathHelper {
+final class PathHelper
+{
 
-	/**
-	 * A list of paths
-	 *
-	 * @var array
-	 * @since 1.0.0
-	 */
+    /**
+     * @var
+     * @since 1.0.0
+     */
+    protected static $instance;
+
+    /**
+     * A list of paths
+     *
+     * @var array
+     * @since 1.0.0
+     */
     protected $_paths = array(
-		'meta' => [
-			JPATH_PLUGINS.'/system/radicalmicro/src/Types/Collections/Meta'
-		],
-	    'schema' => [
-			JPATH_PLUGINS.'/system/radicalmicro/src/Types/Collections/Schema'
-	    ],
-	    'schema_extra' => [
-			JPATH_PLUGINS.'/system/radicalmicro/src/Types/Collections/Schema/Extra'
-	    ]
+        'meta'         => [
+            JPATH_PLUGINS . '/system/radicalmicro/src/Types/Collections/Meta'
+        ],
+        'schema'       => [
+            JPATH_PLUGINS . '/system/radicalmicro/src/Types/Collections/Schema'
+        ],
+        'schema_extra' => [
+            JPATH_PLUGINS . '/system/radicalmicro/src/Types/Collections/Schema/Extra'
+        ]
     );
 
+    /**
+     * @var array
+     * @since 1.0.0
+     */
+    protected $_collections = [];
 
-	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	protected $_collections = [];
-
-	/**
-	 *
-	 * @return mixed|PathHelper
-	 *
-	 * @since 1.0.0
-	 */
-	public static function getInstance()
+    /**
+     *
+     * @return mixed|PathHelper
+     *
+     * @since 1.0.0
+     */
+    public static function getInstance()
     {
-        static $instance;
-
-        if (is_null($instance)) {
+        if (is_null(static::$instance))
+        {
             $instance = new self();
         }
 
         return $instance;
     }
 
+    /**
+     * Register a path and register classes for new path
+     *
+     * @param   string  $path            The path to register
+     * @param   string  $collectionType  Collection type - schema, meta, extra
+     *
+     * @since 1.0.0
+     */
+    public function register($path, $collectionType = 'schema')
+    {
 
-	/**
-	 * Register a path and register classes for new path
-	 *
-	 * @param string $path The path to register
-	 * @param string $collectionType Collection type - schema, meta, extra
-	 *
-	 * @since 1.0.0
-	 */
-	public function register($path, $collectionType = 'schema') {
+        if (!is_string($path))
+        {
+            return;
+        }
 
-		if (!is_string($path)) {
-			return;
-		}
+        if (!isset($this->_paths[$collectionType]))
+        {
+            $this->_paths[$collectionType] = array();
+        }
 
-	    if (!isset($this->_paths[$collectionType])) {
-	        $this->_paths[$collectionType] = array();
-	    }
+        $this->_paths[$collectionType][] = $path;
 
-	    $this->_paths[$collectionType][] = $path;
-
-		// Register path classes
-		$this->registerClasses($path);
-	}
+        // Register path classes
+        $this->registerClasses($path);
+    }
 
 
-	/**
-	 * Get all collected types
-	 *
-	 * @param $type - schema, meta, extra
-	 *
-	 * @return array
-	 *
-	 * @since 1.0.0
-	 */
-	public function getTypes($type)
-	{
-		if (!isset($this->_collections[$type]))
-		{
-			$result = [];
-			$paths  = $this->_paths[$type];
+    /**
+     * Get all collected types
+     *
+     * @param $type  - schema, meta, extra
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function getTypes($type)
+    {
+        if (!isset($this->_collections[$type]))
+        {
+            $result = [];
+            $paths  = $this->_paths[$type];
 
-			if ($paths)
-			{
-				foreach ($paths as $path)
-				{
-					if (Folder::exists($path))
-					{
-						$files = Folder::files($path, '.php');
-						
-						if ($files)
-						{
-							foreach ($files as $file)
-							{
-								$result[] = lcfirst(File::stripExt($file));
-							}
-						}
-					}
-				}
+            if ($paths)
+            {
+                foreach ($paths as $path)
+                {
+                    if (Folder::exists($path))
+                    {
+                        $files = Folder::files($path, '.php');
 
-				$this->_collections[$type] = $result;
-			}
-		}
+                        if ($files)
+                        {
+                            foreach ($files as $file)
+                            {
+                                $result[] = lcfirst(File::stripExt($file));
+                            }
+                        }
+                    }
+                }
 
-		return $this->_collections[$type];
-	}
+                $this->_collections[$type] = $result;
+            }
+        }
 
-	/**
-	 * Register all classes inside directory
-	 *
-	 * @param $type
-	 *
-	 * @return array
-	 *
-	 * @since 1.0.0
-	 */
-	public function registerClasses($path)
-	{
-		if (Folder::exists($path))
-		{
-			$files = Folder::files($path, '.php', false, true);
+        return $this->_collections[$type];
+    }
 
-			foreach ($files as $file)
-			{
-				$className = basename($file, '.php');
+    /**
+     * Register all classes inside directory
+     *
+     * @param $type
+     *
+     * @return array|void
+     *
+     * @since 1.0.0
+     */
+    public function registerClasses($path)
+    {
+        if (Folder::exists($path))
+        {
+            $files = Folder::files($path, '.php', false, true);
 
-				JLoader::register($className, $file);
-				JLoader::load($className);
-			}
-		}
-	}
+            foreach ($files as $file)
+            {
+                $className = basename($file, '.php');
+
+                JLoader::register($className, $file);
+                JLoader::load($className);
+            }
+        }
+
+        return;
+    }
 
 }

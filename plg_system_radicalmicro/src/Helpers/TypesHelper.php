@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Helpers;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,76 +8,78 @@
  * @link      https://fictionlabs.ru/
  */
 
+namespace RadicalMicro\Helpers;
+
 defined('_JEXEC') or die;
 
 class TypesHelper
 {
 
-	/**
-	 * @param   string  $collectionType - schema, meta, extra
-	 * @param           $type - type of metadata
-	 * @param           $data - config of the metadata
-	 * @param   float   $priority
-	 *
-	 * @return false|mixed|void
-	 *
-	 * @since version
-	 */
-	public static function execute(string $collectionType, $type, $data, $priority = 0.5)
-	{
-		if (empty($type))
-		{
-			return;
-		}
+    /**
+     * @param   string  $collectionType  - schema, meta, extra
+     * @param           $type            - type of metadata
+     * @param           $data            - config of the metadata
+     * @param   float   $priority
+     *
+     * @return array|void
+     *
+     * @since 1.0.0
+     */
+    public static function execute(string $collectionType, $type, $data, $priority = 0.5)
+    {
+        if (empty($type))
+        {
+            return;
+        }
 
-		$class_name = '\\RadicalMicro\\Types\\Collections\\'. ucfirst($collectionType) . '\\' . ucfirst($type);
+        $class_name = '\\RadicalMicro\\Types\\Collections\\' . ucfirst($collectionType) . '\\' . ucfirst($type);
 
-		if(!class_exists($class_name) )
-		{
-			$class_name = '\\RadicalMicro\\Types\\Collections\\'. ucfirst($collectionType) . '\\Extra\\' . ucfirst($type);
+        if (!class_exists($class_name))
+        {
+            $class_name = '\\RadicalMicro\\Types\\Collections\\' . ucfirst($collectionType) . '\\Extra\\' . ucfirst($type);
 
-			if(!class_exists($class_name) )
-			{
-				return false;
-			}
-		}
+            if (!class_exists($class_name))
+            {
+                return array();
+            }
+        }
 
-		$typeClass = new $class_name($data);
+        $typeClass = new $class_name($data);
 
-		$result = $typeClass->execute($data, $priority);
+        $result = $typeClass->execute($data, $priority);
 
-		return $result;
-	}
+        return $result;
+    }
 
 
-	/**
-	 * Get config for type of collection type
-	 *
-	 * @param $collectionType - schema, meta, extra
-	 * @param $type - type of metadata
-	 *
-	 * @return false|mixed
-	 *
-	 * @since version
-	 */
-	public static function getConfig($collectionType, $type)
-	{
-		$class_name = '\\RadicalMicro\\Types\\Collections\\' . ucfirst($collectionType) . '\\' . ucfirst($type);
+    /**
+     * Get config for type of collection type
+     *
+     * @param $collectionType  - schema, meta, extra
+     * @param $type            - type of metadata
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public static function getConfig($collectionType, $type, $addUid = true)
+    {
+        $class_name = '\\RadicalMicro\\Types\\Collections\\' . ucfirst($collectionType) . '\\' . ucfirst($type);
 
-		if(!class_exists($class_name) )
-		{
-			$class_name = '\\RadicalMicro\\Types\\Collections\\'. ucfirst($collectionType) . '\\Extra\\' . ucfirst($type);
+        if (!class_exists($class_name))
+        {
+            $class_name = '\\RadicalMicro\\Types\\Collections\\' . ucfirst($collectionType) . '\\Extra\\' . ucfirst($type);
 
-			if(!class_exists($class_name) )
-			{
-				return false;
-			}
-		}
+            if (!class_exists($class_name))
+            {
+                return array();
+            }
+        }
 
-		$typeClass = new $class_name();
+        $typeClass = new $class_name();
 
-		$result = $typeClass->getConfig();
+        $result = $typeClass->getConfig($addUid);
 
-		return $result;
-	}
+        return $result;
+    }
 }

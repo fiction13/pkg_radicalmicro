@@ -8,9 +8,11 @@
  * @link      https://fictionlabs.ru/
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 
-$ogData = TypesHelper::execute('meta', $props['meta'], $props, 0.6);
+$ogData = TypesHelper::execute('meta', $props['meta'], $props, 1);
 
 OGHelper::getInstance()->addChild('root', $ogData);

@@ -49,16 +49,17 @@ class plgSystemRadicalMicro_Yootheme extends CMSPlugin
 	public function onAfterInitialise()
 	{
 		// Check if YOOtheme Pro is loaded
-        if (!class_exists(Application::class, false)) {
-            return;
-        }
+		if (!class_exists(Application::class, false))
+		{
+			return;
+		}
 
 		// Register namespace
 		JLoader::registerNamespace('RadicalMicroYootheme', __DIR__ . '/src', false, false, 'psr4');
 
-        // Load a single module from the same directory
-        $app = Application::getInstance();
-        $app->load(__DIR__ . '/bootstrap.php');
+		// Load a single module from the same directory
+		$app = Application::getInstance();
+		$app->load(__DIR__ . '/bootstrap.php');
 	}
 
 }

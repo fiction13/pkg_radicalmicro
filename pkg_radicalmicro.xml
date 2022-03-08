@@ -11,16 +11,17 @@
 <extension type="package" version="3.9" method="upgrade">
  	<name>RadicalMicro</name>
     <author>Dmitriy Vasyukov</author>
-    <creationDate>February 2021</creationDate>
+    <creationDate>February 2022</creationDate>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.0.2</version>
+    <version>0.0.6</version>
     <description>Package - RadicalMicro</description>
 
     <files>
         <folder type="plugin" group="system" id="radicalmicro">plg_system_radicalmicro</folder>
+        <folder type="plugin" group="system" id="radicalmicro_yootheme">plg_system_radicalmicro_yootheme</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_content">plg_radicalmicro_content</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro_menu">plg_radicalmicro_menu</folder>
     </files>
-
 </extension>

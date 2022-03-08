@@ -19,6 +19,12 @@ use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\XMLHelper;
+use RadicalMicro\Helpers\ImageHelper;
+
+#TODO Изменить изображение по умолчанию
+#TODO Добавить разметку Schema.org для хлебных крошек
+#TODO Добавить разметку Facebook
+#TODO Добавить удаление существующих разметок
 
 /**
  * Radicalmicro
@@ -28,203 +34,199 @@ use RadicalMicro\Helpers\XMLHelper;
  */
 class plgSystemRadicalMicro extends CMSPlugin
 {
-	/**
-	 * Application object
-	 *
-	 * @var    CMSApplication
-	 * @since  1.0.0
-	 */
-	protected $app;
+    /**
+     * Application object
+     *
+     * @var    CMSApplication
+     * @since  1.0.0
+     */
+    protected $app;
 
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  1.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Affects constructor behavior. If true, language files will be loaded automatically.
+     *
+     * @var    boolean
+     * @since  1.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * OnAfterInitialise event
-	 *
-	 * Register RadicalMicro namespace.
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAfterInitialise()
-	{
-		JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src', false, false, 'psr4');
+    /**
+     *
+     * @return string||bool
+     *
+     * @since         1.0.0
+     */
+    public function onAjaxRadicalMicro()
+    {
+        $task = $this->app->input->get('task');
 
-		// Init collections
-		$this->initCollections();
-	}
+        switch ($task)
+        {
+            case 'image':
+                //redirect to image
+                $this->app->redirect(ImageHelper::getInstance()->generate(), 302);
+        }
 
-	/**
-	 * Adds forms for override
-	 *
-	 * @param  JForm $form The form to be altered.
-	 * @param  mixed $data The associated data for the form.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.0
-	 */
-	public function onContentPrepareForm(Form $form, $data)
-	{
-		$component = $this->app->input->get('option');
-		$layout = $this->app->input->get('layout');
+        return true;
+    }
 
-		// Extend JForm menu
-		if ($this->app->isClient('administrator') && $component === 'com_plugins' && $layout === 'edit')
-		{
-			$this->addRadicalMicroMenuXML($form, $data);
-		}
+    /**
+     * OnAfterInitialise event
+     *
+     * Register RadicalMicro namespace.
+     *
+     * @since  1.0.0
+     */
+    public function onAfterInitialise()
+    {
+        JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src', false, false, 'psr4');
 
-		return true;
-	}
+        // Init collections
+        $this->initCollections();
+    }
 
-	/**
-	 * OnAfterRender event.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function onAfterRender()
-	{
-		// Check site client
-		if ($this->app->isClient('administrator'))
-		{
-			return false;
-		}
+    /**
+     * Adds forms for override
+     *
+     * @param   JForm  $form  The form to be altered.
+     * @param   mixed  $data  The associated data for the form.
+     *
+     * @return  boolean
+     *
+     * @since   1.0
+     */
+    public function onContentPrepareForm(Form $form, $data)
+    {
+        return true;
+    }
 
-		// Get provider plugins
-		$params = $this->params;
+    /**
+     * OnAfterRender event.
+     *
+     * @return  bool|void
+     *
+     * @since   2.5
+     */
+    public function onAfterRender()
+    {
+        // Check site client
+        if ($this->app->isClient('administrator'))
+        {
+            return false;
+        }
 
-		// Trigger for data providers
-		PluginHelper::importPlugin('radicalmicro');
-		Factory::getApplication()->triggerEvent('onRadicalMicroProvider', [$params]);
+        // Get provider plugins
+        $params = $this->params;
 
-		// Set Schema.org and Opengraph to the end of body
-		$body   = $this->app->getBody();
-		$schema = $opengraph = '';
+        // Trigger for data providers
+        PluginHelper::importPlugin('radicalmicro');
+        $this->app->triggerEvent('onRadicalMicroProvider', [$params]);
 
-		// Add Schema.org
-		if ($this->params->get('enable_schema', 1))
-		{
-			// Add website schema type
-			if ($this->params->get('schema_enable_type_website', 1))
-			{
-				$websiteData = TypesHelper::execute('schema', 'website', []);
-				SchemaHelper::getInstance()->addChild('root', $websiteData);
-			}
+        // Set Schema.org and Opengraph to the end of body
+        $body   = $this->app->getBody();
+        $schema = $opengraph = '';
 
-			// Add logo schema type
-			if ($this->params->get('schema_enable_type_logo', 1) && $logoUrl = $this->params->get('schema_type_logo_image'))
-			{
-				$logoData = TypesHelper::execute('schema', 'logo', ['image' => $logoUrl]);
-				SchemaHelper::getInstance()->addChild('root', $logoData);
-			}
+        // Add Schema.org
+        if ($this->params->get('enable_schema', 1))
+        {
+            // Add website schema type
+            if ($this->params->get('schema_enable_type_website', 1))
+            {
+                $websiteData = TypesHelper::execute('schema', 'website', []);
+                SchemaHelper::getInstance()->addChild('root', $websiteData);
+            }
 
-			$schema = MainHelper::buildSchema($body);
-		}
+            // Add logo schema type
+            if ($this->params->get('schema_enable_type_logo', 1) && $logoUrl = $this->params->get('schema_type_logo_image'))
+            {
+                $logoData = TypesHelper::execute('schema', 'logo', ['image' => $logoUrl]);
+                SchemaHelper::getInstance()->addChild('root', $logoData);
+            }
 
-		// Add Opengraph
-		if ($this->params->get('enable_meta', 1))
-		{
-			$opengraph = MainHelper::buildOpengraph($body);
-		}
+            $schema = MainHelper::buildSchema($body);
+        }
 
-		$body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
+        // Add Opengraph
+        if ($this->params->get('enable_meta', 1))
+        {
+            $opengraph = MainHelper::buildOpengraph($body);
+        }
 
-		$this->app->setBody($body);
-	}
+        $body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
 
-
-	/**
-	 * @param   Form    $form
-	 * @param   object  $data
-	 *
-	 * @return bool
-	 *
-	 * @since 1.0.0
-	 */
-	public function addRadicalMicroTypeXML(Form $form, $data)
-	{
-		$extraFields  = PathHelper::getInstance()->getTypes('schema_extra');
-		$metaFields   = PathHelper::getInstance()->getTypes('meta');
-		$schemaFields = PathHelper::getInstance()->getTypes('schema');
-
-		if ($extraFields)
-		{
-			foreach ($extraFields as $field)
-			{
-				$element = XMLHelper::createBoolField('enable_'.$field);
-
-				$form->setField($element, null, true, 'schema');
-
-				// Check field extra config
-
-				$configFields = TypesHelper::getConfig('schema', $field);
-
-				if ($configFields)
-				{
-					foreach ($configFields as $key => $value)
-					{
-						$element = XMLHelper::createField('enable_' . $field . '_' . $key, 'enable_'.$field, '', $value);
-
-						$form->setField($element, null, true, 'schema');
-					}
-				}
-			}
-		}
-
-		// Add meta fields
-		if ($metaFields)
-		{
-			foreach ($metaFields as $field)
-			{
-				$element = XMLHelper::createBoolField('enable_' . $field);
-				$form->setField($element, null, true, 'meta');
-			}
-		}
-
-		// Add options to schema type select
-		if ($schemaFields)
-		{
-			$element = XMLHelper::createField('type', '', 'list', $schemaFields[0], $schemaFields);
-			$form->setField($element, null, true, 'schema');
-		}
-
-		return true;
-	}
+        $this->app->setBody($body);
+    }
 
 
-	/**
-	 * @param   Form    $form
-	 * @param   object  $data
-	 *
-	 * @return bool
-	 *
-	 * @since 1.0.0
-	 */
-	public function addRadicalMicroMenuXML(Form $form, $data)
-	{
-		return true;
-	}
+    /**
+     * @param   Form    $form
+     * @param   object  $data
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    public function addRadicalMicroTypeXML(Form $form, $data)
+    {
+        $extraFields  = PathHelper::getInstance()->getTypes('schema_extra');
+        $metaFields   = PathHelper::getInstance()->getTypes('meta');
+        $schemaFields = PathHelper::getInstance()->getTypes('schema');
 
+        if ($extraFields)
+        {
+            foreach ($extraFields as $field)
+            {
+                $element = XMLHelper::createBoolField('enable_' . $field);
 
-	/**
-	 * Init types of each collections
-	 *
-	 * @throws Exception
-	 * @since 1.0.0
-	 */
-	public function initCollections()
-	{
-		// Trigger onRadicalMicroRegisterTypes to collect paths and register types classes
-		PluginHelper::importPlugin('radicalmicro');
-		Factory::getApplication()->triggerEvent('onRadicalMicroRegisterTypes');
-	}
+                $form->setField($element, null, true, 'schema');
+
+                // Check field extra config
+
+                $configFields = TypesHelper::getConfig('schema', $field);
+
+                if ($configFields)
+                {
+                    foreach ($configFields as $key => $value)
+                    {
+                        $element = XMLHelper::createField('enable_' . $field . '_' . $key, 'enable_' . $field, '', $value);
+
+                        $form->setField($element, null, true, 'schema');
+                    }
+                }
+            }
+        }
+
+        // Add meta fields
+        if ($metaFields)
+        {
+            foreach ($metaFields as $field)
+            {
+                $element = XMLHelper::createBoolField('enable_' . $field);
+                $form->setField($element, null, true, 'meta');
+            }
+        }
+
+        // Add options to schema type select
+        if ($schemaFields)
+        {
+            $element = XMLHelper::createField('type', '', 'list', $schemaFields[0], $schemaFields);
+            $form->setField($element, null, true, 'schema');
+        }
+
+        return true;
+    }
+
+    /**
+     * Init types of each collections
+     *
+     * @throws Exception
+     * @since 1.0.0
+     */
+    public function initCollections()
+    {
+        // Trigger onRadicalMicroRegisterTypes to collect paths and register types classes
+        PluginHelper::importPlugin('radicalmicro');
+        Factory::getApplication()->triggerEvent('onRadicalMicroRegisterTypes');
+    }
 
 }

@@ -17,13 +17,13 @@ use Closure;
 class UnversalTreeHelper
 {
 
-	protected static $_instances = [];
+	protected static $instances = [];
 
 
-	protected $_map = [];
+	protected $map = [];
 
 
-	protected $_override = [];
+	protected $override = [];
 
 
 	protected static $default_priority = 0.5;
@@ -31,24 +31,24 @@ class UnversalTreeHelper
 
 	public static function getInstance($name = 'default')
 	{
-		if (isset(static::$_instances[$name]))
+		if (isset(static::$instances[$name]))
 		{
-			return static::$_instances[$name];
+			return static::$instances[$name];
 		}
 
-		static::$_instances[$name] = new static();
-		static::$_instances[$name]->setMap(['uid' => 'root', 'child' => []]);
+		static::$instances[$name] = new static();
+		static::$instances[$name]->setMap(['uid' => 'root', 'child' => []]);
 
-		return static::$_instances[$name];
+		return static::$instances[$name];
 	}
 
 
 	public function getBuild($uid = null)
 	{
 		$output = [];
-		$map    = &$this->_map;
+		$map    = &$this->map;
 
-		$override = &$this->_override;
+		$override = &$this->override;
 		$this->findNode($map, $map, '', static function (&$element) use (&$output, $uid, $override) {
 
 			foreach ($element as $key => $value)
@@ -85,7 +85,9 @@ class UnversalTreeHelper
 		}, false);
 
 		// Sort by result element
-		uasort($output, function($a, $b) { return $a->priority <=> $b->priority; });
+		uasort($output, function ($a, $b) {
+			return $a->priority <=> $b->priority;
+		});
 
 		// Сollapse element with the same name value
 		$output = array_column($output, null, 'uid');
@@ -96,25 +98,25 @@ class UnversalTreeHelper
 
 	public function setMap($map)
 	{
-		$this->_map = $map;
+		$this->map = $map;
 	}
 
 
 	public function getMap()
 	{
-		return $this->_map;
+		return $this->map;
 	}
 
 
 	public function override($index, $value)
 	{
-		$this->_override[$index] = $value;
+		$this->override[$index] = $value;
 	}
 
 
 	public function addChild($name, $item)
 	{
-		$map = &$this->_map;
+		$map = &$this->map;
 		$this->findNode($map, $map, $name, static function (&$element) use ($item) {
 			if (!isset($element['child']))
 			{
@@ -135,7 +137,7 @@ class UnversalTreeHelper
 
 	public function replace($name, $item)
 	{
-		$map = &$this->_map;
+		$map = &$this->map;
 
 		$this->findNode($map, $map, $name, static function (&$element) use ($item) {
 			$element = array_merge($element, $item);
@@ -147,7 +149,7 @@ class UnversalTreeHelper
 
 	public function replaceChild($name, $item)
 	{
-		$map = &$this->_map;
+		$map = &$this->map;
 
 		$this->findNode($map, $map, $name, static function (&$element) use ($item) {
 

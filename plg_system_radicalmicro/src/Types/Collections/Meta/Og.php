@@ -10,71 +10,72 @@
 
 namespace RadicalMicro\Types\Collections\Meta;
 
-use RadicalMicro\Types\InterfaceTypes;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Uri\Uri;
+use RadicalMicro\Helpers\ImageHelper;
+use RadicalMicro\Helpers\ParamsHelper;
+use RadicalMicro\Helpers\UtilityHelper;
+use RadicalMicro\Types\InterfaceTypes;
 
 class Og implements InterfaceTypes
 {
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	private $uid = 'radicalmicro.meta.og';
+    /**
+     * @var string
+     * @since 1.0.0
+     */
+    private $uid = 'radicalmicro.meta.og';
 
-	/**
-	 * @param $item
-	 * @param $priority
-	 *
-	 * @return array
-	 *
-	 * @since 1.0.0
-	 */
-	public function execute($item, $priority)
-	{
-		if (is_array($item))
-		{
-			$item = (object) $item;
-		}
+    /**
+     * @param $item
+     * @param $priority
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function execute($item, $priority)
+    {
+        if (is_array($item))
+        {
+            $item = (object) $item;
+        }
 
-		$config = $this->getConfig();
+        $data['uid']            = $this->uid;
+        $data['og:title']       = $item->title ? UtilityHelper::prepareText($item->title, 60) : ParamsHelper::getInstance()->getDefaultSiteName();
+        $data['og:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : ParamsHelper::getInstance()->getDefaultSiteDescription();
+        $data['og:type']        = $item->type ?? 'website';
+        $data['og:url']         = Uri::current();
+        $data['priority']       = $priority;
+        $data['og:image']       = (isset($item->image) && !empty($item->image)) ? UtilityHelper::prepareLink($item->image) : ImageHelper::getInstance()->getImage($item);
 
-		$data['uid']            = $this->uid;
-		$data['og:title']       = isset($item->title) ? $item->title : '';
-		$data['og:description'] = isset($item->description) ? $item->description : '';
-		$data['og:type']        = isset($item->type) ? $item->type : 'website';
-		$data['og:url']         = isset($item->url) ? $item->url : '' ;
-		$data['og:image']       = isset($item->image) ? $item->image : '' ;
-		$data['priority']       = $priority;
+        return $data;
+    }
 
-		return $data;
-	}
+    /**
+     * Get config for JForm and YOOtheme Pro elements
+     *
+     * @param   bool  $addUid
+     *
+     * @return string[]
+     *
+     * @since 1.0.0
+     */
+    public function getConfig($addUid = true)
+    {
+        $config = [
+            'title'       => '',
+            'description' => '',
+            'image'       => '',
+            'type'        => 'website'
+        ];
 
-	/**
-	 * Get config for JForm and Yootheme Pro elements
-	 *
-	 * @param   bool  $addUid
-	 *
-	 * @return string[]
-	 *
-	 * @since 1.0.0
-	 */
-	public function getConfig($addUid = true)
-	{
-		$config = [
-			'url'         => '',
-			'type'        => 'website',
-			'title'       => '',
-			'description' => '',
-			'image'       => '',
-		];
+        if ($addUid)
+        {
+            $config['uid'] = $this->uid;
+        }
 
-		if ($addUid)
-		{
-			$config['uid'] = $this->uid;
-		}
-
-		return $config;
-	}
+        return $config;
+    }
 
 }

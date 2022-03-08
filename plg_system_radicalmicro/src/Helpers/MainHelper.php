@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Helpers;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,6 +8,8 @@
  * @link      https://fictionlabs.ru/
  */
 
+namespace RadicalMicro\Helpers;
+
 defined('_JEXEC') or die;
 
 use RadicalMicro\Helpers\Tree\OGHelper;
@@ -15,61 +17,62 @@ use RadicalMicro\Helpers\Tree\SchemaHelper;
 
 class MainHelper
 {
-	/**
-	 * Method to build JSON-LD schema.org
-	 *
-	 * @param $body
-	 *
-	 * @return string
-	 *
-	 * @since 1.0.0
-	 */
-	public static function buildSchema(&$body)
-	{
-		$jsonLd = array();
+    /**
+     * Method to build JSON-LD schema.org
+     *
+     * @param $body
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
+    public static function buildSchema(&$body)
+    {
+        $jsonLd = array();
 
-		// Get data from tree
-		$schemaData = SchemaHelper::getInstance()->getBuild('root');
+        // Get data from tree
+        $schemaData = SchemaHelper::getInstance()->getBuild('root');
 
-		#TODO Проверить текущие схемы на странице
+        #TODO Проверить текущие схемы на странице
 
-		foreach ($schemaData as $schema) {
-			$jsonLd[] = '<script type="application/ld+json">' . json_encode($schema) . '</script>';
-		}
+        foreach ($schemaData as $schema)
+        {
+            $jsonLd[] = '<script type="application/ld+json">' . json_encode($schema) . '</script>';
+        }
 
-		return implode("\n", $jsonLd);
-	}
+        return implode("\n", $jsonLd);
+    }
 
-	/**
-	 * Method to build opengraph metatags
-	 *
-	 * @param $body
-	 *
-	 * @return string
-	 *
-	 * @since version
-	 */
-	public static function buildOpengraph(&$body)
-	{
-		$meta = [];
+    /**
+     * Method to build opengraph metatags
+     *
+     * @param $body
+     *
+     * @return string
+     *
+     * @since version
+     */
+    public static function buildOpengraph(&$body)
+    {
+        $meta = [];
 
-		// Get data from tree
-		$ogData = OGHelper::getInstance()->getBuild('root');
+        // Get data from tree
+        $ogData = OGHelper::getInstance()->getBuild('root');
 
-		#TODO Проверить текущие схемы на странице
+        #TODO Проверить текущие схемы на странице
 
-		foreach ($ogData as $og)
-		{
-			foreach ($og as $property => $content)
-			{
-				if (!empty($content))
-				{
-					$meta[] = '<meta property="' . $property . '" content="' . $content . '" />';
-				}
-			}
-		}
+        foreach ($ogData as $og)
+        {
+            foreach ($og as $property => $content)
+            {
+                if (!empty($content))
+                {
+                    $meta[] = '<meta property="' . $property . '" content="' . $content . '" />';
+                }
+            }
+        }
 
-		return implode("\n", $meta);
-	}
+        return implode("\n", $meta);
+    }
 
 }

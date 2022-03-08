@@ -18,7 +18,7 @@ use Joomla\CMS\Version;
 
 class PlgSystemRadicalMicroInstallerScript
 {
-    /**
+	/**
 	 * Minimum PHP version required to install the extension.
 	 *
 	 * @var  string
@@ -36,14 +36,14 @@ class PlgSystemRadicalMicroInstallerScript
 	 */
 	protected $minimumJoomla = '3.9.0';
 
-    /**
+	/**
 	 * Runs right before any installation action.
 	 *
 	 * @param   string  $type  Type of PostFlight action. Possible values are:
 	 *
-	 * @throws  Exception
-	 *
 	 * @return  boolean True on success, false on failure.
+	 *
+	 * @throws  Exception
 	 *
 	 * @since  1.0.1
 	 */
@@ -61,9 +61,9 @@ class PlgSystemRadicalMicroInstallerScript
 	 * @param   string            $type    Type of PostFlight action. Possible values are:
 	 * @param   InstallerAdapter  $parent  Parent object calling object.
 	 *
-	 * @throws  Exception
-	 *
 	 * @return  boolean True on success, False on failure.
+	 *
+	 * @throws  Exception
 	 *
 	 * @since   1.0.0
 	 */
@@ -75,12 +75,12 @@ class PlgSystemRadicalMicroInstallerScript
 		return true;
 	}
 
-    /**
+	/**
 	 * Method to check compatible.
 	 *
-	 * @throws  Exception
-	 *
 	 * @return  boolean True on success, false on failure.
+	 *
+	 * @throws  Exception
 	 *
 	 * @since  1.0.0
 	 */

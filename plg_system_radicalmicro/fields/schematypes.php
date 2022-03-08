@@ -17,37 +17,37 @@ FormHelper::loadFieldClass('list');
 
 class JFormFieldSchemaTypes extends JFormFieldList
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var  string
-	 *
-	 * @since  1.4.0
-	 */
-	protected $type = 'schemaTypes';
+    /**
+     * The form field type.
+     *
+     * @var  string
+     *
+     * @since  1.4.0
+     */
+    protected $type = 'schemaTypes';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @throws  Exception
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since  1.4.0
-	 */
-	protected function getOptions()
-	{
-		$options = [];
-		$types = PathHelper::getInstance()->getTypes('schema');
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @throws  Exception
+     *
+     * @since  1.4.0
+     */
+    protected function getOptions()
+    {
+        $options = [];
+        $types   = PathHelper::getInstance()->getTypes('schema');
 
-		foreach ($types as $type)
-		{
-			$option        = new stdClass();
-			$option->value = $type;
-			$option->text  = ucfirst($type);
-			$options[]     = $option;
-		}
+        foreach ($types as $type)
+        {
+            $option        = new stdClass();
+            $option->value = $type;
+            $option->text  = ucfirst($type);
+            $options[]     = $option;
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 }

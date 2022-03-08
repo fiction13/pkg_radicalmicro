@@ -15,21 +15,20 @@ use YOOtheme\Path;
 return [
 
 	// Add events
-    'events' => [
+	'events' => [
 
-        'builder.type' => [
-            YooHelper::class => ['initSource', 50],
-        ],
+		'builder.type' => [
+			YooHelper::class => ['initSource', 50],
+		],
 
-    ],
+	],
 
 	// Add builder elements
-    'extend' => [
+	'extend' => [
 
-        Builder::class => function (Builder $builder) {
-//	        $builder->addTransform('preload', YooHelper::getInstance());
+		Builder::class => function (Builder $builder) {
 			$builder->addTypePath(Path::get('./elements/*/element.json'));
-        }
+		}
 
-    ]
+	]
 ];

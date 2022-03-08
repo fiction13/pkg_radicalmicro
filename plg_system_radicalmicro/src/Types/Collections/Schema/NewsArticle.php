@@ -1,4 +1,4 @@
-<?php namespace RadicalMicro\Types\Collections\Schema;
+<?php
 /*
  * @package   pkg_radicalmicro
  * @version   1.0.0
@@ -8,88 +8,91 @@
  * @link      https://fictionlabs.ru/
  */
 
-use Joomla\CMS\Uri\Uri;
-use RadicalMicro\Types\InterfaceTypes;
+namespace RadicalMicro\Types\Collections\Schema;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use RadicalMicro\Helpers\ImageHelper;
+use RadicalMicro\Helpers\UtilityHelper;
+use RadicalMicro\Types\InterfaceTypes;
+
 class NewsArticle implements InterfaceTypes
 {
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	private $uid = 'radicalmicro.schema.newsarticle';
+    /**
+     * @var string
+     * @since 1.0.0
+     */
+    private $uid = 'radicalmicro.schema.newsarticle';
 
-	/**
-	 * @param $item
-	 * @param $priority
-	 *
-	 * @return array
-	 *
-	 * @since 1.0.0
-	 */
-	public function execute($item, $priority)
-	{
-		if (is_array($item))
-		{
-			$item = (object) $item;
-		}
+    /**
+     * @param $item
+     * @param $priority
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function execute($item, $priority)
+    {
+        if (is_array($item))
+        {
+            $item = (object) $item;
+        }
 
-		$dataId = 'radicalmicro.schema.article.'.$item->id;
+        $data = [
+            'uid'              => $this->uid . '.' . $item->id,
+            '@context'         => 'https://schema.org',
+            '@type'            => 'NewsArticle',
+            'url'              => Uri::current(),
+            'mainEntityOfPage' => Uri::current(),
+            'headline'         => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
+            'articleBody'      => $item->description ? UtilityHelper::prepareText($item->description, 5000) : '',
+            'datePublished'    => $item->datePublished ? UtilityHelper::prepareDate($item->datePublished) : '',
+            'dateModified'     => $item->dateModified ? UtilityHelper::prepareDate($item->dateModified) : '',
+            'publisher'        => [
+                '@type' => 'Person',
+                'name'  => $item->author ? UtilityHelper::prepareUser($item->author) : ''
+            ]
+        ];
 
-		$data = [
-			'uid'               => $this->uid,
-			'@context'          => 'https://schema.org',
-			'@type'             => 'NewsArticle',
-			'url'               => Uri::current(),
-			'mainEntityOfPage'  => Uri::current(),
-			'headline'          => $item->title,
-			'articleBody'       => $item->description,
-			'datePublished'     => $item->datePublished,
-			'dateModified'      => $item->datePublished,
-			'publisher'         => [
-				"@type" => "Person",
-	            "name" => $item->author
-			]
-		];
+        if (isset($data->image))
+        {
+            $data['image'] = [
+                '@type' => 'ImageObject',
+                'url'   => $item->image ? UtilityHelper::prepareLink($item->image) : ImageHelper::getInstance()->getImage($data)
+            ];
+        }
 
-		if (isset($data->image)) {
-			$data['image'] = [
-				'@type' => 'ImageObject',
-				'url' => $item->image
-			];
-		}
+        return $data;
+    }
 
-		return $data;
-	}
+    /**
+     * Get config for JForm and Yootheme Pro elements
+     *
+     * @param   bool  $addUid
+     *
+     * @return string[]
+     *
+     * @since 1.0.0
+     */
+    public function getConfig($addUid = true)
+    {
+        $config = [
+            'title'         => '',
+            'description'   => '',
+            'datePublished' => '',
+            'dateModified'  => '',
+            'author'        => '',
+            'image'         => ''
+        ];
 
-	/**
-	 * Get config for JForm and Yootheme Pro elements
-	 *
-	 * @param   bool  $addUid
-	 *
-	 * @return string[]
-	 *
-	 * @since 1.0.0
-	 */
-	public function getConfig($addUid = true)
-	{
-		$config = [
-			'title'         => '',
-			'description'   => '',
-			'datePublished' => '',
-			'dateModified'  => '',
-			'author'        => '',
-			'image'         => ''
-		];
+        if ($addUid)
+        {
+            $config['uid'] = $this->uid;
+        }
 
-		if ($addUid)
-		{
-			$config['uid'] = $this->uid;
-		}
-
-		return $config;
-	}
+        return $config;
+    }
 
 }
