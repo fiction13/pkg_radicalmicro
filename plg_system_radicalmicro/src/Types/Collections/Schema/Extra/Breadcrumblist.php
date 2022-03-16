@@ -16,13 +16,13 @@ use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
-class Logo implements InterfaceTypes
+class Breadcrumbs implements InterfaceTypes
 {
     /**
      * @var string
      * @since 1.0.0
      */
-    private $uid = 'radicalmicro.schema.logo';
+    private $uid = 'radicalmicro.schema.breadcrumblist';
 
     /**
      * @param $item
@@ -39,12 +39,25 @@ class Logo implements InterfaceTypes
             $item = (object) $item;
         }
 
+        $breadCrumbs = UtilityHelper::getBreadCrumbs();
+
+        $breadCrumbsData = [];
+
+        foreach ($breadCrumbs as $key => $value)
+        {
+            $breadCrumbsData[] = [
+                '@type'    => 'ListItem',
+                'position' => ($key + 1),
+                'name'     => $value->name,
+                'item'     => $value->link
+            ];
+        }
+
         $data = [
-            'uid'      => $this->uid,
-            '@context' => 'https://schema.org',
-            '@type'    => 'Organization',
-            'url'      => Uri::root(),
-            'logo'     => UtilityHelper::prepareLink($item->image)
+            'uid'             => $this->uid,
+            '@context'        => 'https://schema.org',
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => $breadCrumbsData
         ];
 
         return $data;
@@ -61,9 +74,7 @@ class Logo implements InterfaceTypes
      */
     public function getConfig($addUid = true)
     {
-        $config = [
-            'image' => '',
-        ];
+        $config = [];
 
         if ($addUid)
         {

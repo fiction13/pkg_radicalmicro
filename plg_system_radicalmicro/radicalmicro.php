@@ -19,12 +19,8 @@ use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\XMLHelper;
-use RadicalMicro\Helpers\ImageHelper;
 
 #TODO Изменить изображение по умолчанию
-#TODO Добавить разметку Schema.org для хлебных крошек
-#TODO Добавить разметку Facebook
-#TODO Добавить удаление существующих разметок
 
 /**
  * Radicalmicro
@@ -51,26 +47,6 @@ class plgSystemRadicalMicro extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     *
-     * @return string||bool
-     *
-     * @since         1.0.0
-     */
-    public function onAjaxRadicalMicro()
-    {
-        $task = $this->app->input->get('task');
-
-        switch ($task)
-        {
-            case 'image':
-                //redirect to image
-                $this->app->redirect(ImageHelper::getInstance()->generate(), 302);
-        }
-
-        return true;
-    }
-
-    /**
      * OnAfterInitialise event
      *
      * Register RadicalMicro namespace.
@@ -88,7 +64,7 @@ class plgSystemRadicalMicro extends CMSPlugin
     /**
      * Adds forms for override
      *
-     * @param   JForm  $form  The form to be altered.
+     * @param   Form   $form  The form to be altered.
      * @param   mixed  $data  The associated data for the form.
      *
      * @return  boolean
@@ -97,6 +73,24 @@ class plgSystemRadicalMicro extends CMSPlugin
      */
     public function onContentPrepareForm(Form $form, $data)
     {
+        // Check current plugin form edit
+        if ($this->app->isClient('administrator') && $form->getName() == 'com_plugins.plugin')
+        {
+            $plugin = PluginHelper::getPlugin('system', 'radicalmicro');
+
+            if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+            {
+                // Get all collections of types
+                $collections = PathHelper::getInstance()->getTypes('meta');
+
+                foreach ($collections as $collection)
+                {
+                    $element = XMLHelper::createBoolField('meta_enable_' . $collection);
+                    $form->setField($element, null, false, 'meta');
+                }
+            }
+        }
+
         return true;
     }
 
@@ -110,7 +104,7 @@ class plgSystemRadicalMicro extends CMSPlugin
     public function onAfterRender()
     {
         // Check site client
-        if ($this->app->isClient('administrator'))
+        if ($this->app->isClient('administrator') || $this->app->input->get('option') == 'com_ajax')
         {
             return false;
         }
@@ -118,7 +112,7 @@ class plgSystemRadicalMicro extends CMSPlugin
         // Get provider plugins
         $params = $this->params;
 
-        // Trigger for data providers
+        // Trigger for get data from provider plugins
         PluginHelper::importPlugin('radicalmicro');
         $this->app->triggerEvent('onRadicalMicroProvider', [$params]);
 
@@ -130,90 +124,44 @@ class plgSystemRadicalMicro extends CMSPlugin
         if ($this->params->get('enable_schema', 1))
         {
             // Add website schema type
-            if ($this->params->get('schema_enable_type_website', 1))
+            if ($this->params->get('schema_enable_type_website', 0))
             {
                 $websiteData = TypesHelper::execute('schema', 'website', []);
                 SchemaHelper::getInstance()->addChild('root', $websiteData);
             }
 
             // Add logo schema type
-            if ($this->params->get('schema_enable_type_logo', 1) && $logoUrl = $this->params->get('schema_type_logo_image'))
+            if ($this->params->get('schema_enable_type_organization', 0) && $logoUrl = $this->params->get('schema_type_organization_image'))
             {
-                $logoData = TypesHelper::execute('schema', 'logo', ['image' => $logoUrl]);
+                $logoData = TypesHelper::execute('schema', 'organization', ['image' => $logoUrl]);
                 SchemaHelper::getInstance()->addChild('root', $logoData);
             }
 
-            $schema = MainHelper::buildSchema($body);
+            // Add breadcrumbs schema type
+            if ($this->params->get('schema_enable_type_breadcrumblist', 0))
+            {
+                $breadcrumbsData = TypesHelper::execute('schema', 'breadcrumbs', []);
+                SchemaHelper::getInstance()->addChild('root', $breadcrumbsData);
+            }
+
+            $schema = MainHelper::buildSchema($body, $this->params);
         }
 
         // Add Opengraph
         if ($this->params->get('enable_meta', 1))
         {
-            $opengraph = MainHelper::buildOpengraph($body);
+            $opengraph = MainHelper::buildOpengraph($body, $this->params);
         }
 
-        $body = str_replace("</body>", $opengraph . $schema . "</body>", $body);
+        // Place
+        $place = '</' . $this->params->get('extra_insert_place', 'body') . '>';
+        $textBefore = "\n<!-- RadicalMicro: start -->\n";
+        $textAfter = "\n<!-- RadicalMicro: end -->\n";
+
+        // Insert microdata
+        $body = str_replace($place, $textBefore . $opengraph . $schema .  $textAfter . $place, $body);
 
         $this->app->setBody($body);
-    }
-
-
-    /**
-     * @param   Form    $form
-     * @param   object  $data
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function addRadicalMicroTypeXML(Form $form, $data)
-    {
-        $extraFields  = PathHelper::getInstance()->getTypes('schema_extra');
-        $metaFields   = PathHelper::getInstance()->getTypes('meta');
-        $schemaFields = PathHelper::getInstance()->getTypes('schema');
-
-        if ($extraFields)
-        {
-            foreach ($extraFields as $field)
-            {
-                $element = XMLHelper::createBoolField('enable_' . $field);
-
-                $form->setField($element, null, true, 'schema');
-
-                // Check field extra config
-
-                $configFields = TypesHelper::getConfig('schema', $field);
-
-                if ($configFields)
-                {
-                    foreach ($configFields as $key => $value)
-                    {
-                        $element = XMLHelper::createField('enable_' . $field . '_' . $key, 'enable_' . $field, '', $value);
-
-                        $form->setField($element, null, true, 'schema');
-                    }
-                }
-            }
-        }
-
-        // Add meta fields
-        if ($metaFields)
-        {
-            foreach ($metaFields as $field)
-            {
-                $element = XMLHelper::createBoolField('enable_' . $field);
-                $form->setField($element, null, true, 'meta');
-            }
-        }
-
-        // Add options to schema type select
-        if ($schemaFields)
-        {
-            $element = XMLHelper::createField('type', '', 'list', $schemaFields[0], $schemaFields);
-            $form->setField($element, null, true, 'schema');
-        }
-
-        return true;
     }
 
     /**
@@ -222,7 +170,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * @throws Exception
      * @since 1.0.0
      */
-    public function initCollections()
+    protected function initCollections()
     {
         // Trigger onRadicalMicroRegisterTypes to collect paths and register types classes
         PluginHelper::importPlugin('radicalmicro');

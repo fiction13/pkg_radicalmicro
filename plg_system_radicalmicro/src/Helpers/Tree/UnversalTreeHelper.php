@@ -85,7 +85,7 @@ class UnversalTreeHelper
 		}, false);
 
 		// Sort by result element
-		uasort($output, function ($a, $b) {
+		uasort($output, static function ($a, $b) {
 			return $a->priority <=> $b->priority;
 		});
 

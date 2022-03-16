@@ -13,6 +13,5 @@ defined('_JEXEC') or die('Restricted access');
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 
-$ogData = TypesHelper::execute('meta', $props['meta'], $props, 1);
-
+$ogData = TypesHelper::execute('meta', $props['meta'], $props, 0.6);
 OGHelper::getInstance()->addChild('root', $ogData);

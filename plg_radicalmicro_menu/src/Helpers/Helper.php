@@ -133,7 +133,6 @@ class plgRadicalMicroMenuHelper
                 // Add each field of config
                 foreach ($fields as $field)
                 {
-                    // $addFields['radicalmicro_menu_'.$field] = $collectionConfig[$field];
                     if (!isset($addFields[$field]))
                     {
                         $addFields[$field] = [

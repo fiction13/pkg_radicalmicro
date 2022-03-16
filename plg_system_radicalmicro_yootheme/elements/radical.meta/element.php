@@ -16,6 +16,8 @@ return [
     'transforms' => [
 	    'render' => static function ($node)
 	    {
+            $node->props['id'] = $node->id;
+
 			unset(
 				$node->props['animation'],
 				$node->props['name'],

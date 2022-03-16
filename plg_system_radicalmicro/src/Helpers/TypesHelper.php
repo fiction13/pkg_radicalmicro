@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 
 class TypesHelper
 {
-
     /**
      * @param   string  $collectionType  - schema, meta, extra
      * @param           $type            - type of metadata
@@ -50,7 +49,6 @@ class TypesHelper
 
         return $result;
     }
-
 
     /**
      * Get config for type of collection type

@@ -9,19 +9,28 @@
   -->
 
 <extension type="package" version="3.9" method="upgrade">
- 	<name>RadicalMicro</name>
+ 	<name>PKG_RADICALMICRO</name>
     <author>Dmitriy Vasyukov</author>
     <creationDate>February 2022</creationDate>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.0.6</version>
-    <description>Package - RadicalMicro</description>
+    <version>0.0.7</version>
+    <description>PKG_RADICALMICRO_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
 
+    <!-- Languages files -->
+    <languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.pkg_radicalmicro.sys.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.pkg_radicalmicro.sys.ini</language>
+	</languages>
+
+    <!-- Package files -->
     <files>
         <folder type="plugin" group="system" id="radicalmicro">plg_system_radicalmicro</folder>
         <folder type="plugin" group="system" id="radicalmicro_yootheme">plg_system_radicalmicro_yootheme</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_content">plg_radicalmicro_content</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_menu">plg_radicalmicro_menu</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro_image">plg_radicalmicro_image</folder>
     </files>
 </extension>

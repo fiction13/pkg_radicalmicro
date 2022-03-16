@@ -24,7 +24,7 @@ use RadicalMicro\Helpers\PathHelper;
  * @package   plgRadicalmicroContent
  * @since     1.0.0
  */
-class plgRadicalmicroContent extends CMSPlugin
+class plgRadicalMicroContent extends CMSPlugin
 {
     /**
      * Application object
@@ -66,7 +66,7 @@ class plgRadicalmicroContent extends CMSPlugin
      *
      * @since 1.0.0
      */
-    public function onRadicalmicroRegisterTypes()
+    public function onRadicalMicroRegisterTypes()
     {
         // $path - absolute path of directory with your types of each collection
         //
@@ -96,6 +96,9 @@ class plgRadicalmicroContent extends CMSPlugin
             {
                 // Set Schema.org params fields
                 $this->helper->setShemaFields($form);
+
+                // Set Meta params fields
+                $this->helper->setMetaFields($form);
             }
         }
 
@@ -111,27 +114,31 @@ class plgRadicalmicroContent extends CMSPlugin
      */
     public function onRadicalmicroProvider($params)
     {
-        $object = $this->helper->getProviderData();
-
-        if (empty($object))
-        {
-            return;
-        }
-
         // Get schema type
         $type = $this->params->get('type', 'article');
 
+
         // Get and set schema data
-        $schemaData = TypesHelper::execute('schema', $type, $object);
-        SchemaHelper::getInstance()->addChild('root', $schemaData);
+        $schemaObject = $this->helper->getSchemaObject();
+
+        if ($schemaObject)
+        {
+            $schemaData   = TypesHelper::execute('schema', $type, $schemaObject);
+            SchemaHelper::getInstance()->addChild('root', $schemaData);
+        }
 
         // Get and set opengraph data
-        $collections = PathHelper::getInstance()->getTypes('meta');
+        $metaObject  = $this->helper->getMetaObject();
 
-        foreach ($collections as $collection)
+        if ($metaObject)
         {
-            $ogData = TypesHelper::execute('meta', $collection, $object);
-            OGHelper::getInstance()->addChild('root', $ogData);
+            $collections = PathHelper::getInstance()->getTypes('meta');
+
+            foreach ($collections as $collection)
+            {
+                $ogData = TypesHelper::execute('meta', $collection, $metaObject);
+                OGHelper::getInstance()->addChild('root', $ogData);
+            }
         }
 
         return;

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\XMLHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -26,18 +27,19 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 class plgRadicalMicroContentHelper
 {
+    /**
+     * Param prefix
+     *
+     * @since  1.0.0
+     */
+    const PREFIX_SHEMA = 'schema_';
 
     /**
-     * @var array
+     * Param prefix
      *
-     * @since 1.0.0
+     * @since  1.0.0
      */
-    protected $defaultFields = [
-        'title',
-        'description',
-        'image'
-    ];
-
+    const PREFIX_META = 'meta_';
 
     /**
      * @var array
@@ -52,6 +54,12 @@ class plgRadicalMicroContentHelper
      * @since 1.0.0
      */
     protected $fields = array();
+
+    /**
+     * @var
+     * @since 1.0.0
+     */
+    protected $item;
 
     /**
      * @param   Registry  $params
@@ -69,7 +77,7 @@ class plgRadicalMicroContentHelper
      *
      * @since 1.0.0
      */
-    public function getProviderData()
+    public function getSchemaObject()
     {
         // Check is article view
         if (!$this->isArticleView())
@@ -77,27 +85,19 @@ class plgRadicalMicroContentHelper
             return;
         }
 
-        $item_id = (int) $this->app->input->get('id', 0);
-
-        // Get Article
-        $item = Table::getInstance('Content', 'JTable');
-        $item->load($item_id);
-
-        // Prepare fields
-        $item->jcfields       = $this->getFields($item);
-        $item->image_intro    = $this->getImage($item->images, 'image_intro');
-        $item->image_fulltext = $this->getImage($item->images, 'image_fulltext');
+        // Get item object
+        $item = $this->getItem();
 
         // Data object
         $object     = new stdClass();
-        $object->id = $item_id;
+        $object->id = $item->id;
 
         // Config field for current schema type
         $configFields = array_keys(TypesHelper::getConfig('schema', $this->params->get('type'), false));
 
         foreach ($configFields as $configField)
         {
-            $object->{$configField} = $this->getData($this->params->get($configField), $item);
+            $object->{$configField} = $this->getData($this->params->get(self::PREFIX_SHEMA . $configField), $item);
         }
 
         // Check if YooTheme Pro is loaded
@@ -110,6 +110,74 @@ class plgRadicalMicroContentHelper
     }
 
     /**
+     * Method get provider data
+     *
+     * @since 1.0.0
+     */
+    public function getMetaObject()
+    {
+        // Check is article view
+        if (!$this->isArticleView())
+        {
+            return;
+        }
+
+        // Get item object
+        $item = $this->getItem();
+
+        // Data object
+        $object     = new stdClass();
+        $object->id = $item->id;
+
+        // Config field for meta type
+        $configFields = $this->getMetaFields();
+
+        foreach ($configFields as $key => $field)
+        {
+                $fieldValue =
+            $object->{$key} = (empty($field['default'])) ? $this->getData($this->params->get($field['name']), $item) : $this->params->get($field['name']);
+        }
+
+        // Check if YooTheme Pro is loaded
+        if ($this->isYoothemeBuider($object->description))
+        {
+            $object->description = '';
+        }
+
+        return $object;
+    }
+
+    /**
+     * Get Article
+     *
+     * @return bool|Table
+     *
+     * @since 1.0.0
+     */
+    public function getItem()
+    {
+        if (!$this->item)
+        {
+            $item_id = (int) $this->app->input->get('id', 0);
+
+            // Get Article
+            $item = Table::getInstance('Content', 'JTable');
+            $item->load($item_id);
+
+            // Prepare fields
+            $item->jcfields       = $this->getFields($item);
+            $item->image_intro    = $this->getImage($item->images, 'image_intro');
+            $item->image_fulltext = $this->getImage($item->images, 'image_fulltext');
+
+            $this->item = $item;
+        }
+
+        return $this->item;
+    }
+
+    /**
+     * Get data from Article object
+     *
      * @param $value
      * @param $item
      *
@@ -120,9 +188,9 @@ class plgRadicalMicroContentHelper
     public function getData($value, $item)
     {
         // Set empty value if default value was selected
-        if ($value === '_default_')
+        if ($value === '_noselect_')
         {
-            return;
+            return '';
         }
 
         if (strpos($value, 'field.') !== false)
@@ -163,7 +231,7 @@ class plgRadicalMicroContentHelper
     }
 
     /**
-     * Get image from Article object
+     * Get image from json images object
      *
      * @return void|string.
      *
@@ -177,6 +245,8 @@ class plgRadicalMicroContentHelper
     }
 
     /**
+     * Check YOOtheme builder enabled in article
+     *
      * @param $description
      *
      * @return bool
@@ -199,28 +269,24 @@ class plgRadicalMicroContentHelper
     }
 
     /**
-     * @param $form
+     * Set schema.org fields to Form
+     *
+     * @param   Form  $form
      *
      * @since 1.0.0
      */
-    public function setShemaFields($form)
+    public function setShemaFields(Form $form)
     {
         if ($type = $this->params->get('type'))
         {
             $configFields = array_keys(TypesHelper::getConfig('schema', $type, false));
-            $paramsArray  = $this->params->toArray();
 
             if ($configFields)
             {
                 foreach ($configFields as $configField)
                 {
-                    if (in_array($configField, $this->defaultFields))
-                    {
-                        continue;
-                    }
-
-                    $element = XMLHelper::createField($configField, '', 'fields', $configField);
-                    $form->setField($element, null, false, 'basic');
+                    $element = XMLHelper::createField(self::PREFIX_SHEMA . $configField, '', 'fields', $configField);
+                    $form->setField($element, null, false, 'schema');
                 }
             }
         }
@@ -229,6 +295,33 @@ class plgRadicalMicroContentHelper
     }
 
     /**
+     * Set meta fields to Form
+     *
+     * @param   Form  $form
+     *
+     * @since 1.0.0
+     */
+    public function setMetaFields(Form $form)
+    {
+        // Add fields to fieldset
+        $addFields = $this->getMetaFields();
+
+        // In result - add fields to form
+        if ($addFields)
+        {
+            foreach ($addFields as $key => $field)
+            {
+                $element = XMLHelper::createField($field['name'], '', (empty($field['default']) ? 'fields' : ''), $field['default'], null, $field['type']);
+                $form->setField($element, null, false, 'meta');
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * Get all article fields
+     *
      * @param   null  $item
      *
      * @return mixed
@@ -243,5 +336,47 @@ class plgRadicalMicroContentHelper
         }
 
         return $this->fields;
+    }
+
+    /**
+     * Get all config fields for all meta collections
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function getMetaFields()
+    {
+        $addFields = [];
+
+        // Get all collections of types
+        $collections = PathHelper::getInstance()->getTypes('meta');
+
+        foreach ($collections as $collection)
+        {
+            // Get config of each meta type
+            $collectionConfig = TypesHelper::getConfig('meta', $collection, false);
+
+            if (!empty($collectionConfig))
+            {
+                $fields = array_keys($collectionConfig);
+
+                // Add each field of config
+                foreach ($fields as $field)
+                {
+                    if (!isset($addFields[$field]))
+                    {
+                        $addFields[$field] = [
+                            'name'    => self::PREFIX_META . $field,
+                            'default' => $collectionConfig[$field],
+                        ];
+                    }
+
+                    $addFields[$field]['type'][] = ucfirst($collection);
+                }
+            }
+        }
+
+        return $addFields;
     }
 }

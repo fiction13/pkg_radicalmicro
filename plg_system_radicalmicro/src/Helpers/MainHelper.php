@@ -26,18 +26,19 @@ class MainHelper
      *
      * @since 1.0.0
      */
-    public static function buildSchema(&$body)
+    public static function buildSchema(&$body, $params)
     {
         $jsonLd = array();
 
         // Get data from tree
         $schemaData = SchemaHelper::getInstance()->getBuild('root');
 
-        #TODO Проверить текущие схемы на странице
-
-        foreach ($schemaData as $schema)
+        foreach ($schemaData as $key => $schema)
         {
-            $jsonLd[] = '<script type="application/ld+json">' . json_encode($schema) . '</script>';
+            if (UtilityHelper::checkSchema($params, $key, $body))
+            {
+                $jsonLd[] = '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . '</script>';
+            }
         }
 
         return implode("\n", $jsonLd);
@@ -50,22 +51,20 @@ class MainHelper
      *
      * @return string
      *
-     * @since version
+     * @since 1.0.0
      */
-    public static function buildOpengraph(&$body)
+    public static function buildOpengraph(&$body, $params)
     {
         $meta = [];
 
         // Get data from tree
-        $ogData = OGHelper::getInstance()->getBuild('root');
+        $metaData = OGHelper::getInstance()->getBuild('root');
 
-        #TODO Проверить текущие схемы на странице
-
-        foreach ($ogData as $og)
+        foreach ($metaData as $og)
         {
             foreach ($og as $property => $content)
             {
-                if (!empty($content))
+                if (!empty($content) && UtilityHelper::checkMeta($params, $property, $body))
                 {
                     $meta[] = '<meta property="' . $property . '" content="' . $content . '" />';
                 }

@@ -18,7 +18,6 @@ use Joomla\CMS\Filesystem\Folder;
 
 final class PathHelper
 {
-
     /**
      * @var
      * @since 1.0.0
@@ -92,7 +91,6 @@ final class PathHelper
         $this->registerClasses($path);
     }
 
-
     /**
      * Get all collected types
      *
@@ -160,5 +158,4 @@ final class PathHelper
 
         return;
     }
-
 }

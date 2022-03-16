@@ -8,24 +8,21 @@
  * @link      https://fictionlabs.ru/
  */
 
-namespace RadicalMicro\Types\Collections\Meta;
+namespace RadicalMicro\Types\Collections\Schema\Extra;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
-class Twitter implements InterfaceTypes
+class Organization implements InterfaceTypes
 {
-
     /**
      * @var string
      * @since 1.0.0
      */
-    private $uid = 'radicalmicro.meta.twitter';
-
+    private $uid = 'radicalmicro.schema.organization';
 
     /**
      * @param $item
@@ -37,19 +34,21 @@ class Twitter implements InterfaceTypes
      */
     public function execute($item, $priority)
     {
-        $item = (object) array_merge($this->getConfig(), (array) $item);
+        if (is_array($item))
+        {
+            $item = (object) $item;
+        }
 
-        $data['uid']                 = $this->uid;
-        $data['twitter:card']        = 'summary';
-        $data['twitter:title']       = $item->title ? UtilityHelper::prepareText($item->title, 60) : '';
-        $data['twitter:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
-        $data['twitter:site']        = $item->site ?? Uri::root();
-        $data['twitter:image']       = UtilityHelper::prepareLink($item->image);
-        $data['priority']            = $priority;
+        $data = [
+            'uid'      => $this->uid,
+            '@context' => 'https://schema.org',
+            '@type'    => 'Organization',
+            'url'      => Uri::root(),
+            'logo'     => UtilityHelper::prepareLink($item->image)
+        ];
 
         return $data;
     }
-
 
     /**
      * Get config for JForm and Yootheme Pro elements
@@ -63,10 +62,7 @@ class Twitter implements InterfaceTypes
     public function getConfig($addUid = true)
     {
         $config = [
-            'title'       => '',
-            'description' => '',
-            'image'       => '',
-            'site'        => Uri::root()
+            'image' => '',
         ];
 
         if ($addUid)
@@ -76,4 +72,5 @@ class Twitter implements InterfaceTypes
 
         return $config;
     }
+
 }

@@ -13,6 +13,5 @@ defined('_JEXEC') or die('Restricted access');
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 
-$schemaData = TypesHelper::execute('schema', $props['meta'], $props, 1);
-
+$schemaData = TypesHelper::execute('schema', $props['schema'], $props, 0.6);
 SchemaHelper::getInstance()->addChild('root', $schemaData);

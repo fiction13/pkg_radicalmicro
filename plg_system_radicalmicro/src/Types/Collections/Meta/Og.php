@@ -12,9 +12,8 @@ namespace RadicalMicro\Types\Collections\Meta;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use RadicalMicro\Helpers\ImageHelper;
-use RadicalMicro\Helpers\ParamsHelper;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
@@ -36,18 +35,15 @@ class Og implements InterfaceTypes
      */
     public function execute($item, $priority)
     {
-        if (is_array($item))
-        {
-            $item = (object) $item;
-        }
+        $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data['uid']            = $this->uid;
-        $data['og:title']       = $item->title ? UtilityHelper::prepareText($item->title, 60) : ParamsHelper::getInstance()->getDefaultSiteName();
-        $data['og:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : ParamsHelper::getInstance()->getDefaultSiteDescription();
+        $data['og:title']       = $item->title ? UtilityHelper::prepareText($item->title, 60) : '';
+        $data['og:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
         $data['og:type']        = $item->type ?? 'website';
         $data['og:url']         = Uri::current();
+        $data['og:image']       = UtilityHelper::prepareLink($item->image);
         $data['priority']       = $priority;
-        $data['og:image']       = (isset($item->image) && !empty($item->image)) ? UtilityHelper::prepareLink($item->image) : ImageHelper::getInstance()->getImage($item);
 
         return $data;
     }

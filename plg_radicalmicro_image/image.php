@@ -10,13 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\TypesHelper;
-use RadicalMicro\Helpers\UtilityHelper;
 
 /**
  * Radicalmicro
@@ -24,7 +22,7 @@ use RadicalMicro\Helpers\UtilityHelper;
  * @package   plgRadicalmicroContent
  * @since     1.0.0
  */
-class plgRadicalMicroMenu extends CMSPlugin
+class plgRadicalMicroImage extends CMSPlugin
 {
     /**
      * Application object
@@ -46,6 +44,8 @@ class plgRadicalMicroMenu extends CMSPlugin
      * @param          $subject
      * @param   array  $config
      *
+     * @since  1.0.0
+     *
      * @throws Exception
      */
     public function __construct(&$subject, $config = array())
@@ -53,43 +53,34 @@ class plgRadicalMicroMenu extends CMSPlugin
         parent::__construct($subject, $config);
 
         // Include helper
-        JLoader::register('plgRadicalMicroMenuHelper', __DIR__ . '/src/Helpers/Helper.php');
+        JLoader::register('plgRadicalMicroImageHelper', __DIR__ . '/src/Helpers/Helper.php');
 
         // Helper
-        $this->helper = new plgRadicalMicroMenuHelper($this->params);
+        $this->helper = new plgRadicalMicroImageHelper($this->params);
     }
 
     /**
-     * Adds forms for override
      *
-     * @param   JForm  $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @return string||bool
      *
-     * @return  boolean
-     *
-     * @since   1.0
+     * @since         1.0.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onAjaxRadicalMicroImage()
     {
-        $component = $this->app->input->get('option');
-        $layout    = $this->app->input->get('layout');
+        $task = $this->app->input->get('task');
 
-        // Check menu edit form
-        if ($this->app->isClient('administrator') && $component === 'com_menus' && $layout === 'edit')
+        switch ($task)
         {
-            // Add fieldset for menu
-            Form::addFormPath(__DIR__ . '/forms');
-            $form->loadFile('menu', true);
-
-            // Set fields
-            $this->helper->setMetaFields($form);
+            case 'generate':
+                //redirect to image
+                $this->app->redirect($this->helper->generate(), 302);
         }
 
         return true;
     }
 
     /**
-     * OnRadicalmicroProvider event
+     * OnRadicalMicroProvider event
      *
      * @return array|void
      *
@@ -109,7 +100,7 @@ class plgRadicalMicroMenu extends CMSPlugin
 
         foreach ($collections as $collection)
         {
-            $ogData = TypesHelper::execute('meta', $collection, $object, 0.9);
+            $ogData = TypesHelper::execute('meta', $collection, $object);
             OGHelper::getInstance()->addChild('root', $ogData);
         }
     }

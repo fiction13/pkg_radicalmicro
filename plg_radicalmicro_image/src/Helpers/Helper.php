@@ -8,84 +8,76 @@
  * @link      https://fictionlabs.ru/
  */
 
-namespace RadicalMicro\Helpers;
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
+use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\UtilityHelper;
 
-final class ImageHelper
+
+/**
+ * @package     pkg_radicalmicro
+ *
+ * @since       1.0.0
+ */
+class plgRadicalMicroImageHelper
 {
     /**
-     * @var
+     * @var array
+     *
      * @since 1.0.0
      */
-    protected static $instance;
+    protected $params = [];
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
+     * @param   Registry  $params
      *
-     * @var    Registry
-     * @since  1.0.0
+     * @throws Exception
      */
-    protected $params;
-
-
-    /**
-     * @throws \Exception
-     */
-    public function __construct()
+    public function __construct(Registry $params)
     {
+        $this->params = $params;
         $this->app    = Factory::getApplication();
-        $this->params = ParamsHelper::getInstance()->getParams();
     }
 
     /**
+     * Method get provider data
      *
-     * @return mixed|ImageHelper
+     * @return object|void
      *
      * @since 1.0.0
      */
-    public static function getInstance()
+    public function getProviderData()
     {
-        if (is_null(static::$instance))
-        {
-            $instance = new self();
-        }
+        // Data object
+        $object        = new stdClass();
+        $object->image = $this->getImage();
 
-        return $instance;
+        return $object;
     }
 
     /**
      * Get image from settings or generate
      *
-     * @return mixed|\stdClass|string
+     * @return void|string
      *
      * @since 1.0.0
      */
-    public function getImage($imageData)
+    public function getImage()
     {
-        if (is_object($imageData))
-        {
-            $imageData = (array) $imageData;
-        }
-
-        $imagetype = $this->params->get('meta_imagetype', 'image');
+        $imagetype = $this->params->get('imagetype', 'image');
 
         if ($imagetype === 'image')
         {
-            return $this->params->get('meta_image');
+            return $this->params->get('image') ?? $this->showDefaultImage(false);
         }
 
         if ($imagetype === 'generate')
         {
-            $file = $this->getCachePath(false) . '/' . $this->getCacheFile();
+            $fileName = $this->getCacheFile();
+            $file     = $this->getCachePath() . '/' . $fileName . '.jpg';
 
             if (file_exists(JPATH_ROOT . '/' . $file))
             {
@@ -93,17 +85,30 @@ final class ImageHelper
             }
             else
             {
-                $fileJSON = $this->getCacheFile(null);
+                // Get title from OG build
+                $build = OgHelper::getInstance()->getBuild('root');
 
-                // Save data to cache
-                $this->saveDataForCache($fileJSON, $imageData);
+                if (!isset($build['radicalmicro.meta.og']))
+                {
+                    return $this->showDefaultImage(false);
+                }
+
+                $title = $build['radicalmicro.meta.og']->{'og:title'} ?? '';
+
+                if (empty($title))
+                {
+                    return $this->showDefaultImage(false);
+                }
+
+                $hash = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
 
                 return UtilityHelper::prepareLink('/index.php?' . http_build_query([
                         'option' => 'com_ajax',
-                        'plugin' => 'radicalmicro',
-                        'group'  => 'system',
-                        'task'   => 'image',
-                        'file'   => $fileJSON,
+                        'plugin' => 'radicalmicroimage',
+                        'task'   => 'generate',
+                        'title'  => $title,
+                        'file'   => $fileName,
+                        'hash'   => $hash,
                         'format' => 'raw',
                     ]));
             }
@@ -115,45 +120,29 @@ final class ImageHelper
     /**
      * Generate image
      *
-     * $imageData - request data array. $imageData['title'] is required
-     *
      * @return string
      *
      * @since 1.0.0
      */
     public function generate()
     {
-        $file = $this->app->input->get('file', '');
+        // Check file
+        $file  = $this->app->input->get('file', '', 'raw');
+        $title = $this->app->input->get('title', '', 'raw');
+        $hash  = $this->app->input->get('hash', '', 'raw');
 
-        if (empty($file))
+        // Check hash, title and file
+        if ($hash != md5($file . ':' . $this->params->get('imagetype_generate_secret_key')) || empty($title) || empty($file))
         {
             $this->showDefaultImage();
         }
 
-        $local    = $this->getCachePath(true, $file);
-        $path     = JPATH_ROOT . '/' . $local;
-        $pathJSON = $path . '/' . 'json';
-        $data     = [];
+        $local = $this->getCachePath($file);
+        $path  = JPATH_ROOT . '/' . $local;
 
         if (file_exists($path . '/' . $file . '.jpg'))
         {
             $this->app->redirect($local . '/' . $file . '.jpg');
-        }
-
-        // Check json file
-        if (!file_exists($pathJSON . '/' . $file . '.json'))
-        {
-            $this->showDefaultImage();
-        }
-        else
-        {
-            $data = json_decode(file_get_contents($pathJSON . '/' . $file . '.json'), JSON_OBJECT_AS_ARRAY);
-
-            if ($data === null || count($data) === 0 || !isset($data['title']))
-            {
-                $this->showDefaultImage();
-            }
-
         }
 
         // Check access on folder
@@ -163,15 +152,15 @@ final class ImageHelper
         }
 
         // Generate image
-        $backgroundType           = $this->params->get('meta_imagetype_generate_background', 'fill');
-        $backgroundImage          = $this->params->get('meta_imagetype_generate_background_image');
-        $backgroundColor          = $this->params->get('meta_imagetype_generate_background_color', '#000000');
-        $backgroundTextBackground = $this->params->get('meta_imagetype_generate_background_text_background', '#000000');
-        $backgroundTextColor      = $this->params->get('meta_imagetype_generate_background_text_color', '#ffffff');
-        $backgroundTextFontSize   = (int) $this->params->get('meta_imagetype_generate_background_text_fontsize', 20);
-        $backgroundTextMargin     = (int) $this->params->get('meta_imagetype_generate_background_text_margin', 10);
-        $backgroundTextPadding    = (int) $this->params->get('meta_imagetype_generate_background_text_padding', 10);
-        $fontCustom               = $this->params->get('meta_imagetype_generate_background_text_font', '');
+        $backgroundType           = $this->params->get('imagetype_generate_background', 'fill');
+        $backgroundImage          = $this->params->get('imagetype_generate_background_image');
+        $backgroundColor          = $this->params->get('imagetype_generate_background_color', '#000000');
+        $backgroundTextBackground = $this->params->get('imagetype_generate_background_text_background', '#000000');
+        $backgroundTextColor      = $this->params->get('imagetype_generate_background_text_color', '#ffffff');
+        $backgroundTextFontSize   = (int) $this->params->get('imagetype_generate_background_text_fontsize', 20);
+        $backgroundTextMargin     = (int) $this->params->get('imagetype_generate_background_text_margin', 10);
+        $backgroundTextPadding    = (int) $this->params->get('imagetype_generate_background_text_padding', 10);
+        $fontCustom               = $this->params->get('imagetype_generate_background_text_font', '');
 
         // Check background type
         if ($backgroundType == 'fill')
@@ -193,7 +182,8 @@ final class ImageHelper
         }
 
         $colorForText = $this->hexColorAllocate($img, $backgroundTextColor);
-        $font         = JPATH_ROOT . '/' . implode('/', ['media', 'plg_system_radicalmicro', 'fonts', 'roboto.ttf']);
+        $font         = JPATH_ROOT . '/' . implode('/', ['media', 'plg_radicalmicro_image', 'fonts', 'roboto.ttf']);
+
         if (!empty($fontCustom))
         {
             $font = JPATH_ROOT . '/' . ltrim($fontCustom, '/');
@@ -207,7 +197,7 @@ final class ImageHelper
         $countForWrap      = (int) ((imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2)) / $fontSizeWidthChar);
 
         // Set title
-        $txt         = $data['title'];
+        $txt         = $title;
         $text        = explode("\n", wordwrap($txt, $countForWrap));
         $text_width  = 0;
         $text_height = 0;
@@ -258,12 +248,6 @@ final class ImageHelper
 
         imagejpeg($img, $path . '/' . $file . '.jpg');
 
-        //delete cache json
-        if (file_exists($pathJSON . '/' . $file . '.json'))
-        {
-            File::delete($pathJSON . '/' . $file . '.json');
-        }
-
         //redirect to image
         $this->app->redirect($local . '/' . $file . '.jpg', 302);
     }
@@ -291,18 +275,21 @@ final class ImageHelper
      *
      * @since 1.0.0
      */
-    private function showDefaultImage()
+    private function showDefaultImage($redirect = true)
     {
-        $img = $this->params->get('meta_imagetype_generate_image_for_error', '');
+        $img = $this->params->get('imagetype_generate_image_for_error', '');
 
-        if (!empty($img))
+        if (empty($img))
         {
-            $this->app->redirect($img, 302);
+            $img = 'media/plg_radicalmicro_image/images/default.png';
         }
-        else
+
+        if ($redirect)
         {
-            $this->app->redirect('media/plg_system_radicalmicro/images/default.png', 302);
+            $this->app->redirect('media/plg_radicalmicro_image/images/default.png', 302);
         }
+
+        return $img;
 
     }
 
@@ -315,26 +302,23 @@ final class ImageHelper
      *
      * @since 1.0.0
      */
-    private function getCachePath($checkPath = false, $file = '')
+    private function getCachePath($file = null)
     {
-        $folder = $this->params->get('meta_imagetype_generate_cache', 'images');
+        $folder = $this->params->get('imagetype_generate_cache', 'images');
         $path   = implode('/', [$folder, 'radicalmicro']);
 
         // Add subfolder
-        if ($this->params->get('meta_imagetype_generate_cache_subfolder', 0))
+        if ($this->params->get('imagetype_generate_cache_subfolder', 0))
         {
-            $file      = $file ? $file . '.jpg' : $this->getCacheFile();
+            $file      = $file ? $file : $this->getCacheFile();
             $md5path   = md5($file);
             $subfolder = substr($md5path, 0, 2);
             $path      = $path . '/' . $subfolder;
         }
 
-        if ($checkPath)
+        if (!file_exists(JPATH_ROOT . '/' . $path))
         {
-            if (!file_exists(JPATH_ROOT . '/' . $path))
-            {
-                Folder::create(JPATH_ROOT . '/' . $path);
-            }
+            Folder::create(JPATH_ROOT . '/' . $path);
         }
 
         return $path;
@@ -347,24 +331,17 @@ final class ImageHelper
      *
      * @since 1.0.0
      */
-    private function getCacheFile($exs = 'jpg')
+    private function getCacheFile()
     {
         $file = trim(preg_replace("#\?.*?$#isu", '', $this->app->input->server->get('REQUEST_URI')), '/#');
         $file = str_replace('/', '-', $file);
 
-        if (empty($file))
+        if (!$file)
         {
-            $file = 'main';
+            $file = 'home';
         }
 
-        if ($exs === null)
-        {
-            return $file;
-        }
-        else
-        {
-            return $file . '.' . $exs;
-        }
+        return $file;
     }
 
 
@@ -383,27 +360,6 @@ final class ImageHelper
         {
             return UtilityHelper::prepareLink($matches[1]);
         }
-
-        return;
-    }
-
-    /**
-     * @param   string  $file
-     * @param   array   $data
-     *
-     * @since 1.0.0
-     */
-    private function saveDataForCache($file = '', $data = [])
-    {
-        $path     = $this->getCachePath(true) . '/' . 'json';
-        $pathFull = JPATH_ROOT . '/' . $path;
-
-        if (!file_exists($pathFull))
-        {
-            Folder::create($pathFull);
-        }
-
-        file_put_contents($pathFull . '/' . $file . '.json', json_encode($data));
 
         return;
     }

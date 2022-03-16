@@ -85,6 +85,15 @@ class JFormFieldFields extends JFormFieldGroupedList
         $groups = $this->getOptions();
         $result = [];
 
+        // First group
+        $result[Text::_('PLG_RADICALMICRO_CONTENT_GROUP_EXTRA')] = [
+            [
+                'text'  => Text::_('PLG_RADICALMICRO_CONTENT_GROUP_EXTRA_OPTION_NO_SELECT'),
+                'value' => '_noselect_'
+            ]
+        ];
+
+        // Other groups
         foreach ($groups as $groupKey => $group)
         {
             $groupLabel = Text::_('PLG_RADICALMICRO_CONTENT_GROUP_' . strtoupper($groupKey));

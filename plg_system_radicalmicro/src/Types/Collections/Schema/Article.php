@@ -13,7 +13,6 @@ namespace RadicalMicro\Types\Collections\Schema;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
-use RadicalMicro\Helpers\ImageHelper;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
@@ -35,10 +34,7 @@ class Article implements InterfaceTypes
      */
     public function execute($item, $priority)
     {
-        if (is_array($item))
-        {
-            $item = (object) $item;
-        }
+        $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data = [
             'uid'              => $this->uid . '.' . $item->id,
@@ -52,17 +48,21 @@ class Article implements InterfaceTypes
             ],
             'datePublished'    => $item->datePublished ? UtilityHelper::prepareDate($item->datePublished) : '',
             'dateModified'     => $item->dateModified ? UtilityHelper::prepareDate($item->dateModified) : '',
-            'author'           => [
-                '@type' => 'Person',
-                'name'  => $item->author ? UtilityHelper::prepareUser($item->author) : ''
-            ]
         ];
+
+        if ($item->author)
+        {
+            $data['author'] = [
+                '@type' => 'Person',
+                'name'  => UtilityHelper::prepareUser($item->author)
+            ];
+        }
 
         if (isset($item->image))
         {
             $data['image'] = [
                 '@type' => 'ImageObject',
-                'url'   => $item->image ? UtilityHelper::prepareLink($item->image) : ImageHelper::getInstance()->getImage($data)
+                'url'   => UtilityHelper::prepareLink($item->image)
             ];
         }
 
