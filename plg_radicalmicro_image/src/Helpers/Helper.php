@@ -83,35 +83,34 @@ class plgRadicalMicroImageHelper
             {
                 return UtilityHelper::prepareLink($file);
             }
-            else
+
+            // Get title from OG build
+            $build = OgHelper::getInstance()->getBuild('root');
+
+            if (!isset($build['radicalmicro.meta.og']))
             {
-                // Get title from OG build
-                $build = OgHelper::getInstance()->getBuild('root');
-
-                if (!isset($build['radicalmicro.meta.og']))
-                {
-                    return $this->showDefaultImage(false);
-                }
-
-                $title = $build['radicalmicro.meta.og']->{'og:title'} ?? '';
-
-                if (empty($title))
-                {
-                    return $this->showDefaultImage(false);
-                }
-
-                $hash = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
-
-                return UtilityHelper::prepareLink('/index.php?' . http_build_query([
-                        'option' => 'com_ajax',
-                        'plugin' => 'radicalmicroimage',
-                        'task'   => 'generate',
-                        'title'  => $title,
-                        'file'   => $fileName,
-                        'hash'   => $hash,
-                        'format' => 'raw',
-                    ]));
+                return $this->showDefaultImage(false);
             }
+
+            $title = $build['radicalmicro.meta.og']->{'og:title'} ?? '';
+
+            if (empty($title))
+            {
+                return $this->showDefaultImage(false);
+            }
+
+            $hash = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
+
+            return UtilityHelper::prepareLink('/index.php?' . http_build_query([
+                    'option' => 'com_ajax',
+                    'plugin' => 'radicalmicroimage',
+                    'task'   => 'generate',
+                    'title'  => $title,
+                    'file'   => $fileName,
+                    'hash'   => $hash,
+                    'format' => 'raw',
+                ])
+            );
         }
 
         return '';
@@ -154,6 +153,8 @@ class plgRadicalMicroImageHelper
         // Generate image
         $backgroundType           = $this->params->get('imagetype_generate_background', 'fill');
         $backgroundImage          = $this->params->get('imagetype_generate_background_image');
+        $backgroundWidth          = (int) $this->params->get('imagetype_generate_background_width', 1200);
+        $backgroundHeight         = (int) $this->params->get('imagetype_generate_background_height', 630);
         $backgroundColor          = $this->params->get('imagetype_generate_background_color', '#000000');
         $backgroundTextBackground = $this->params->get('imagetype_generate_background_text_background', '#000000');
         $backgroundTextColor      = $this->params->get('imagetype_generate_background_text_color', '#ffffff');
@@ -165,9 +166,9 @@ class plgRadicalMicroImageHelper
         // Check background type
         if ($backgroundType == 'fill')
         {
-            $img = imagecreatetruecolor(1200, 630);
+            $img = imagecreatetruecolor($backgroundWidth, $backgroundHeight);
             $bg  = $this->hexColorAllocate($img, $backgroundColor);
-            imagefilledrectangle($img, 0, 0, 1200, 630, $bg);
+            imagefilledrectangle($img, 0, 0, $backgroundWidth, $backgroundHeight, $bg);
         }
         else
         {

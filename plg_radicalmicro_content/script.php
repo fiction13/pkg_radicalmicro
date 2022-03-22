@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 
-class PlgRadicalMicroImageInstallerScript
+class PlgRadicalMicroContentInstallerScript
 {
 	/**
 	 * Runs right after any installation action.

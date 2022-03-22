@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
-class Breadcrumbs implements InterfaceTypes
+class Breadcrumblist implements InterfaceTypes
 {
     /**
      * @var string

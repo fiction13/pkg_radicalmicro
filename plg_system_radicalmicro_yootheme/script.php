@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 
-class PlgRadicalMicroImageInstallerScript
+class PlgSystemRadicalMicro_YoothemeInstallerScript
 {
 	/**
 	 * Runs right after any installation action.
@@ -31,10 +31,22 @@ class PlgRadicalMicroImageInstallerScript
 	function postflight($type, $parent)
 	{
 		// Enable plugin
-		if ($type == 'install')
-        {
-            $this->enablePlugin($parent);
-        }
+		if ($type === 'install')
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('extension_id');
+			$query->from('#__extensions');
+			$query->where($db->qn('element') . ' = ' . $db->q('yootheme'));
+			$query->where($db->qn('type') . ' = ' . $db->q('plugin'));
+			$query->where($db->qn('folder') . ' = ' . $db->q('system'));
+			$result = $db->setQuery($query)->loadResult();
+
+			if ($result)
+			{
+				$this->enablePlugin($parent);
+			}
+		}
 
 		return true;
 	}

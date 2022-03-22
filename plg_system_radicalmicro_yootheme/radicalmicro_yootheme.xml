@@ -16,16 +16,19 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>info@fictionlabs.ru</authorEmail>
 	<authorUrl>https://fictionlabs.ru</authorUrl>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<description>PLG_SYSTEM_RADICALMICRO_YOOTHEME_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
 
+	 <!-- Plugin files -->
 	<files>
 		<filename>bootstrap.php</filename>
-		<folder>src</folder>
 		<folder>elements</folder>
+		<folder>src</folder>
 		<filename plugin="radicalmicro_yootheme">radicalmicro_yootheme.php</filename>
 	</files>
 
+	<!-- Plugin languages -->
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro_yootheme.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro_yootheme.sys.ini</language>
@@ -33,6 +36,7 @@
 		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro_yootheme.sys.ini</language>
 	</languages>
 
+	<!-- Config parameter -->
 	<config>
 		<fields name="params">
 

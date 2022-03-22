@@ -2,7 +2,9 @@
 <form>
     <fields name="params">
         <fieldset name="radicalmicro">
-            <field name="radicalmicro_menu_enable" type="radio" default="0"
+            <field name="radicalmicro_menu_enable"
+                   type="radio"
+                   default="0"
                    class="btn-group"
                    label="PLG_RADICALMICRO_MENU_PARAM_ENABLE"
                    description="PLG_RADICALMICRO_MENU_PARAM_ENABLE_DESC">

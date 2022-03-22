@@ -16,8 +16,9 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
     <description>PLG_RADICALMICRO_CONTENT_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
 
     <!-- Language files -->
     <languages folder="language">
@@ -32,6 +33,7 @@
         <filename plugin="content">content.php</filename>
         <folder>language</folder>
         <folder>fields</folder>
+        <folder>src</folder>
     </files>
 
     <!-- Config parameter -->

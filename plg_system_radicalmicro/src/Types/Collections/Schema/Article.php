@@ -37,7 +37,7 @@ class Article implements InterfaceTypes
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data = [
-            'uid'              => $this->uid . '.' . $item->id,
+            'uid'              => $this->uid,
             '@context'         => 'https://schema.org',
             '@type'            => 'Article',
             'headline'         => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
@@ -58,7 +58,7 @@ class Article implements InterfaceTypes
             ];
         }
 
-        if (isset($item->image))
+        if (isset($item->image) && !empty($item->image))
         {
             $data['image'] = [
                 '@type' => 'ImageObject',

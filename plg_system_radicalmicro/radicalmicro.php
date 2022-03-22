@@ -140,7 +140,7 @@ class plgSystemRadicalMicro extends CMSPlugin
             // Add breadcrumbs schema type
             if ($this->params->get('schema_enable_type_breadcrumblist', 0))
             {
-                $breadcrumbsData = TypesHelper::execute('schema', 'breadcrumbs', []);
+                $breadcrumbsData = TypesHelper::execute('schema', 'breadcrumblist', []);
                 SchemaHelper::getInstance()->addChild('root', $breadcrumbsData);
             }
 

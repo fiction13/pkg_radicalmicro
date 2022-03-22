@@ -37,7 +37,7 @@ class NewsArticle implements InterfaceTypes
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data = [
-            'uid'              => $this->uid . '.' . $item->id,
+            'uid'              => $this->uid,
             '@context'         => 'https://schema.org',
             '@type'            => 'NewsArticle',
             'url'              => Uri::current(),

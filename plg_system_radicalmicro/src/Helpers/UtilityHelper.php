@@ -72,6 +72,7 @@ class UtilityHelper
 
         try
         {
+            $date     = strtotime($date);
             $timeZone = new DateTimeZone(Factory::getConfig()->get('offset', 'UTC'));
 
             $date = new Date($date, $timeZone);
