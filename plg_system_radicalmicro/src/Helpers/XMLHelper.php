@@ -134,6 +134,11 @@ class XMLHelper
             return 'textarea';
         }
 
+        if (strpos($fieldName, 'date') !== false)
+        {
+            return 'calendar';
+        }
+
         return 'text';
     }
 

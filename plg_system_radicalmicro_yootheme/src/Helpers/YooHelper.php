@@ -15,6 +15,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\TypesHelper;
+use YOOtheme\Config;
+use YOOtheme\Path;
+use YOOtheme\Translator;
 
 final class YooHelper
 {
@@ -40,6 +43,20 @@ final class YooHelper
         return $instance;
     }
 
+
+    /**
+     * @param   Config      $config
+     * @param   Translator  $translator
+     *
+     *
+     * @since 1.0.0
+     */
+    public static function initCustomizer(Config $config, Translator $translator)
+    {
+        $locale = str_replace('_', '-', $config('locale.code'));
+        $translator->addResource(Path::get('../../language/' . $locale . '/' . $locale . '.plg_system_radicalmicro_yootheme.json'));
+    }
+
     /**
      * Init Yootheme Source
      *
@@ -58,10 +75,10 @@ final class YooHelper
             $collections = PathHelper::getInstance()->getTypes($radicalType);
 
             // Add extra schema types
-            if ($radicalType == 'schema')
-            {
-                $collections = array_merge($collections, PathHelper::getInstance()->getTypes('schema_extra'));
-            }
+//            if ($radicalType == 'schema')
+//            {
+//                $collections = array_merge($collections, PathHelper::getInstance()->getTypes('schema_extra'));
+//            }
 
             $config = [$radicalType];
 

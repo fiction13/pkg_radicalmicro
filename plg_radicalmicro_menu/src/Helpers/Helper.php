@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Table\Menu;
 use Joomla\Registry\Registry;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\PathHelper;
@@ -30,7 +31,14 @@ class plgRadicalMicroMenuHelper
      *
      * @since  1.0.0
      */
-    const PREFIX = 'radicalmicro_menu_';
+    const PREFIX_SCHEMA = 'radicalmicro_schema_menu_';
+
+    /**
+     * Param prefix
+     *
+     * @since  1.0.0
+     */
+    const PREFIX_META = 'radicalmicro_meta_menu_';
 
     /**
      * @var array
@@ -57,31 +65,69 @@ class plgRadicalMicroMenuHelper
      *
      * @since 1.0.0
      */
-    public function getProviderData()
+    public function getMetaObject(Registry $params)
     {
-        $menu = Factory::getApplication()->getMenu()->getActive();
-
-        // Check is article view
-        if ($menu === null)
-        {
-            return;
-        }
-
-        $menuParams = $menu->getParams();
-
         // Data object
         $object     = new stdClass();
-        $object->id = $menu->id;
 
         // Config field for meta type
         $configFields = $this->getMetaFields();
 
         foreach ($configFields as $key => $field)
         {
-            $object->{$key} = $menuParams->get(self::PREFIX . $field['name'], $menuParams->get($field['name']));
+            $object->{$key} = $params->get(self::PREFIX_META . $field['name'], $params->get($field['name']));
         }
 
         return $object;
+    }
+
+    /**
+     * Method get provider data
+     *
+     * @since 1.0.0
+     */
+    public function getSchemaObject(Registry $params)
+    {
+        // Data object
+        $object     = new stdClass();
+
+        // Config field for current schema type
+        $configFields = array_keys(TypesHelper::getConfig('schema', $params->get(self::PREFIX_SCHEMA . 'type'), false));
+
+        foreach ($configFields as $configField)
+        {
+            $object->{$configField} = $params->get(self::PREFIX_SCHEMA . $configField);
+        }
+
+        return $object;
+    }
+
+    /**
+     * Set schema.org fields to Form
+     *
+     * @param   Form  $form
+     *
+     * @since 1.0.0
+     */
+    public function setSchemaFields(Form $form, $data)
+    {
+        $params = new Registry($data->params);
+
+        if ($type = $params->get(self::PREFIX_SCHEMA . 'type'))
+        {
+            $configFields = array_keys(TypesHelper::getConfig('schema', $type, false));
+
+            if ($configFields)
+            {
+                foreach ($configFields as $configField)
+                {
+                    $element = XMLHelper::createField(self::PREFIX_SCHEMA . $configField, self::PREFIX_SCHEMA . 'enable', '');
+                    $form->setField($element, null, false, 'radicalmicro_schema');
+                }
+            }
+        }
+
+        return;
     }
 
     /**
@@ -100,8 +146,8 @@ class plgRadicalMicroMenuHelper
         {
             foreach ($addFields as $key => $field)
             {
-                $element = XMLHelper::createField($field['name'], 'radicalmicro_menu_enable', null, $field['default'], null, $field['type']);
-                $form->setField($element, null, false, 'radicalmicro');
+                $element = XMLHelper::createField($field['name'], self::PREFIX_META . 'enable', null, $field['default'], null, $field['type']);
+                $form->setField($element, null, false, 'radicalmicro_meta');
             }
         }
 
@@ -136,7 +182,7 @@ class plgRadicalMicroMenuHelper
                     if (!isset($addFields[$field]))
                     {
                         $addFields[$field] = [
-                            'name'    => self::PREFIX . $field,
+                            'name'    => self::PREFIX_META . $field,
                             'default' => $collectionConfig[$field],
                         ];
                     }

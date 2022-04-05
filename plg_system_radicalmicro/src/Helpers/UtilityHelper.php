@@ -93,13 +93,18 @@ class UtilityHelper
      *
      * @since 1.0.0
      */
-    public static function prepareUser(int $userId)
+    public static function prepareUser($user)
     {
-        $user = Factory::getUser($userId);
-
-        if ($user)
+        if (is_string($user))
         {
-            return $user->name;
+            return $user;
+        }
+
+        $userObject = Factory::getUser($user);
+
+        if ($userObject)
+        {
+            return $userObject->name;
         }
 
         return Text::_('PLG_SYSTEM_RADICALMICRO_NO_USER');
@@ -207,7 +212,7 @@ class UtilityHelper
      *
      * @since 1.0.0
      */
-    public static function checkSchema(Registry $params, $name = '', $body)
+    public static function checkSchema(Registry $params, string $name, $body)
     {
         // If empty name
         if (!$name)
@@ -276,13 +281,14 @@ class UtilityHelper
     /**
      * @param   Registry  $params
      * @param   string    $name  - for example 'og:image'
+     * @param   string    $attribute
      * @param   string    $body
      *
      * @return boolean
      *
      * @since 1.0.0
      */
-    public static function checkMeta(Registry $params, $name = '', $body)
+    public static function checkMeta(Registry $params, string $name, string $attribute, $body)
     {
         // If empty name
         if (!$name)
@@ -305,9 +311,9 @@ class UtilityHelper
         }
 
         // We need check meta tags in the body
-        if (strpos($body, 'property') !== false)
+        if (strpos($body, $attribute) !== false)
         {
-            $regex = '/<meta.*property="' . $name . '".*content="(.*)".*\/>/';
+            $regex = '/<meta.*' . $attribute . '="' . $name . '".*content="(.*)".*\/>/';
 
             if (preg_match($regex, $body))
             {
@@ -317,5 +323,56 @@ class UtilityHelper
 
         return true;
     }
+
+
+    /**
+     * @param $text
+     *
+     * @return mixed|string|void
+     *
+     * @since 1.0.0
+     */
+    public static function getFirstImage($text)
+	{
+		if (empty($text))
+		{
+			return;
+		}
+
+		preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $text, $img);
+
+        if (!empty($img) && isset($img['src']))
+        {
+            return $img['src'];
+        }
+
+		return '';
+	}
+
+    /**
+     * @param $text
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public static function getArrayFromText($text)
+	{
+        if (empty($text))
+        {
+            return [];
+        }
+
+		if (is_string($text))
+        {
+            $result = preg_split('/\r\n|\r|\n/', $text);
+            $result = array_values(array_filter($result));
+            $result = array_map('strip_tags', $result);
+
+            return $result;
+        }
+
+        return $text;
+	}
 
 }

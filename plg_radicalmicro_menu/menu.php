@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
+use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\UtilityHelper;
 
@@ -62,7 +63,7 @@ class plgRadicalMicroMenu extends CMSPlugin
     /**
      * Adds forms for override
      *
-     * @param   JForm  $form  The form to be altered.
+     * @param   Form  $form  The form to be altered.
      * @param   mixed  $data  The associated data for the form.
      *
      * @return  boolean
@@ -81,7 +82,10 @@ class plgRadicalMicroMenu extends CMSPlugin
             Form::addFormPath(__DIR__ . '/forms');
             $form->loadFile('menu', true);
 
-            // Set fields
+            // Set schema.org fields
+            $this->helper->setSchemaFields($form, $data);
+
+            // Set meta fields
             $this->helper->setMetaFields($form);
         }
 
@@ -97,20 +101,47 @@ class plgRadicalMicroMenu extends CMSPlugin
      */
     public function onRadicalMicroProvider($params)
     {
-        $object = $this->helper->getProviderData();
+        $menu = $this->app->getMenu()->getActive();
 
-        if (!$object)
+        // Check is article view
+        if ($menu === null)
         {
             return;
         }
 
-        // Get and set opengraph data
-        $collections = PathHelper::getInstance()->getTypes('meta');
+        $menuParams = $menu->getParams();
 
-        foreach ($collections as $collection)
+        // Get and set schema.org data
+        if ($menuParams->get('radicalmicro_schema_menu_enable', 0))
         {
-            $ogData = TypesHelper::execute('meta', $collection, $object, 0.9);
-            OGHelper::getInstance()->addChild('root', $ogData);
+            // Get schema type
+            $type = $menuParams->get('radicalmicro_schema_menu_type', 'article');
+
+            // Get and set schema data
+            $schemaObject = $this->helper->getSchemaObject($menuParams);
+
+            if ($schemaObject && $type)
+            {
+                $schemaData   = TypesHelper::execute('schema', $type, $schemaObject, 0.9);
+                SchemaHelper::getInstance()->addChild('root', $schemaData);
+            }
+        }
+
+        // Get and set opengraph data
+        if ($menuParams->get('radicalmicro_meta_menu_enable', 0))
+        {
+            $metaObject  = $this->helper->getMetaObject($menuParams);
+
+            if ($metaObject)
+            {
+                $collections = PathHelper::getInstance()->getTypes('meta');
+
+                foreach ($collections as $collection)
+                {
+                    $ogData = TypesHelper::execute('meta', $collection, $metaObject, 0.9);
+                    OGHelper::getInstance()->addChild('root', $ogData);
+                }
+            }
         }
     }
 }

@@ -16,6 +16,14 @@ use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
+/**
+ * @package     RadicalMicro\Types\Collections\Schema\Extra
+ *
+ * @source      https://developers.google.com/search/docs/advanced/structured-data/logo
+ *
+ * @since       1.0.0
+ */
+
 class Organization implements InterfaceTypes
 {
     /**

@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -76,6 +77,18 @@ class plgRadicalMicroContent extends CMSPlugin
     }
 
     /**
+     * OnRadicalmicroRegisterTypes for init your types for each collection
+     *
+     * @since 1.0.0
+     */
+    public function onRadicalMicroLoadLanguages()
+    {
+        // For translate dynamic fields label you can load your language to main plugin
+        //
+        // Factory::getLanguage()->load('plg_radicalmicro_PLUGIN_NAME', JPATH_PLUGINS . '/radicalmicro/PLUGIN_NAME', null, true);
+    }
+
+    /**
      * Adds forms for override
      *
      * @param   Form   $form  The form to be altered.
@@ -95,7 +108,7 @@ class plgRadicalMicroContent extends CMSPlugin
             if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
             {
                 // Set Schema.org params fields
-                $this->helper->setShemaFields($form);
+                $this->helper->setSchemaFields($form);
 
                 // Set Meta params fields
                 $this->helper->setMetaFields($form);

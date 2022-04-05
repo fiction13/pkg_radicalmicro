@@ -15,7 +15,7 @@
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
     <description>PKG_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
@@ -31,6 +31,7 @@
         <folder type="plugin" group="system" id="radicalmicro_yootheme">plg_system_radicalmicro_yootheme</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_content">plg_radicalmicro_content</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_menu">plg_radicalmicro_menu</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro_default">plg_radicalmicro_default</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_image">plg_radicalmicro_image</folder>
     </files>
 </extension>

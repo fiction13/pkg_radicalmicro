@@ -58,15 +58,24 @@ class MainHelper
         $meta = [];
 
         // Get data from tree
-        $metaData = OGHelper::getInstance()->getBuild('root');
+        $metaData  = OGHelper::getInstance()->getBuild('root');
 
-        foreach ($metaData as $og)
+        foreach ($metaData as $key => $og)
         {
+            if ($key === 'radicalmicro.meta.og ')
+            {
+                $attribute = 'property';
+            }
+            else
+            {
+                $attribute = 'name';
+            }
+
             foreach ($og as $property => $content)
             {
-                if (!empty($content) && UtilityHelper::checkMeta($params, $property, $body))
+                if (!empty($content) && UtilityHelper::checkMeta($params, $property, $attribute, $body))
                 {
-                    $meta[] = '<meta property="' . $property . '" content="' . $content . '" />';
+                    $meta[] = '<meta ' . $attribute . '="' . $property . '" content="' . $content . '" />';
                 }
             }
         }

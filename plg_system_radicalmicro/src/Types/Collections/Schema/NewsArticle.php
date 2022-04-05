@@ -16,13 +16,20 @@ use Joomla\CMS\Uri\Uri;
 use RadicalMicro\Helpers\UtilityHelper;
 use RadicalMicro\Types\InterfaceTypes;
 
+/**
+ * @package     RadicalMicro\Types\Collections\Schema
+ *
+ * @source      https://developers.google.com/search/docs/advanced/structured-data/article
+ *
+ * @since       1.0.0
+ */
 class NewsArticle implements InterfaceTypes
 {
     /**
      * @var string
      * @since 1.0.0
      */
-    private $uid = 'radicalmicro.schema.newsarticle';
+    private $uid = 'radicalmicro.schema.page';
 
     /**
      * @param $item
@@ -48,7 +55,8 @@ class NewsArticle implements InterfaceTypes
             'dateModified'     => $item->dateModified ? UtilityHelper::prepareDate($item->dateModified) : '',
         ];
 
-        if ($item->author)
+        // Author
+        if ($item->author && !empty($item->author))
         {
             $data['publisher'] = [
                 '@type' => 'Person',
@@ -56,7 +64,8 @@ class NewsArticle implements InterfaceTypes
             ];
         }
 
-        if (isset($data->image))
+        // Image
+        if (isset($item->image) && !empty($item->image))
         {
             $data['image'] = [
                 '@type' => 'ImageObject',

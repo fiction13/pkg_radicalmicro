@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-    <fields name="params">
-        <fieldset name="radicalmicro">
-            <field name="radicalmicro_menu_enable"
+    <fields name="params" addfieldpath="/plugins/system/radicalmicro/fields">
+        <fieldset name="radicalmicro_schema">
+            <field name="radicalmicro_schema_menu_enable"
+                   type="radio"
+                   default="0"
+                   class="btn-group"
+                   label="PLG_RADICALMICRO_MENU_PARAM_ENABLE"
+                   description="PLG_RADICALMICRO_MENU_PARAM_ENABLE_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field type="note"
+                   name="radicalmicro_schema_menu_note"
+                   class="alert alert-info"
+                   label="PLG_RADICALMICRO_MENU_PARAM_SCHEMA_SPACER"
+                   description="PLG_RADICALMICRO_MENU_PARAM_SCHEMA_SPACER_DESC"
+                   showon="radicalmicro_schema_menu_enable:1"
+            />
+
+            <field type="schematypes"
+                   name="radicalmicro_schema_menu_type"
+                   default="article"
+                   label="PLG_RADICALMICRO_MENU_PARAM_SCHEMA_TYPE"
+                   showon="radicalmicro_schema_menu_enable:1">
+            </field>
+        </fieldset>
+        <fieldset name="radicalmicro_meta">
+            <field name="radicalmicro_meta_menu_enable"
                    type="radio"
                    default="0"
                    class="btn-group"

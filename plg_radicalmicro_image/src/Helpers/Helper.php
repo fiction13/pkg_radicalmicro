@@ -67,53 +67,42 @@ class plgRadicalMicroImageHelper
      */
     public function getImage()
     {
-        $imagetype = $this->params->get('imagetype', 'image');
+        $fileName = $this->getCacheFile();
+        $file     = $this->getCachePath() . '/' . $fileName . '.jpg';
 
-        if ($imagetype === 'image')
+
+        if (file_exists(JPATH_ROOT . '/' . $file))
         {
-            return $this->params->get('image') ?? $this->showDefaultImage(false);
+            return UtilityHelper::prepareLink($file);
         }
 
-        if ($imagetype === 'generate')
+        // Get title from OG build
+        $build = OgHelper::getInstance()->getBuild('root');
+
+        if (!isset($build['radicalmicro.meta.og']))
         {
-            $fileName = $this->getCacheFile();
-            $file     = $this->getCachePath() . '/' . $fileName . '.jpg';
-
-            if (file_exists(JPATH_ROOT . '/' . $file))
-            {
-                return UtilityHelper::prepareLink($file);
-            }
-
-            // Get title from OG build
-            $build = OgHelper::getInstance()->getBuild('root');
-
-            if (!isset($build['radicalmicro.meta.og']))
-            {
-                return $this->showDefaultImage(false);
-            }
-
-            $title = $build['radicalmicro.meta.og']->{'og:title'} ?? '';
-
-            if (empty($title))
-            {
-                return $this->showDefaultImage(false);
-            }
-
-            $hash = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
-
-            return UtilityHelper::prepareLink('/index.php?' . http_build_query([
-                    'option' => 'com_ajax',
-                    'plugin' => 'radicalmicroimage',
-                    'task'   => 'generate',
-                    'title'  => $title,
-                    'file'   => $fileName,
-                    'hash'   => $hash,
-                    'format' => 'raw',
-                ])
-            );
+            return $this->showDefaultImage(false);
         }
 
-        return '';
+        $title = $build['radicalmicro.meta.og']->{'og:title'} ?? '';
+
+        if (empty($title))
+        {
+            return $this->showDefaultImage(false);
+        }
+
+        $hash = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
+
+        return UtilityHelper::prepareLink('/index.php?' . http_build_query([
+                'option' => 'com_ajax',
+                'plugin' => 'radicalmicroimage',
+                'task'   => 'generate',
+                'title'  => $title,
+                'file'   => $fileName,
+                'hash'   => $hash,
+                'format' => 'raw',
+            ])
+        );
     }
 
     /**

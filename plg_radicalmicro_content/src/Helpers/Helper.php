@@ -32,7 +32,7 @@ class plgRadicalMicroContentHelper
      *
      * @since  1.0.0
      */
-    const PREFIX_SHEMA = 'schema_';
+    const PREFIX_SCHEMA = 'schema_';
 
     /**
      * Param prefix
@@ -75,6 +75,8 @@ class plgRadicalMicroContentHelper
     /**
      * Method get provider data
      *
+     * @return void|object
+     *
      * @since 1.0.0
      */
     public function getSchemaObject()
@@ -97,7 +99,7 @@ class plgRadicalMicroContentHelper
 
         foreach ($configFields as $configField)
         {
-            $object->{$configField} = $this->getData($this->params->get(self::PREFIX_SHEMA . $configField), $item);
+            $object->{$configField} = $this->getData($this->params->get(self::PREFIX_SCHEMA . $configField), $item);
         }
 
         // Check if YooTheme Pro is loaded
@@ -111,6 +113,8 @@ class plgRadicalMicroContentHelper
 
     /**
      * Method get provider data
+     *
+     * @return void|object
      *
      * @since 1.0.0
      */
@@ -214,7 +218,7 @@ class plgRadicalMicroContentHelper
         }
         else
         {
-            return $item->{$value};
+            return $item->{$value} ?? '';
         }
     }
 
@@ -275,7 +279,7 @@ class plgRadicalMicroContentHelper
      *
      * @since 1.0.0
      */
-    public function setShemaFields(Form $form)
+    public function setSchemaFields(Form $form)
     {
         if ($type = $this->params->get('type'))
         {
@@ -285,7 +289,7 @@ class plgRadicalMicroContentHelper
             {
                 foreach ($configFields as $configField)
                 {
-                    $element = XMLHelper::createField(self::PREFIX_SHEMA . $configField, '', 'fields', $configField);
+                    $element = XMLHelper::createField(self::PREFIX_SCHEMA . $configField, '', 'fields', $configField);
                     $form->setField($element, null, false, 'schema');
                 }
             }

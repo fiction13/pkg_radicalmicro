@@ -21,6 +21,9 @@ return [
 			YooHelper::class => ['initSource', 50],
 		],
 
+        'customizer.init' => [
+            YooHelper::class => ['initCustomizer', -10],
+        ]
 	],
 
 	// Add builder elements

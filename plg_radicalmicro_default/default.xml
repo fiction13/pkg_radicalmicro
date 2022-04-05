@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   pkg_radicalmicro
+  ~ @version   1.0.0
+  ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
+  ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
+  ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+  ~ @link      https://fictionlabs.ru/
+  -->
+
+<extension type="plugin" version="3.9" group="radicalmicro" method="upgrade">
+    <name>PLG_RADICALMICRO_DEFAULT</name>
+    <creationDate>February 2022</creationDate>
+    <author>Dmitriy Vasyukov</author>
+    <copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>info@fictionlabs.ru</authorEmail>
+    <authorUrl>https://fictionlabs.ru</authorUrl>
+    <version>0.0.9</version>
+    <description>PLG_RADICALMICRO_DEFAULT_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
+
+    <!-- Language files -->
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_radicalmicro_default.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_radicalmicro_default.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_default.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_radicalmicro_default.sys.ini</language>
+    </languages>
+
+    <!-- Plugin files -->
+    <files>
+        <filename plugin="default">default.php</filename>
+        <folder>language</folder>
+    </files>
+
+    <!-- Config parameter -->
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="title"
+                        type="text"
+                        label="PLG_RADICALMICRO_DEFAULT_PARAM_TITLE"
+                        size="1"
+                        disabled="true"
+                        default="Title"
+                />
+
+                <field
+                        name="description"
+                        type="list"
+                        label="PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION"
+                        size="1"
+                        default="description">
+                    <option value="none">PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION_NONE</option>
+                    <option value="description">PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION_PAGE</option>
+                </field>
+
+                <field
+                        name="image_choice"
+                        type="list"
+                        label="PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE"
+                        size="1"
+                        default="static">
+                    <option value="none">PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE_NONE</option>
+                    <option value="static">PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE_STATIC</option>
+                    <option value="body">PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE_BODY</option>
+                </field>
+
+                <field
+                        name="image"
+                        type="media"
+                        default=""
+                        label="PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE"
+                        showon="image_choice:static"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

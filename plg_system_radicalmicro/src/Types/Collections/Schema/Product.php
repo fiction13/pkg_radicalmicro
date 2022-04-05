@@ -19,11 +19,11 @@ use RadicalMicro\Types\InterfaceTypes;
 /**
  * @package     RadicalMicro\Types\Collections\Schema
  *
- * @source      https://developers.google.com/search/docs/advanced/structured-data/article
+ * @source      https://developers.google.com/search/docs/advanced/structured-data/product
  *
  * @since       1.0.0
  */
-class Article implements InterfaceTypes
+class Product implements InterfaceTypes
 {
     /**
      * @var string
@@ -44,25 +44,31 @@ class Article implements InterfaceTypes
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data = [
-            'uid'              => $this->uid,
-            '@context'         => 'https://schema.org',
-            '@type'            => 'Article',
-            'headline'         => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
-            'description'      => $item->description ? UtilityHelper::prepareText($item->description, 5000) : '',
-            'mainEntityOfPage' => [
-                '@type' => 'WebPage',
-                'id'    => Uri::current()
-            ],
-            'datePublished'    => $item->datePublished ? UtilityHelper::prepareDate($item->datePublished) : '',
-            'dateModified'     => $item->dateModified ? UtilityHelper::prepareDate($item->dateModified) : '',
+            'uid'         => $this->uid,
+            '@context'    => 'https://schema.org',
+            '@type'       => 'Recipe',
+            'name'        => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
+            'description' => $item->description ? UtilityHelper::prepareText($item->description, 5000) : '',
         ];
 
-        // Author
-        if ($item->author && !empty($item->author))
+        // Sku
+        if (isset($item->sku))
         {
-            $data['publisher'] = [
-                '@type' => 'Person',
-                'name'  => UtilityHelper::prepareUser($item->author)
+            $data['sku'] = $item->sku;
+        }
+
+        // MPN
+        if (isset($item->mpn))
+        {
+            $data['sku'] = $item->sku;
+        }
+
+        // Brand
+        if (isset($item->brand) && !empty($item->brand))
+        {
+            $data['brand'] = [
+                '@type' => 'Brand',
+                'name'  => $item->brand
             ];
         }
 
@@ -72,6 +78,17 @@ class Article implements InterfaceTypes
             $data['image'] = [
                 '@type' => 'ImageObject',
                 'url'   => UtilityHelper::prepareLink($item->image)
+            ];
+        }
+
+        // Offer
+        if (isset($item->price) && !empty($item->price) && isset($item->currency) && !empty($item->currency))
+        {
+            $data['offers'] = [
+                '@type'         => 'Offer',
+                'url'           => Uri::current(),
+                'priceCurrency' => $item->currency,
+                'price'         => (float) $item->price
             ];
         }
 
@@ -90,12 +107,14 @@ class Article implements InterfaceTypes
     public function getConfig($addUid = true)
     {
         $config = [
-            'title'         => '',
-            'datePublished' => '',
-            'description'   => '',
-            'dateModified'  => '',
-            'author'        => '',
-            'image'         => ''
+            'title'       => '',
+            'description' => '',
+            'image'       => '',
+            'sku'         => '',
+            'mpn'         => '',
+            'brand'       => '',
+            'currency'    => '',
+            'price'       => '',
         ];
 
         if ($addUid)

@@ -1,0 +1,18 @@
+{
+    "DatePublished": "Дата публикации",
+    "DateModified": "Дата изменения",
+    "PrepTime": "Время подготовки, мин.",
+    "CookTime": "Время приготовление, мин.",
+    "TotalTime": "Общее время, мин.",
+    "Calories": "Количество калорий",
+    "RecipeCategory": "Вид блюда",
+    "RecipeYield": "Количество порций",
+    "RecipeCuisine": "Вид кухни мира",
+    "RecipeInstructions": "Инструкция",
+    "RecipeIngredient": "Ингредиенты",
+    "Sku": "Артикул",
+    "Mpn": "Код производителя",
+    "Brand": "Производитель",
+    "Currency": "Цена",
+    "Price": "Валюта"
+}
