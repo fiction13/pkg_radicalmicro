@@ -14,24 +14,25 @@ use YOOtheme\Path;
 
 return [
 
-	// Add events
-	'events' => [
+    // Add events
+    'events' => [
 
-		'builder.type' => [
-			YooHelper::class => ['initSource', 50],
-		],
+        'builder.type' => [
+            YooHelper::class => ['initSource', 50],
+        ],
 
         'customizer.init' => [
             YooHelper::class => ['initCustomizer', -10],
         ]
-	],
+    ],
 
-	// Add builder elements
-	'extend' => [
+    // Add builder elements
+    'extend' => [
 
-		Builder::class => function (Builder $builder) {
-			$builder->addTypePath(Path::get('./elements/*/element.json'));
-		}
+        Builder::class => function (Builder $builder)
+        {
+            $builder->addTypePath(Path::get('./elements/*/element.json'));
+        }
 
-	]
+    ]
 ];

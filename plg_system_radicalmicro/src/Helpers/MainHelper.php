@@ -37,7 +37,7 @@ class MainHelper
         {
             if (UtilityHelper::checkSchema($params, $key, $body))
             {
-                $jsonLd[] = '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . '</script>';
+                $jsonLd[] = "\n<script type=\"application/ld+json\">" . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "</script>";
             }
         }
 
@@ -62,7 +62,7 @@ class MainHelper
 
         foreach ($metaData as $key => $og)
         {
-            if ($key === 'radicalmicro.meta.og ')
+            if ($key === 'radicalmicro.meta.og')
             {
                 $attribute = 'property';
             }

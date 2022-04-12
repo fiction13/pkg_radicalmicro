@@ -37,12 +37,19 @@ class UtilityHelper
         $text = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $text);
 
         // Strip HTML tags/comments and minify
-        $text = strip_tags($text);
+        $text = str_replace(array("\r\n", "\n", "\r"),' ', trim(strip_tags($text)));
 
         // Truncate text
         if ($limit > 0)
         {
-            $text = StringHelper::substr($text, 0, $limit);
+            if (strlen($text) > $limit)
+            {
+                $text = StringHelper::substr($text, 0, $limit) . '...';
+            }
+            else
+            {
+                $text = StringHelper::substr($text, 0, $limit);
+            }
         }
 
         return $text;

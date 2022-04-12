@@ -40,7 +40,7 @@ class Twitter implements InterfaceTypes
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data['uid']                 = $this->uid;
-        $data['twitter:card']        = 'summary';
+        $data['twitter:card']        = 'summary_large_image';
         $data['twitter:title']       = $item->title ? UtilityHelper::prepareText($item->title, 60) : '';
         $data['twitter:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
         $data['twitter:site']        = $item->site ?? Uri::root();
