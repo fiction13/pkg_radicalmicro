@@ -334,7 +334,7 @@ class plgRadicalMicroContentHelper
      */
     public function getFields($item = null)
     {
-        if (!$this->fields)
+        if (!$this->fields && class_exists('FieldsHelper'))
         {
             $this->fields = FieldsHelper::getFields('com_content.article', $item);
         }
