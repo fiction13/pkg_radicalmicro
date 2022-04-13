@@ -88,7 +88,7 @@
                         type="text"
                         default="1200"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_WIDTH"
-                        showon="imagetype:generate[AND]imagetype_generate_background:fill"
+                        showon="imagetype_generate_background:fill"
                 />
 
                 <field
@@ -96,7 +96,7 @@
                         type="text"
                         default="630"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_HEIGHT"
-                        showon="imagetype:generate[AND]imagetype_generate_background:fill"
+                        showon="imagetype_generate_background:fill"
                 />
 
                 <field
@@ -105,7 +105,7 @@
                         default="#000"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_COLOR"
                         description=""
-                        showon="imagetype:generate[AND]imagetype_generate_background:fill"
+                        showon="imagetype_generate_background:fill"
                 />
 
                 <field
@@ -114,7 +114,7 @@
                         default=""
                         label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_IMAGE"
                         description=""
-                        showon="imagetype:generate[AND]imagetype_generate_background:static"
+                        showon="imagetype_generate_background:static"
                 />
 
                 <field
