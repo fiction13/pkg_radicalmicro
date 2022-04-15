@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\XMLHelper;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 
 /**
@@ -334,8 +334,14 @@ class plgRadicalMicroContentHelper
      */
     public function getFields($item = null)
     {
-        if (!$this->fields && class_exists('FieldsHelper'))
+        if ((new Version())->isCompatible('4.0'))
         {
+            $this->fields = \Joomla\Component\Fields\Administrator\Helper\FieldsHelper::getFields('com_content.article', $item);
+        }
+        else
+        {
+            JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
             $this->fields = FieldsHelper::getFields('com_content.article', $item);
         }
 

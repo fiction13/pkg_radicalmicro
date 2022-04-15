@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\Version;
 
 FormHelper::loadFieldClass('groupedList');
 
@@ -157,9 +157,18 @@ class JFormFieldFields extends JFormFieldGroupedList
      */
     public function getFields($item = null)
     {
-        if (!$this->fields && class_exists('FieldsHelper'))
+        if (!$this->fields)
         {
-            $this->fields = FieldsHelper::getFields('com_content.article', $item);
+            if ((new Version())->isCompatible('4.0'))
+            {
+                $this->fields = \Joomla\Component\Fields\Administrator\Helper\FieldsHelper::getFields('com_content.article', $item);
+            }
+            else
+            {
+                JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
+                $this->fields = FieldsHelper::getFields('com_content.article', $item);
+            }
         }
 
         return $this->fields;

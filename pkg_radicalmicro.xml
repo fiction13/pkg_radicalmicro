@@ -15,7 +15,7 @@
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.0.10</version>
+    <version>0.1.0</version>
     <description>PKG_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 

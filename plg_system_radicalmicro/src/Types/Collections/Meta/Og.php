@@ -38,7 +38,7 @@ class Og implements InterfaceTypes
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data['uid']            = $this->uid;
-        $data['og:title']       = $item->title ? UtilityHelper::prepareText($item->title, 60) : '';
+        $data['og:title']       = $item->title;
         $data['og:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
         $data['og:type']        = $item->type ?? 'website';
         $data['og:url']         = Uri::current();

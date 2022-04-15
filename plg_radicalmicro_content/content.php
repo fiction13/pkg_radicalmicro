@@ -101,18 +101,20 @@ class plgRadicalMicroContent extends CMSPlugin
     public function onContentPrepareForm(Form $form, $data)
     {
         // Check current plugin form edit
-        if ($this->app->isClient('administrator') && $form->getName() == 'com_plugins.plugin')
+        if (!$this->app->isClient('administrator') && $form->getName() !== 'com_plugins.plugin')
         {
-            $plugin = PluginHelper::getPlugin('radicalmicro', 'content');
+            return true;
+        }
 
-            if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
-            {
-                // Set Schema.org params fields
-                $this->helper->setSchemaFields($form);
+        $plugin = PluginHelper::getPlugin('radicalmicro', 'content');
 
-                // Set Meta params fields
-                $this->helper->setMetaFields($form);
-            }
+        if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+        {
+            // Set Schema.org params fields
+            $this->helper->setSchemaFields($form);
+
+            // Set Meta params fields
+            $this->helper->setMetaFields($form);
         }
 
         return true;

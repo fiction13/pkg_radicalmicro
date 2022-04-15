@@ -94,7 +94,7 @@ class UtilityHelper
     }
 
     /**
-     * @param   int  $userId
+     * @param  int|string  $user
      *
      * @return string
      *
@@ -102,7 +102,7 @@ class UtilityHelper
      */
     public static function prepareUser($user)
     {
-        if (is_string($user))
+        if (!is_numeric($user))
         {
             return $user;
         }

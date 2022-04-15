@@ -16,7 +16,7 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
-    <version>0.0.10</version>
+    <version>0.1.0</version>
     <description>PLG_RADICALMICRO_IMAGE_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
@@ -46,20 +46,31 @@
         <fields name="params">
             <fieldset name="basic">
                 <field
+                        name="imagetype_generate_position"
+                        type="list"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_POSITION"
+                        size="1"
+                        default="middle">
+                    <option value="top">PLG_RADICALMICRO_IMAGE_PARAM_POSITION_TOP</option>
+                    <option value="center">PLG_RADICALMICRO_IMAGE_PARAM_POSITION_MIDDLE</option>
+                    <option value="bottom">PLG_RADICALMICRO_IMAGE_PARAM_POSITION_BOTTOM</option>
+                </field>
+
+                <field
                         name="imagetype_generate_cache"
                         type="radio"
                         class="btn-group"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_CACHE"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_CACHE"
                         size="1"
                         default="images">
-                    <option value="images">PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_CACHE_IMAGES</option>
-                    <option value="cache">PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_CACHE_CACHE</option>
+                    <option value="images">PLG_RADICALMICRO_IMAGE_PARAM_CACHE_IMAGES</option>
+                    <option value="cache">PLG_RADICALMICRO_IMAGE_PARAM_CACHE_CACHE</option>
                 </field>
 
                 <field name="imagetype_generate_cache_subfolder" type="radio" default="0"
                        class="btn-group"
-                       label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_CACHE_SUBFOLDER"
-                       description="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_CACHE_SUBFOLDER_DESC">
+                       label="PLG_RADICALMICRO_IMAGE_PARAM_CACHE_SUBFOLDER"
+                       description="PLG_RADICALMICRO_IMAGE_PARAM_CACHE_SUBFOLDER_DESC">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
@@ -68,26 +79,26 @@
                         name="imagetype_generate_image_for_error"
                         type="media"
                         default=""
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_IMAGE_FOR_ERROR"
-                        description="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_IMAGE_FOR_ERROR_DESC"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGE_FOR_ERROR"
+                        description="PLG_RADICALMICRO_IMAGE_PARAM_IMAGE_FOR_ERROR_DESC"
                 />
 
                 <field
                         name="imagetype_generate_background"
                         type="radio"
                         class="btn-group"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND"
                         size="1"
                         default="fill">
-                    <option value="fill">PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_FILL</option>
-                    <option value="static">PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_STATIC</option>
+                    <option value="fill">PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_FILL</option>
+                    <option value="static">PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_STATIC</option>
                 </field>
 
                 <field
                         name="imagetype_generate_background_width"
                         type="text"
                         default="1200"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_WIDTH"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_WIDTH"
                         showon="imagetype_generate_background:fill"
                 />
 
@@ -95,7 +106,7 @@
                         name="imagetype_generate_background_height"
                         type="text"
                         default="630"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_HEIGHT"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_HEIGHT"
                         showon="imagetype_generate_background:fill"
                 />
 
@@ -103,7 +114,7 @@
                         name="imagetype_generate_background_color"
                         type="color"
                         default="#000"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_COLOR"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_COLOR"
                         description=""
                         showon="imagetype_generate_background:fill"
                 />
@@ -112,7 +123,7 @@
                         name="imagetype_generate_background_image"
                         type="media"
                         default=""
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_IMAGE"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_IMAGE"
                         description=""
                         showon="imagetype_generate_background:static"
                 />
@@ -120,8 +131,9 @@
                 <field
                         name="imagetype_generate_background_text_background"
                         type="color"
-                        default="#000"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_BACKGROUND"
+                        default=""
+                        keywords="transparent"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_BACKGROUND"
                         description=""
                 />
 
@@ -129,7 +141,7 @@
                         name="imagetype_generate_background_text_color"
                         type="color"
                         default="#fff"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_COLOR"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_COLOR"
                         description=""
                 />
 
@@ -137,31 +149,31 @@
                         name="imagetype_generate_background_text_font"
                         type="text"
                         default=""
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_FONT"
-                        description="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_FONT_DESС"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_FONT"
+                        description="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_FONT_DESC"
                 />
 
                 <field
                         name="imagetype_generate_background_text_fontsize"
-                        type="text"
-                        default="20"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_FONT_SIZE"
+                        type="integer"
+                        first="10" last="50" step="1" default="20"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_FONT_SIZE"
                         description=""
                 />
 
                 <field
                         name="imagetype_generate_background_text_margin"
-                        type="text"
-                        default="10"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_MARGIN"
+                        type="integer"
+                        first="0" last="100" step="5" default="10"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_MARGIN"
                         description=""
                 />
 
                 <field
                         name="imagetype_generate_background_text_padding"
-                        type="text"
-                        default="10"
-                        label="PLG_RADICALMICRO_IMAGE_PARAM_IMAGETYPE_GENERATE_BACKGROUND_TEXT_PADDING"
+                        type="integer"
+                        first="0" last="100" step="5" default="10"
+                        label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_PADDING"
                         description=""
                 />
 

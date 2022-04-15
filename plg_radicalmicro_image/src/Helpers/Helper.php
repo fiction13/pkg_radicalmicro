@@ -140,6 +140,7 @@ class plgRadicalMicroImageHelper
         }
 
         // Generate image
+        $titlePosition            = $this->params->get('imagetype_generate_position', 'middle');
         $backgroundType           = $this->params->get('imagetype_generate_background', 'fill');
         $backgroundImage          = $this->params->get('imagetype_generate_background_image');
         $backgroundWidth          = (int) $this->params->get('imagetype_generate_background_width', 1200);
@@ -182,9 +183,11 @@ class plgRadicalMicroImageHelper
         $width  = imagesx($img);
         $height = imagesy($img);
 
-        $maxWidth          = imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2);
-        $fontSizeWidthChar = $backgroundTextFontSize / 2;
+        $maxWidth = imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2);
+//        jbdump($maxWidth, 0, 'Общая длина текста');
+        $fontSizeWidthChar = $backgroundTextFontSize / 1.6;
         $countForWrap      = (int) ((imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2)) / $fontSizeWidthChar);
+
 
         // Set title
         $txt         = $title;
@@ -192,26 +195,32 @@ class plgRadicalMicroImageHelper
         $text_width  = 0;
         $text_height = 0;
 
+//        jbdump($text, 0, 'Текст');
+
         foreach ($text as $line)
         {
             $dimensions         = imagettfbbox($backgroundTextFontSize, 0, $font, $line);
             $text_width_current = max([$dimensions[2], $dimensions[4]]) - min([$dimensions[0], $dimensions[6]]);
-            $text_height        = $dimensions[3] - $dimensions[5];
+            $text_height        += $dimensions[3] - $dimensions[5];
 
             if ($text_width < $text_width_current)
             {
                 $text_width = $text_width_current;
             }
         }
+//        jbdump($dimensions, 0, 'Координаты');
+//        jbdump($text_width, 1, 'Ширина текста');
 
         $delta_y = 0;
         if (count($text) > 1)
         {
             $delta_y = $backgroundTextFontSize * -1;
+
             foreach ($text as $line)
             {
                 $delta_y += ($dimensions[3] + $backgroundTextFontSize * 1.5);
             }
+
             $delta_y -= $backgroundTextFontSize * 1.5 - $backgroundTextFontSize;
         }
 
@@ -219,13 +228,29 @@ class plgRadicalMicroImageHelper
         $centerX = $backgroundTextPadding;
         $centerY = $height / 2;
 
+        // Title position top
+        if ($titlePosition == 'top')
+        {
+            $centerY = $text_height + $backgroundTextPadding;
+        }
+
+        // Title position bottom
+        if ($titlePosition == 'bottom')
+        {
+            $centerY = $height - $backgroundTextPadding - $text_height;
+        }
+
         $centerRectX2 = $text_width > $maxWidth ? $maxWidth : $text_width;
         $centerRectY1 = $centerY - $delta_y / 2 - $backgroundTextPadding;
         $centerRectY2 = $centerY + $backgroundTextPadding * 2 + $delta_y / 2;
         $centerRectX2 += $backgroundTextPadding * 2 + $backgroundTextMargin;
 
-        $colorForBackground = $this->hexColorAllocate($img, $backgroundTextBackground);
-        imagefilledrectangle($img, $backgroundTextMargin, $centerRectY1, $centerRectX2, $centerRectY2, $colorForBackground);
+        // Check transparent background text color
+        if ($backgroundTextBackground !== 'transparent')
+        {
+            $colorForBackground = $this->hexColorAllocate($img, $backgroundTextBackground);
+            imagefilledrectangle($img, $backgroundTextMargin, $centerRectY1, $centerRectX2, $centerRectY2, $colorForBackground);
+        }
 
         $y = $centerRectY1 + $backgroundTextPadding * 2;
 
@@ -267,16 +292,11 @@ class plgRadicalMicroImageHelper
      */
     private function showDefaultImage($redirect = true)
     {
-        $img = $this->params->get('imagetype_generate_image_for_error', '');
-
-        if (empty($img))
-        {
-            $img = 'media/plg_radicalmicro_image/images/default.png';
-        }
+        $img = $this->params->get('imagetype_generate_image_for_error', 'media/plg_radicalmicro_image/images/default.png');
 
         if ($redirect)
         {
-            $this->app->redirect('media/plg_radicalmicro_image/images/default.png', 302);
+            $this->app->redirect($img, 302);
         }
 
         return $img;

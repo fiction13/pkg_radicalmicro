@@ -80,20 +80,22 @@ class plgSystemRadicalMicro extends CMSPlugin
     public function onContentPrepareForm(Form $form, $data)
     {
         // Check current plugin form edit
-        if ($this->app->isClient('administrator') && $form->getName() == 'com_plugins.plugin')
+        if (!$this->app->isClient('administrator') && $form->getName() !== 'com_plugins.plugin')
         {
-            $plugin = PluginHelper::getPlugin('system', 'radicalmicro');
+            return true;
+        }
 
-            if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+        $plugin = PluginHelper::getPlugin('system', 'radicalmicro');
+
+        if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+        {
+            // Get all collections of types
+            $collections = PathHelper::getInstance()->getTypes('meta');
+
+            foreach ($collections as $collection)
             {
-                // Get all collections of types
-                $collections = PathHelper::getInstance()->getTypes('meta');
-
-                foreach ($collections as $collection)
-                {
-                    $element = XMLHelper::createBoolField('meta_enable_' . $collection);
-                    $form->setField($element, null, false, 'meta');
-                }
+                $element = XMLHelper::createBoolField('meta_enable_' . $collection);
+                $form->setField($element, null, false, 'meta');
             }
         }
 
