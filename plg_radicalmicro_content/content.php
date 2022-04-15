@@ -101,7 +101,7 @@ class plgRadicalMicroContent extends CMSPlugin
     public function onContentPrepareForm(Form $form, $data)
     {
         // Check current plugin form edit
-        if (!$this->app->isClient('administrator') && $form->getName() !== 'com_plugins.plugin')
+        if (!$this->app->isClient('administrator') || $form->getName() !== 'com_plugins.plugin')
         {
             return true;
         }
