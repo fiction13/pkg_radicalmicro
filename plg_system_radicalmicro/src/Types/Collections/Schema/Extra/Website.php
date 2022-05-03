@@ -39,7 +39,7 @@ class Website implements InterfaceTypes
         }
 
         $data = [
-            'uid'      => 'radicalmicro.schema.website',
+            'uid'      => $this->uid,
             '@context' => 'https://schema.org',
             '@type'    => 'WebSite',
             'url'      => Uri::root(),

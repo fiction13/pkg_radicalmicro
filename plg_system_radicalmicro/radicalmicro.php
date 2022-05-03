@@ -59,12 +59,6 @@ class plgSystemRadicalMicro extends CMSPlugin
 
         // Init collections
         $this->initCollections();
-
-        // Init Languages (for dynamic field translation)
-        if ($this->app->isClient('administrator'))
-        {
-            $this->initLanguages();
-        }
     }
 
     /**
@@ -184,18 +178,4 @@ class plgSystemRadicalMicro extends CMSPlugin
         PluginHelper::importPlugin('radicalmicro');
         Factory::getApplication()->triggerEvent('onRadicalMicroRegisterTypes');
     }
-
-    /**
-     * Init languages for plugins
-     *
-     * @throws Exception
-     * @since 1.0.0
-     */
-    protected function initLanguages()
-    {
-        // Trigger onRadicalMicroRegisterTypes to collect paths and register types classes
-        PluginHelper::importPlugin('radicalmicro');
-        Factory::getApplication()->triggerEvent('onRadicalMicroLoadLanguages');
-    }
-
 }

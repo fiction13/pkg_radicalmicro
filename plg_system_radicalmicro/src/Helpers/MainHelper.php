@@ -37,11 +37,14 @@ class MainHelper
         {
             if (UtilityHelper::checkSchema($params, $key, $body))
             {
-                $jsonLd[] = "\n<script type=\"application/ld+json\">" . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "</script>";
+                $jsonLd[] = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             }
         }
 
-        return implode("\n", $jsonLd);
+        return "\n<script type=\"application/ld+json\">\n"
+            . implode("\n\n", $jsonLd)
+            . "\n</script>";
+
     }
 
     /**
@@ -58,7 +61,7 @@ class MainHelper
         $meta = [];
 
         // Get data from tree
-        $metaData  = OGHelper::getInstance()->getBuild('root');
+        $metaData = OGHelper::getInstance()->getBuild('root');
 
         foreach ($metaData as $key => $og)
         {
