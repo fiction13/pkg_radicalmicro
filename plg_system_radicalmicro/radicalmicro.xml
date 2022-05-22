@@ -16,7 +16,7 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <description>PLG_SYSTEM_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
@@ -82,12 +82,76 @@
                 </field>
 
                 <field
+                        name="schema_type_organization_title"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_TITLE"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_TITLE_DESC"/>
+
+                <field
                         name="schema_type_organization_image"
                         type="media"
                         default=""
                         showon="schema_enable_type_organization:1"
                         label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_IMAGE"
                         description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_IMAGE_DESC"/>
+
+                <field
+                        name="schema_type_organization_country"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_COUNTRY"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_COUNTRY_DESC"/>
+
+                <field
+                        name="schema_type_organization_locality"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_LOCALITY"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_LOCALITY_DESC"/>
+
+                <field
+                        name="schema_type_organization_region"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_REGION"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_REGION_DESC"/>
+
+                <field
+                        name="schema_type_organization_address"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_ADDRESS"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_ADDRESS_DESC"/>
+
+                <field
+                        name="schema_type_organization_code"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_CODE"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_CODE_DESC"/>
+
+                <field
+                        name="schema_type_organization_post"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_POST"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_POST_DESC"/>
+
+                <field
+                        name="schema_type_organization_map"
+                        type="text"
+                        default=""
+                        showon="schema_enable_type_organization:1"
+                        label="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_MAP"
+                        description="PLG_SYSTEM_RADICALMICRO_PARAM_SCHEMA_TYPE_ORGANIZATION_MAP_DESC"/>
 
                 <field name="schema_enable_type_breadcrumblist"
                        type="radio"

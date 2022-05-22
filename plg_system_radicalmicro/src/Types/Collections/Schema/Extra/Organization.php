@@ -23,7 +23,6 @@ use RadicalMicro\Types\InterfaceTypes;
  *
  * @since       1.0.0
  */
-
 class Organization implements InterfaceTypes
 {
     /**
@@ -52,8 +51,47 @@ class Organization implements InterfaceTypes
             '@context' => 'https://schema.org',
             '@type'    => 'Organization',
             'url'      => Uri::root(),
-            'logo'     => UtilityHelper::prepareLink($item->image)
+            'logo'     => UtilityHelper::prepareLink($item->image),
+            'name'     => $item->title,
+            'hasMap'   => $item->hasMap
         ];
+
+        if ($item->addressCountry || $item->addressLocality || $item->addressRegion || $item->streetAddress || $item->postalCode || $item->postOfficeBoxNumber)
+        {
+            $data['address'] = [
+                '@type' => 'PostalAddress'
+            ];
+
+            if ($item->addressCountry)
+            {
+                $data['address']['addressCountry'] = $item->addressCountry;
+            }
+
+            if ($item->addressLocality)
+            {
+                $data['address']['addressLocality'] = $item->addressLocality;
+            }
+
+            if ($item->addressRegion)
+            {
+                $data['address']['addressRegion'] = $item->addressRegion;
+            }
+
+            if ($item->streetAddress)
+            {
+                $data['address']['streetAddress'] = $item->streetAddress;
+            }
+
+            if ($item->postalCode)
+            {
+                $data['address']['postalCode'] = $item->postalCode;
+            }
+
+            if ($item->postOfficeBoxNumber)
+            {
+                $data['address']['postOfficeBoxNumber'] = $item->postOfficeBoxNumber;
+            }
+        }
 
         return $data;
     }
@@ -70,7 +108,15 @@ class Organization implements InterfaceTypes
     public function getConfig($addUid = true)
     {
         $config = [
-            'image' => '',
+            'image'               => '',
+            'title'               => '',
+            'addressCountry'      => '',
+            'addressLocality'     => '',
+            'addressRegion'       => '',
+            'streetAddress'       => '',
+            'postalCode'          => '',
+            'postOfficeBoxNumber' => '',
+            'hasMap'              => '',
         ];
 
         if ($addUid)

@@ -37,13 +37,11 @@ class MainHelper
         {
             if (UtilityHelper::checkSchema($params, $key, $body))
             {
-                $jsonLd[] = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                 $jsonLd[] = "\n\n<script type=\"application/ld+json\">" . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "</script>";
             }
         }
 
-        return "\n<script type=\"application/ld+json\">\n"
-            . implode("\n\n", $jsonLd)
-            . "\n</script>";
+        return implode("\n\n", $jsonLd);
 
     }
 

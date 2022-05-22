@@ -20,8 +20,6 @@ use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\XMLHelper;
 
-#TODO Изменить изображение по умолчанию
-
 /**
  * Radicalmicro
  *
@@ -133,10 +131,22 @@ class plgSystemRadicalMicro extends CMSPlugin
             }
 
             // Add logo schema type
-            if ($this->params->get('schema_enable_type_organization', 0) && $logoUrl = $this->params->get('schema_type_organization_image'))
+            if ($this->params->get('schema_enable_type_organization', 0))
             {
-                $logoData = TypesHelper::execute('schema', 'organization', ['image' => $logoUrl]);
-                SchemaHelper::getInstance()->addChild('root', $logoData);
+                $organizationData = [
+                    'image'               => $this->params->get('schema_type_organization_image'),
+                    'title'               => $this->params->get('schema_type_organization_title'),
+                    'addressCountry'      => $this->params->get('schema_type_organization_country'),
+                    'addressLocality'     => $this->params->get('schema_type_organization_locality'),
+                    'addressRegion'       => $this->params->get('schema_type_organization_region'),
+                    'streetAddress'       => $this->params->get('schema_type_organization_address'),
+                    'postalCode'          => $this->params->get('schema_type_organization_code'),
+                    'postOfficeBoxNumber' => $this->params->get('schema_type_organization_post'),
+                    'hasMap'              => $this->params->get('schema_type_organization_map'),
+                ];
+
+                $organization = TypesHelper::execute('schema', 'organization', $organizationData);
+                SchemaHelper::getInstance()->addChild('root', $organization);
             }
 
             // Add breadcrumbs schema type
@@ -156,12 +166,12 @@ class plgSystemRadicalMicro extends CMSPlugin
         }
 
         // Place
-        $place = '</' . $this->params->get('extra_insert_place', 'body') . '>';
+        $place      = '</' . $this->params->get('extra_insert_place', 'body') . '>';
         $textBefore = "\n<!-- RadicalMicro: start -->\n";
-        $textAfter = "\n<!-- RadicalMicro: end -->\n";
+        $textAfter  = "\n<!-- RadicalMicro: end -->\n";
 
         // Insert microdata
-        $body = str_replace($place, $textBefore . $opengraph . $schema .  $textAfter . $place, $body);
+        $body = str_replace($place, $textBefore . $opengraph . $schema . $textAfter . $place, $body);
 
         $this->app->setBody($body);
     }
