@@ -146,7 +146,7 @@ class plgRadicalMicroImageHelper
         $backgroundWidth          = (int) $this->params->get('imagetype_generate_background_width', 1200);
         $backgroundHeight         = (int) $this->params->get('imagetype_generate_background_height', 630);
         $backgroundColor          = $this->params->get('imagetype_generate_background_color', '#000000');
-        $backgroundTextBackground = $this->params->get('imagetype_generate_background_text_background', '#000000');
+        $backgroundTextBackground = $this->params->get('imagetype_generate_background_text_background', '');
         $backgroundTextColor      = $this->params->get('imagetype_generate_background_text_color', '#ffffff');
         $backgroundTextFontSize   = (int) $this->params->get('imagetype_generate_background_text_fontsize', 20);
         $backgroundTextMargin     = (int) $this->params->get('imagetype_generate_background_text_margin', 10);
@@ -184,7 +184,6 @@ class plgRadicalMicroImageHelper
         $height = imagesy($img);
 
         $maxWidth = imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2);
-//        jbdump($maxWidth, 0, 'Общая длина текста');
         $fontSizeWidthChar = $backgroundTextFontSize / 1.6;
         $countForWrap      = (int) ((imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2)) / $fontSizeWidthChar);
 
@@ -194,8 +193,6 @@ class plgRadicalMicroImageHelper
         $text        = explode("\n", wordwrap($txt, $countForWrap));
         $text_width  = 0;
         $text_height = 0;
-
-//        jbdump($text, 0, 'Текст');
 
         foreach ($text as $line)
         {
@@ -208,8 +205,6 @@ class plgRadicalMicroImageHelper
                 $text_width = $text_width_current;
             }
         }
-//        jbdump($dimensions, 0, 'Координаты');
-//        jbdump($text_width, 1, 'Ширина текста');
 
         $delta_y = 0;
         if (count($text) > 1)
@@ -246,7 +241,7 @@ class plgRadicalMicroImageHelper
         $centerRectX2 += $backgroundTextPadding * 2 + $backgroundTextMargin;
 
         // Check transparent background text color
-        if ($backgroundTextBackground !== 'transparent')
+        if ($backgroundTextBackground)
         {
             $colorForBackground = $this->hexColorAllocate($img, $backgroundTextBackground);
             imagefilledrectangle($img, $backgroundTextMargin, $centerRectY1, $centerRectX2, $centerRectY2, $colorForBackground);
