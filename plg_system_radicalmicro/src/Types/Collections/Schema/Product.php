@@ -46,7 +46,7 @@ class Product implements InterfaceTypes
         $data = [
             'uid'         => $this->uid,
             '@context'    => 'https://schema.org',
-            '@type'       => 'Recipe',
+            '@type'       => 'Product',
             'name'        => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
             'description' => $item->description ? UtilityHelper::prepareText($item->description, 5000) : '',
         ];

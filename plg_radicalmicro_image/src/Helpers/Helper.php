@@ -11,10 +11,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\UtilityHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 
 /**
@@ -91,16 +94,17 @@ class plgRadicalMicroImageHelper
             return $this->showDefaultImage(false);
         }
 
-        $hash = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
+        $hash            = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
 
         return UtilityHelper::prepareLink('/index.php?' . http_build_query([
                 'option' => 'com_ajax',
                 'plugin' => 'radicalmicroimage',
                 'task'   => 'generate',
-                'title'  => $title,
+                'title'  => urlencode($title),
                 'file'   => $fileName,
                 'hash'   => $hash,
                 'format' => 'raw',
+                'lang'   => $this->getCurrentLangSef()
             ])
         );
     }
@@ -175,22 +179,33 @@ class plgRadicalMicroImageHelper
         $colorForText = $this->hexColorAllocate($img, $backgroundTextColor);
         $font         = JPATH_ROOT . '/' . implode('/', ['media', 'plg_radicalmicro_image', 'fonts', 'roboto.ttf']);
 
+        // Get custom font
         if (!empty($fontCustom))
         {
-            $font = JPATH_ROOT . '/' . ltrim($fontCustom, '/');
+            $font        = JPATH_ROOT . '/' . ltrim($fontCustom, '/');
+
+            // Add custom fonts for other languages support, etc arabic or chines
+            if ($langSef = $this->getCurrentLangSef())
+            {
+                $fontForLang = str_replace('.ttf', '_' . $langSef . '.ttf', $font);
+
+                if (File::exists($fontForLang))
+                {
+                    $font = $fontForLang;
+                }
+            }
         }
 
         $width  = imagesx($img);
         $height = imagesy($img);
 
         $maxWidth = imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2);
-        $fontSizeWidthChar = $backgroundTextFontSize / 1.6;
+        $fontSizeWidthChar = $backgroundTextFontSize / 1.7;
         $countForWrap      = (int) ((imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2)) / $fontSizeWidthChar);
 
-
         // Set title
-        $txt         = $title;
-        $text        = explode("\n", wordwrap($txt, $countForWrap));
+        $txt         = urldecode($title);
+        $text        = explode("\n", wordwrap($txt, $countForWrap, "\n", true));
         $text_width  = 0;
         $text_height = 0;
 
@@ -338,7 +353,7 @@ class plgRadicalMicroImageHelper
      */
     private function getCacheFile()
     {
-        $file = trim(preg_replace("#\?.*?$#isu", '', $this->app->input->server->get('REQUEST_URI')), '/#');
+        $file = trim(preg_replace("#\?.*?$#isu", '', $this->app->input->server->get('REQUEST_URI', '', 'raw')), '/#');
         $file = str_replace('/', '-', $file);
 
         if (!$file)
@@ -364,6 +379,29 @@ class plgRadicalMicroImageHelper
         if (isset($matches[1]) && $matches[1] !== '')
         {
             return UtilityHelper::prepareLink($matches[1]);
+        }
+
+        return;
+    }
+
+
+    /**
+     * Get current language sef code
+     *
+     * @return string|void
+     *
+     * @since 1.0.0
+     */
+    public function getCurrentLangSef()
+    {
+        $languages = LanguageHelper::getLanguages();
+        $languages = ArrayHelper::getColumn($languages, null, 'lang_code');
+
+        $langCode  = Factory::getLanguage()->getTag();
+
+        if (isset($languages[$langCode]))
+        {
+            return $languages[$langCode]->sef;
         }
 
         return;
