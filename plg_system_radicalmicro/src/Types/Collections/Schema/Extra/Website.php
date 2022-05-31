@@ -40,6 +40,7 @@ class Website implements InterfaceTypes
 
         $data = [
             'uid'      => $this->uid,
+            'priority' => $priority,
             '@context' => 'https://schema.org',
             '@type'    => 'WebSite',
             'url'      => Uri::root(),

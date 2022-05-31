@@ -48,6 +48,7 @@ class Organization implements InterfaceTypes
 
         $data = [
             'uid'      => $this->uid,
+            'priority' => $priority,
             '@context' => 'https://schema.org',
             '@type'    => 'Organization',
             'url'      => Uri::root(),

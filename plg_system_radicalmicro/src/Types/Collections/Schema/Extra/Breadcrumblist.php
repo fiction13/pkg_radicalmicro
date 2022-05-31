@@ -55,6 +55,7 @@ class Breadcrumblist implements InterfaceTypes
 
         $data = [
             'uid'             => $this->uid,
+            'priority'        => $priority,
             '@context'        => 'https://schema.org',
             '@type'           => 'BreadcrumbList',
             'itemListElement' => $breadCrumbsData

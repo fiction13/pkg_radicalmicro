@@ -45,6 +45,7 @@ class Recipe implements InterfaceTypes
 
         $data = [
             'uid'                => $this->uid,
+            'priority'           => $priority,
             '@context'           => 'https://schema.org',
             '@type'              => 'Recipe',
             'name'               => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',

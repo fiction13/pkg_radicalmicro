@@ -45,6 +45,7 @@ class Article implements InterfaceTypes
 
         $data = [
             'uid'              => $this->uid,
+            'priority'         => $priority,
             '@context'         => 'https://schema.org',
             '@type'            => 'Article',
             'headline'         => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
