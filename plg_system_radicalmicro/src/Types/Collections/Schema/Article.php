@@ -52,7 +52,7 @@ class Article implements InterfaceTypes
             'description'      => $item->description ? UtilityHelper::prepareText($item->description, 5000) : '',
             'mainEntityOfPage' => [
                 '@type' => 'WebPage',
-                'id'    => Uri::current()
+                '@id'   => Uri::current()
             ],
             'datePublished'    => $item->datePublished ? UtilityHelper::prepareDate($item->datePublished) : '',
             'dateModified'     => $item->dateModified ? UtilityHelper::prepareDate($item->dateModified) : '',

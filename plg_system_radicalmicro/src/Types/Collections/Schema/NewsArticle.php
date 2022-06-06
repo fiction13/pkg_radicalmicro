@@ -49,7 +49,10 @@ class NewsArticle implements InterfaceTypes
             '@context'         => 'https://schema.org',
             '@type'            => 'NewsArticle',
             'url'              => Uri::current(),
-            'mainEntityOfPage' => Uri::current(),
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id'   => Uri::current()
+            ],
             'headline'         => $item->title ? UtilityHelper::prepareText($item->title, 110) : '',
             'articleBody'      => $item->description ? UtilityHelper::prepareText($item->description, 5000) : '',
             'datePublished'    => $item->datePublished ? UtilityHelper::prepareDate($item->datePublished) : '',
