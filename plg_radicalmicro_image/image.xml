@@ -62,7 +62,7 @@
                         class="btn-group"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_CACHE"
                         size="1"
-                        default="images">
+                        default="cache">
                     <option value="images">PLG_RADICALMICRO_IMAGE_PARAM_CACHE_IMAGES</option>
                     <option value="cache">PLG_RADICALMICRO_IMAGE_PARAM_CACHE_CACHE</option>
                 </field>

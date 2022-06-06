@@ -94,7 +94,7 @@ class plgRadicalMicroImageHelper
             return $this->showDefaultImage(false);
         }
 
-        $hash            = md5($fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
+        $hash = md5($title . ':' . $fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
 
         return UtilityHelper::prepareLink('/index.php?' . http_build_query([
                 'option' => 'com_ajax',
@@ -124,7 +124,7 @@ class plgRadicalMicroImageHelper
         $hash  = $this->app->input->get('hash', '', 'raw');
 
         // Check hash, title and file
-        if ($hash != md5($file . ':' . $this->params->get('imagetype_generate_secret_key')) || empty($title) || empty($file))
+        if ($hash != md5($title . ':' . $file . ':' . $this->params->get('imagetype_generate_secret_key')) || empty($title) || empty($file))
         {
             $this->showDefaultImage();
         }
