@@ -1,0 +1,18 @@
+{
+    "DatePublished": "Date Published",
+    "DateModified": "Date Modified",
+    "PrepTime": "Prep Time (minute)",
+    "CookTime": "Cook Time (minute)",
+    "TotalTime": "Total Time (minute)",
+    "Calories": "Calories",
+    "RecipeCategory": "Recipe Category",
+    "RecipeYield": "Recipe Yield",
+    "RecipeCuisine": "Recipe Cuisine",
+    "RecipeInstructions": "Recipe Instructions",
+    "RecipeIngredient": "Recipe Ingredient",
+    "Sku": "Sku",
+    "Mpn": "Mpn",
+    "Brand": "Brand",
+    "Currency": "Currency",
+    "Price": "Price"
+}
