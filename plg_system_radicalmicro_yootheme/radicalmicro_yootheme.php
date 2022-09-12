@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -19,7 +19,7 @@ use YOOtheme\Application;
  * Radicalmicro_Yootheme
  *
  * @package   plgSystemRadicalmicro_Yootheme
- * @since     1.0.0
+ * @since     __DEPLOY_VERSION__
  */
 class plgSystemRadicalMicro_Yootheme extends CMSPlugin
 {
@@ -27,7 +27,7 @@ class plgSystemRadicalMicro_Yootheme extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    CMSApplication
-	 * @since  1.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -35,7 +35,7 @@ class plgSystemRadicalMicro_Yootheme extends CMSPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  1.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -44,7 +44,7 @@ class plgSystemRadicalMicro_Yootheme extends CMSPlugin
 	 *
 	 * Register RadicalMicro namespace.
 	 *
-	 * @since  1.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAfterInitialise()
 	{

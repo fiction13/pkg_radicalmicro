@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -23,14 +23,14 @@ use Joomla\CMS\Language\LanguageHelper;
 /**
  * @package     pkg_radicalmicro
  *
- * @since       1.0.0
+ * @since       __DEPLOY_VERSION__
  */
 class plgRadicalMicroImageHelper
 {
     /**
      * @var array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $params = [];
 
@@ -50,7 +50,7 @@ class plgRadicalMicroImageHelper
      *
      * @return object|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getProviderData()
     {
@@ -66,7 +66,7 @@ class plgRadicalMicroImageHelper
      *
      * @return void|string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getImage()
     {
@@ -114,7 +114,7 @@ class plgRadicalMicroImageHelper
      *
      * @return string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function generate()
     {
@@ -283,7 +283,7 @@ class plgRadicalMicroImageHelper
      *
      * @return false|int
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function hexColorAllocate($im, $hex)
     {
@@ -298,7 +298,7 @@ class plgRadicalMicroImageHelper
     /**
      * If an error occurred during generation, then show the default picture
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function showDefaultImage($redirect = true)
     {
@@ -320,7 +320,7 @@ class plgRadicalMicroImageHelper
      *
      * @return string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function getCachePath($file = null)
     {
@@ -349,7 +349,7 @@ class plgRadicalMicroImageHelper
      *
      * @return string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function getCacheFile()
     {
@@ -370,7 +370,7 @@ class plgRadicalMicroImageHelper
      *
      * @return string|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getImageFromText($text)
     {
@@ -390,7 +390,7 @@ class plgRadicalMicroImageHelper
      *
      * @return string|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getCurrentLangSef()
     {

@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -29,7 +29,7 @@ class XMLHelper
      *
      * @return SimpleXMLElement
      *
-     * @since version
+     * @since __DEPLOY_VERSION__
      */
     public static function createField(string $fieldName, $dependFieldName = null, $type = null, $default = '', $options = null, $addToName = array())
     {
@@ -96,17 +96,28 @@ class XMLHelper
      *
      * @return SimpleXMLElement
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
-    public static function createBoolField(string $fieldName)
+    public static function createBoolField(string $fieldName, $default = 0)
     {
-        $element = new SimpleXMLElement('<field default="0" type="radio" class="btn-group" />');
+        $element = new SimpleXMLElement('<field type="radio" />');
 
         // Add name
         $element->addAttribute('name', $fieldName);
 
         // Add type
         $element->addAttribute('label', Text::_('PLG_RADICALMICRO_PARAM_' . strtoupper($fieldName)));
+
+        // Add default
+        if ($default)
+        {
+            $element->addAttribute('default', $default);
+        }
+
+        if (UtilityHelper::isJ4())
+        {
+            $element->addAttribute('layout', 'joomla.form.field.radio.switcher');
+        }
 
         // Add options
         $element->addChild('option', Text::_('JNO'))->addAttribute('value', 0);
@@ -120,7 +131,7 @@ class XMLHelper
      *
      * @return string|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getFieldType($fieldName)
     {

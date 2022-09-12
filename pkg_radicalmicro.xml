@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   1.0.0
+  ~ @version   __DEPLOY_VERSION__
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
   ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -11,11 +11,11 @@
 <extension type="package" version="3.9" method="upgrade">
  	<name>PKG_RADICALMICRO</name>
     <author>Dmitriy Vasyukov</author>
-    <creationDate>February 2022</creationDate>
+    <creationDate>September 2022</creationDate>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.1.2</version>
+    <version>0.2.1-dev</version>
     <description>PKG_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   1.0.0
+  ~ @version   __DEPLOY_VERSION__
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
   ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -10,13 +10,13 @@
 
 <extension type="plugin" version="3.9" group="radicalmicro" method="upgrade">
     <name>PLG_RADICALMICRO_MENU</name>
-    <creationDate>February 2022</creationDate>
+    <creationDate>September 2022</creationDate>
     <author>Dmitriy Vasyukov</author>
     <copyright>Copyright (C) 2005 - 2022 Open Source Matters. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
-    <version>0.1.2</version>
+    <version>0.2.1-dev</version>
     <description>PLG_RADICALMICRO_MENU_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
@@ -39,7 +39,6 @@
     <!-- Config parameter -->
     <config>
         <fields name="params">
-
         </fields>
     </config>
 </extension>

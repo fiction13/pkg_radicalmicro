@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -23,7 +23,7 @@ use RadicalMicro\Helpers\UtilityHelper;
  * Radicalmicro
  *
  * @package   plgRadicalmicroContent
- * @since     1.0.0
+ * @since     __DEPLOY_VERSION__
  */
 class plgRadicalMicroMenu extends CMSPlugin
 {
@@ -31,7 +31,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $app;
 
@@ -39,7 +39,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
@@ -68,7 +68,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -97,7 +97,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      *
      * @return array|void
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function onRadicalMicroProvider($params)
     {
@@ -122,7 +122,7 @@ class plgRadicalMicroMenu extends CMSPlugin
 
             if ($schemaObject && $type)
             {
-                $schemaData   = TypesHelper::execute('schema', $type, $schemaObject, 0.9);
+                $schemaData   = TypesHelper::execute('schema', $type, $schemaObject, 0.7);
                 SchemaHelper::getInstance()->addChild('root', $schemaData);
             }
         }
@@ -138,7 +138,7 @@ class plgRadicalMicroMenu extends CMSPlugin
 
                 foreach ($collections as $collection)
                 {
-                    $ogData = TypesHelper::execute('meta', $collection, $metaObject, 0.9);
+                    $ogData = TypesHelper::execute('meta', $collection, $metaObject, 0.7);
                     OGHelper::getInstance()->addChild('root', $ogData);
                 }
             }

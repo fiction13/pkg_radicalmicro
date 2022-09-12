@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -22,7 +22,7 @@ class TypesHelper
      *
      * @return array|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function execute(string $collectionType, $type, $data, $priority = 0.5)
     {
@@ -58,7 +58,7 @@ class TypesHelper
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getConfig($collectionType, $type, $addUid = true)
     {

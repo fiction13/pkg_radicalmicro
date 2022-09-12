@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -21,7 +21,7 @@ class Og implements InterfaceTypes
 {
     /**
      * @var string
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private $uid = 'radicalmicro.meta.og';
 
@@ -31,14 +31,14 @@ class Og implements InterfaceTypes
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function execute($item, $priority)
     {
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data['uid']            = $this->uid;
-        $data['og:title']       = $item->title;
+        $data['og:title']       = htmlspecialchars($item->title);
         $data['og:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
         $data['og:type']        = $item->type ?? 'website';
         $data['og:url']         = Uri::current();
@@ -55,7 +55,7 @@ class Og implements InterfaceTypes
      *
      * @return string[]
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getConfig($addUid = true)
     {

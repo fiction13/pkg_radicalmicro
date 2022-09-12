@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -21,13 +21,13 @@ use RadicalMicro\Types\InterfaceTypes;
  *
  * @source      https://developers.google.com/search/docs/advanced/structured-data/recipe
  *
- * @since       1.0.0
+ * @since       __DEPLOY_VERSION__
  */
 class Recipe implements InterfaceTypes
 {
     /**
      * @var string
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private $uid = 'radicalmicro.schema.page';
 
@@ -37,7 +37,7 @@ class Recipe implements InterfaceTypes
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function execute($item, $priority)
     {
@@ -95,7 +95,7 @@ class Recipe implements InterfaceTypes
      *
      * @return string[]
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getConfig($addUid = true)
     {

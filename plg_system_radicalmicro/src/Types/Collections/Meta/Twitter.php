@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -19,13 +19,11 @@ use RadicalMicro\Types\InterfaceTypes;
 
 class Twitter implements InterfaceTypes
 {
-
     /**
      * @var string
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private $uid = 'radicalmicro.meta.twitter';
-
 
     /**
      * @param $item
@@ -33,7 +31,7 @@ class Twitter implements InterfaceTypes
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function execute($item, $priority)
     {
@@ -41,15 +39,15 @@ class Twitter implements InterfaceTypes
 
         $data['uid']                 = $this->uid;
         $data['twitter:card']        = 'summary_large_image';
-        $data['twitter:title']       = $item->title;
+        $data['twitter:title']       = htmlspecialchars($item->title);
         $data['twitter:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
         $data['twitter:site']        = $item->site ?? Uri::root();
+        $data['twitter:creator']     = $item->creator ?? Uri::root();
         $data['twitter:image']       = UtilityHelper::prepareLink($item->image);
         $data['priority']            = $priority;
 
         return $data;
     }
-
 
     /**
      * Get config for JForm and Yootheme Pro elements
@@ -58,7 +56,7 @@ class Twitter implements InterfaceTypes
      *
      * @return string[]
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getConfig($addUid = true)
     {
@@ -66,6 +64,7 @@ class Twitter implements InterfaceTypes
             'title'       => '',
             'description' => '',
             'image'       => '',
+            'creator'     => Uri::root(),
             'site'        => Uri::root()
         ];
 

@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -11,7 +11,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 use RadicalMicro\Helpers\TypesHelper;
+use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 
-$ogData = TypesHelper::execute('meta', $props['meta'], $props, 0.6);
-OGHelper::getInstance()->addChild('root', $ogData);
+$collections = PathHelper::getInstance()->getTypes('meta');
+
+if ($collections)
+{
+    foreach ($collections as $collection)
+    {
+        $ogData = TypesHelper::execute('meta', $collection, $props, 0.9);
+        OGHelper::getInstance()->addChild('root', $ogData);
+    }
+}

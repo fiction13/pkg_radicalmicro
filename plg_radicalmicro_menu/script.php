@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -26,7 +26,7 @@ class PlgRadicalMicroMenuInstallerScript
 	 *
 	 * @return  boolean True on success, False on failure.
 	 *
-	 * @since   1.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	function postflight($type, $parent)
 	{
@@ -44,7 +44,7 @@ class PlgRadicalMicroMenuInstallerScript
 	 *
 	 * @param   InstallerAdapter  $parent  Parent object calling object.
 	 *
-	 * @since   1.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function enablePlugin($parent)
 	{

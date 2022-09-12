@@ -8,8 +8,7 @@
     "element": true,
     "width": 500,
     "defaults": {
-        "type": "website",
-        "meta": "og"
+        "type": "website"
     },
     "templates": {
         "render": "./templates/template.php",

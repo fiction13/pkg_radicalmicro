@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -23,41 +23,41 @@ use RadicalMicro\Helpers\XMLHelper;
 /**
  * @package     pkg_radicalmicro
  *
- * @since       1.0.0
+ * @since       __DEPLOY_VERSION__
  */
 class plgRadicalMicroContentHelper
 {
     /**
      * Param prefix
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     const PREFIX_SCHEMA = 'schema_';
 
     /**
      * Param prefix
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     const PREFIX_META = 'meta_';
 
     /**
      * @var array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $params = [];
 
     /**
      * @var array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $fields = array();
 
     /**
      * @var
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $item;
 
@@ -77,7 +77,7 @@ class plgRadicalMicroContentHelper
      *
      * @return void|object
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getSchemaObject()
     {
@@ -88,24 +88,39 @@ class plgRadicalMicroContentHelper
         }
 
         // Get item object
-        $item = $this->getItem();
+        $item       = $this->getItem();
+        $itemParams = new Registry($item->params);
 
         // Data object
         $object     = new stdClass();
         $object->id = $item->id;
 
-        // Config field for current schema type
-        $configFields = array_keys(TypesHelper::getConfig('schema', $this->params->get('type'), false));
-
-        foreach ($configFields as $configField)
+        // Get and set schema.org data for current article from article params or from plugin
+        if ($itemParams->get('radicalmicro_schema_content_enable', 0))
         {
-            $object->{$configField} = $this->getData($this->params->get(self::PREFIX_SCHEMA . $configField), $item);
+            // Config field for current schema type
+            $configFields = array_keys(TypesHelper::getConfig('schema', $itemParams->get('radicalmicro_schema_content_type'), false));
+
+            foreach ($configFields as $configField)
+            {
+                $object->{$configField} = $itemParams->get('radicalmicro_schema_content_' . $configField);
+            }
         }
-
-        // Check if YooTheme Pro is loaded
-        if ($this->isYoothemeBuider($object->description))
+        else
         {
-            $object->description = '';
+            // Config field for current schema type
+            $configFields = array_keys(TypesHelper::getConfig('schema', $this->params->get('type'), false));
+
+            foreach ($configFields as $configField)
+            {
+                $object->{$configField} = $this->getData($this->params->get(self::PREFIX_SCHEMA . $configField), $item);
+            }
+
+            // Check if YooTheme Pro is loaded
+            if ($this->isYoothemeBuider($object->description))
+            {
+                $object->description = '';
+            }
         }
 
         return $object;
@@ -116,7 +131,7 @@ class plgRadicalMicroContentHelper
      *
      * @return void|object
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getMetaObject()
     {
@@ -127,7 +142,8 @@ class plgRadicalMicroContentHelper
         }
 
         // Get item object
-        $item = $this->getItem();
+        $item       = $this->getItem();
+        $itemParams = new Registry($item->params);
 
         // Data object
         $object     = new stdClass();
@@ -136,16 +152,26 @@ class plgRadicalMicroContentHelper
         // Config field for meta type
         $configFields = $this->getMetaFields();
 
-        foreach ($configFields as $key => $field)
+        // Get and set schema.org data for current article from article params or from plugin
+        if ($itemParams->get('radicalmicro_meta_content_enable', 0))
         {
-                $fieldValue =
-            $object->{$key} = (empty($field['default'])) ? $this->getData($this->params->get($field['name']), $item) : $this->params->get($field['name']);
+            foreach ($configFields as $key => $field)
+            {
+                $object->{$key} = $itemParams->get('radicalmicro_meta_content_' . $field['name'], $itemParams->get($field['name']));
+            }
         }
-
-        // Check if YooTheme Pro is loaded
-        if ($this->isYoothemeBuider($object->description))
+        else
         {
-            $object->description = '';
+            foreach ($configFields as $key => $field)
+            {
+                $object->{$key} = (empty($field['default'])) ? $this->getData($this->params->get($field['name']), $item) : $this->params->get($field['name']);
+            }
+
+            // Check if YooTheme Pro is loaded
+            if ($this->isYoothemeBuider($object->description))
+            {
+                $object->description = '';
+            }
         }
 
         return $object;
@@ -156,7 +182,7 @@ class plgRadicalMicroContentHelper
      *
      * @return bool|Table
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getItem()
     {
@@ -187,7 +213,7 @@ class plgRadicalMicroContentHelper
      *
      * @return mixed|string|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getData($value, $item)
     {
@@ -225,7 +251,7 @@ class plgRadicalMicroContentHelper
     /**
      * Check article page view
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function isArticleView()
     {
@@ -239,7 +265,7 @@ class plgRadicalMicroContentHelper
      *
      * @return void|string.
      *
-     * @since  1.1.0
+     * @since  __DEPLOY_VERSION__
      */
     public function getImage(string $images, string $type)
     {
@@ -255,7 +281,7 @@ class plgRadicalMicroContentHelper
      *
      * @return bool
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function isYoothemeBuider($description)
     {
@@ -277,10 +303,19 @@ class plgRadicalMicroContentHelper
      *
      * @param   Form  $form
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
-    public function setSchemaFields(Form $form)
+    public function setSchemaFields(Form $form, $isArticle = false)
     {
+        $dependField = '';
+        $group       = 'schema';
+
+        if ($isArticle)
+        {
+            $dependField = 'radicalmicro_schema_content_enable';
+            $group       = 'radicalmicro_schema';
+        }
+
         if ($type = $this->params->get('type'))
         {
             $configFields = array_keys(TypesHelper::getConfig('schema', $type, false));
@@ -289,8 +324,8 @@ class plgRadicalMicroContentHelper
             {
                 foreach ($configFields as $configField)
                 {
-                    $element = XMLHelper::createField(self::PREFIX_SCHEMA . $configField, '', 'fields', $configField);
-                    $form->setField($element, null, false, 'schema');
+                    $element = XMLHelper::createField(self::PREFIX_SCHEMA . $configField, $dependField, 'fields', $configField);
+                    $form->setField($element, null, false, $group);
                 }
             }
         }
@@ -303,20 +338,28 @@ class plgRadicalMicroContentHelper
      *
      * @param   Form  $form
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
-    public function setMetaFields(Form $form)
+    public function setMetaFields(Form $form, $isArticle = false)
     {
         // Add fields to fieldset
-        $addFields = $this->getMetaFields();
+        $addFields   = $this->getMetaFields();
+        $dependField = '';
+        $group       = 'meta';
+
+        if ($isArticle)
+        {
+            $dependField = 'radicalmicro_meta_content_enable';
+            $group       = 'radicalmicro_meta';
+        }
 
         // In result - add fields to form
         if ($addFields)
         {
             foreach ($addFields as $key => $field)
             {
-                $element = XMLHelper::createField($field['name'], '', (empty($field['default']) ? 'fields' : ''), $field['default'], null, $field['type']);
-                $form->setField($element, null, false, 'meta');
+                $element = XMLHelper::createField($field['name'], $dependField, (empty($field['default']) ? 'fields' : ''), $field['default'], null, $field['type']);
+                $form->setField($element, null, false, $group);
             }
         }
 
@@ -330,7 +373,7 @@ class plgRadicalMicroContentHelper
      *
      * @return mixed
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getFields($item = null)
     {
@@ -353,7 +396,7 @@ class plgRadicalMicroContentHelper
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getMetaFields()
     {

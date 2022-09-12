@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -23,7 +23,7 @@ use RadicalMicro\Helpers\PathHelper;
  * Radicalmicro
  *
  * @package   plgRadicalmicroContent
- * @since     1.0.0
+ * @since     __DEPLOY_VERSION__
  */
 class plgRadicalMicroContent extends CMSPlugin
 {
@@ -31,7 +31,7 @@ class plgRadicalMicroContent extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $app;
 
@@ -40,7 +40,7 @@ class plgRadicalMicroContent extends CMSPlugin
      *
      * @var    boolean
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
@@ -65,7 +65,7 @@ class plgRadicalMicroContent extends CMSPlugin
     /**
      * OnRadicalmicroRegisterTypes for init your types for each collection
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function onRadicalMicroRegisterTypes()
     {
@@ -79,7 +79,7 @@ class plgRadicalMicroContent extends CMSPlugin
     /**
      * OnRadicalmicroRegisterTypes for init your types for each collection
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function onRadicalMicroLoadLanguages()
     {
@@ -96,25 +96,41 @@ class plgRadicalMicroContent extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   1.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onContentPrepareForm(Form $form, $data)
     {
         // Check current plugin form edit
-        if (!$this->app->isClient('administrator') || $form->getName() !== 'com_plugins.plugin')
+        if ($this->app->isClient('administrator') && $form->getName() === 'com_plugins.plugin')
         {
-            return true;
+            $plugin = PluginHelper::getPlugin('radicalmicro', 'content');
+
+            if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+            {
+                // Set Schema.org params fields
+                $this->helper->setSchemaFields($form);
+
+                // Set Meta params fields
+                $this->helper->setMetaFields($form);
+            }
         }
 
-        $plugin = PluginHelper::getPlugin('radicalmicro', 'content');
+        $component = $this->app->input->get('option');
+        $layout    = $this->app->input->get('layout');
+        $view      = $this->app->input->get('view');
 
-        if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+        // Check article edit form
+        if ($this->app->isClient('administrator') && $component === 'com_content' && $view === 'article' && $layout === 'edit')
         {
-            // Set Schema.org params fields
-            $this->helper->setSchemaFields($form);
+            // Add fieldset for menu
+            Form::addFormPath(__DIR__ . '/forms');
+            $form->loadFile('content', true);
 
-            // Set Meta params fields
-            $this->helper->setMetaFields($form);
+            // Set schema.org fields
+            $this->helper->setSchemaFields($form, true);
+
+            // Set meta fields
+            $this->helper->setMetaFields($form, true);
         }
 
         return true;
@@ -125,13 +141,12 @@ class plgRadicalMicroContent extends CMSPlugin
      *
      * @return void
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function onRadicalmicroProvider($params)
     {
         // Get schema type
         $type = $this->params->get('type', 'article');
-
 
         // Get and set schema data
         $schemaObject = $this->helper->getSchemaObject();

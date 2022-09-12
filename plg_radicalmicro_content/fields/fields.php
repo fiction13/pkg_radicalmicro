@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Version;
+use RadicalMicro\Helpers\UtilityHelper;
 
 FormHelper::loadFieldClass('groupedList');
 
@@ -20,7 +20,7 @@ class JFormFieldFields extends JFormFieldGroupedList
 {
     /**
      * @var array
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $accessFields = [
         'text',
@@ -39,7 +39,7 @@ class JFormFieldFields extends JFormFieldGroupedList
 
     /**
      * @var array
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $optionsList = [
         'content' => [
@@ -59,7 +59,7 @@ class JFormFieldFields extends JFormFieldGroupedList
     /**
      * @var array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $params = [];
 
@@ -68,7 +68,7 @@ class JFormFieldFields extends JFormFieldGroupedList
      *
      * @var  string
      *
-     * @since  1.4.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $type = 'fields';
 
@@ -78,7 +78,7 @@ class JFormFieldFields extends JFormFieldGroupedList
      * @return  array  The field option objects as a nested array in groups.
      *
      * @throws  UnexpectedValueException
-     * @since   1.7.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getGroups()
     {
@@ -97,6 +97,11 @@ class JFormFieldFields extends JFormFieldGroupedList
         foreach ($groups as $groupKey => $group)
         {
             $groupLabel = Text::_('PLG_RADICALMICRO_CONTENT_GROUP_' . strtoupper($groupKey));
+
+            if (empty($group))
+            {
+                continue;
+            }
 
             foreach ($group as $label => $option)
             {
@@ -153,13 +158,13 @@ class JFormFieldFields extends JFormFieldGroupedList
      *
      * @return mixed
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getFields($item = null)
     {
         if (!$this->fields)
         {
-            if ((new Version())->isCompatible('4.0'))
+            if (UtilityHelper::isJ4())
             {
                 $this->fields = \Joomla\Component\Fields\Administrator\Helper\FieldsHelper::getFields('com_content.article', $item);
             }
@@ -177,10 +182,11 @@ class JFormFieldFields extends JFormFieldGroupedList
     /**
      * Add fields to options
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getOptions()
     {
+        $fieldsArray = [];
         $fields = $this->getFields();
 
         if ($fields)

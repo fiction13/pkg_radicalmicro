@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -21,13 +21,13 @@ use RadicalMicro\Types\InterfaceTypes;
  *
  * @source      https://developers.google.com/search/docs/advanced/structured-data/logo
  *
- * @since       1.0.0
+ * @since       __DEPLOY_VERSION__
  */
 class Organization implements InterfaceTypes
 {
     /**
      * @var string
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     private $uid = 'radicalmicro.schema.organization';
 
@@ -37,7 +37,7 @@ class Organization implements InterfaceTypes
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function execute($item, $priority)
     {
@@ -94,6 +94,24 @@ class Organization implements InterfaceTypes
             }
         }
 
+        // Add contact point
+        if ($item->phone || $item->contactType)
+        {
+            $data['contactPoint'] = [
+                '@type' => 'ContactPoint'
+            ];
+
+            if ($item->phone)
+            {
+                $data['address']['phone'] = $item->phone;
+            }
+
+            if ($item->contactType)
+            {
+                $data['address']['contactType'] = $item->contactType;
+            }
+        }
+
         return $data;
     }
 
@@ -104,7 +122,7 @@ class Organization implements InterfaceTypes
      *
      * @return string[]
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getConfig($addUid = true)
     {

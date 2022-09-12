@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use stdClass;
@@ -29,7 +30,7 @@ class UtilityHelper
      * @param   int     $limit
      *
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function prepareText(string $text, $limit = 0)
     {
@@ -60,7 +61,7 @@ class UtilityHelper
      *
      * @return mixed|Date|string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function prepareDate($date)
     {
@@ -98,7 +99,7 @@ class UtilityHelper
      *
      * @return string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function prepareUser($user)
     {
@@ -122,7 +123,7 @@ class UtilityHelper
      *
      * @return string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function prepareLink($url)
     {
@@ -144,7 +145,7 @@ class UtilityHelper
      *
      * @return string
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function cleanText(string $string)
     {
@@ -161,7 +162,7 @@ class UtilityHelper
     /**
      * Get breadcrumbs
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getBreadCrumbs($home = true)
     {
@@ -217,7 +218,7 @@ class UtilityHelper
      *
      * @return boolean
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function checkSchema(Registry $params, string $name, $body)
     {
@@ -293,7 +294,7 @@ class UtilityHelper
      *
      * @return boolean
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function checkMeta(Registry $params, string $name, string $attribute, $body)
     {
@@ -337,7 +338,7 @@ class UtilityHelper
      *
      * @return mixed|string|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getFirstImage($text)
 	{
@@ -361,7 +362,7 @@ class UtilityHelper
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getArrayFromText($text)
 	{
@@ -380,6 +381,21 @@ class UtilityHelper
         }
 
         return $text;
+	}
+
+    /**
+     * @return bool
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public static function isJ4()
+	{
+        if ((new Version())->isCompatible('4.0'))
+        {
+            return true;
+        }
+
+        return false;
 	}
 
 }

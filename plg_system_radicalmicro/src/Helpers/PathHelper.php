@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -20,7 +20,7 @@ final class PathHelper
 {
     /**
      * @var
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected static $instance;
 
@@ -28,7 +28,7 @@ final class PathHelper
      * A list of paths
      *
      * @var array
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $_paths = array(
         'meta'         => [
@@ -44,7 +44,7 @@ final class PathHelper
 
     /**
      * @var array
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $_collections = [];
 
@@ -52,7 +52,7 @@ final class PathHelper
      *
      * @return mixed|PathHelper
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getInstance()
     {
@@ -70,7 +70,7 @@ final class PathHelper
      * @param   string  $path            The path to register
      * @param   string  $collectionType  Collection type - schema, meta, extra
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function register($path, $collectionType = 'schema')
     {
@@ -98,7 +98,7 @@ final class PathHelper
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getTypes($type)
     {
@@ -139,7 +139,7 @@ final class PathHelper
      *
      * @return array|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function registerClasses($path)
     {

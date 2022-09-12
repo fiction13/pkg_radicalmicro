@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -22,7 +22,7 @@ class JFormFieldSchemaTypes extends JFormFieldList
      *
      * @var  string
      *
-     * @since  1.4.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $type = 'schemaTypes';
 
@@ -33,7 +33,7 @@ class JFormFieldSchemaTypes extends JFormFieldList
      *
      * @throws  Exception
      *
-     * @since  1.4.0
+     * @since  __DEPLOY_VERSION__
      */
     protected function getOptions()
     {

@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -22,28 +22,28 @@ use RadicalMicro\Helpers\XMLHelper;
 /**
  * @package     pkg_radicalmicro
  *
- * @since       1.0.0
+ * @since       __DEPLOY_VERSION__
  */
 class plgRadicalMicroMenuHelper
 {
     /**
      * Param prefix
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     const PREFIX_SCHEMA = 'radicalmicro_schema_menu_';
 
     /**
      * Param prefix
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     const PREFIX_META = 'radicalmicro_meta_menu_';
 
     /**
      * @var array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $params = [];
 
@@ -63,7 +63,7 @@ class plgRadicalMicroMenuHelper
      *
      * @return object|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getMetaObject(Registry $params)
     {
@@ -84,7 +84,7 @@ class plgRadicalMicroMenuHelper
     /**
      * Method get provider data
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getSchemaObject(Registry $params)
     {
@@ -107,7 +107,7 @@ class plgRadicalMicroMenuHelper
      *
      * @param   Form  $form
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function setSchemaFields(Form $form, $data)
     {
@@ -133,7 +133,7 @@ class plgRadicalMicroMenuHelper
     /**
      * @param $form
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function setMetaFields($form)
     {
@@ -158,7 +158,7 @@ class plgRadicalMicroMenuHelper
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function getMetaFields()
     {

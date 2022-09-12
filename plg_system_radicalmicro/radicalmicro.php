@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -24,7 +24,7 @@ use RadicalMicro\Helpers\XMLHelper;
  * Radicalmicro
  *
  * @package   plgSystemRadicalmicro
- * @since     1.0.0
+ * @since     __DEPLOY_VERSION__
  */
 class plgSystemRadicalMicro extends CMSPlugin
 {
@@ -32,7 +32,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $app;
 
@@ -40,7 +40,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
@@ -49,7 +49,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      *
      * Register RadicalMicro namespace.
      *
-     * @since  1.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function onAfterInitialise()
     {
@@ -67,7 +67,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -86,7 +86,7 @@ class plgSystemRadicalMicro extends CMSPlugin
 
             foreach ($collections as $collection)
             {
-                $element = XMLHelper::createBoolField('meta_enable_' . $collection);
+                $element = XMLHelper::createBoolField('meta_enable_' . $collection, 1);
                 $form->setField($element, null, false, 'meta');
             }
         }
@@ -99,7 +99,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      *
      * @return  bool|void
      *
-     * @since   2.5
+     * @since   __DEPLOY_VERSION__
      */
     public function onAfterRender()
     {
@@ -143,6 +143,8 @@ class plgSystemRadicalMicro extends CMSPlugin
                     'postalCode'          => $this->params->get('schema_type_organization_code'),
                     'postOfficeBoxNumber' => $this->params->get('schema_type_organization_post'),
                     'hasMap'              => $this->params->get('schema_type_organization_map'),
+                    'phone'               => $this->params->get('schema_type_organization_phone'),
+                    'contactType'         => $this->params->get('schema_type_organization_contact_type'),
                 ];
 
                 $organization = TypesHelper::execute('schema', 'organization', $organizationData);
@@ -180,7 +182,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * Init types of each collections
      *
      * @throws Exception
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected function initCollections()
     {

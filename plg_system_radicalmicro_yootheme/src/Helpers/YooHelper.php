@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   1.0.0
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -23,7 +23,7 @@ final class YooHelper
 {
     /**
      * @var
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected static $instance;
 
@@ -31,7 +31,7 @@ final class YooHelper
      *
      * @return mixed|YooHelper
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getInstance()
     {
@@ -49,12 +49,13 @@ final class YooHelper
      * @param   Translator  $translator
      *
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function initCustomizer(Config $config, Translator $translator)
     {
         $locale = str_replace('_', '-', $config('locale.code'));
         $translator->addResource(Path::get('../../language/' . $locale . '/' . $locale . '.plg_system_radicalmicro_yootheme.json'));
+        $translator->addResource(Path::get('../../language/' . $locale . '/' . $locale . '.plg_system_radicalmicro_yootheme_custom.json'));
     }
 
     /**
@@ -63,7 +64,7 @@ final class YooHelper
      * @param   object  $node
      * @param   array   $params
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function initSource(array $type)
     {
@@ -82,18 +83,25 @@ final class YooHelper
 
             $config = [$radicalType];
 
-            // Add core field for meta type choice
-            $typeField = [
-                'label'       => 'Type',
-                'description' => Text::_('PLG_SYSTEM_RADICALMICRO_YOOTHEME_TYPE'),
-                'type'        => 'select',
-                'options'     => []
-            ];
+            // Add core field for meta type choice for schema.org
+            if (self::isSchemaOrg($radicalType))
+            {
+                $typeField = [
+                    'label'       => 'Type',
+                    'description' => Text::_('PLG_SYSTEM_RADICALMICRO_YOOTHEME_TYPE'),
+                    'type'        => 'select',
+                    'options'     => []
+                ];
+            }
 
             // Get config fields from collections
             foreach ($collections as $collection)
             {
-                $typeField['options'][ucfirst($collection)] = $collection;
+                // Add schema.org type options to select field
+                if ($radicalType === 'schema')
+                {
+                    $typeField['options'][ucfirst($collection)] = $collection;
+                }
 
                 $collectionConfig = TypesHelper::getConfig($radicalType, $collection, false);
 
@@ -105,12 +113,25 @@ final class YooHelper
                     {
                         // Configure new field by collection source
                         $newField = [
-                            'label'  => ucfirst($field),
-                            'source' => true,
-                            'show'   => $radicalType . ' == "' . $collection . '"',
-                            'enable' => $radicalType . ' == "' . $collection . '"'
+                            'label'  => ucfirst($field) . '_' . $collection,
+                            'source' => true
                         ];
 
+                        // Disable Twitter site field
+                        if ($field === 'type')
+                        {
+                            $newField['enable'] = '';
+                        }
+
+                        // Set showon conditions for schema.org
+                        if (self::isSchemaOrg($radicalType))
+                        {
+                            $newField['label']  = ucfirst($field);
+                            $newField['show']   = $radicalType . ' == "' . $collection . '"';
+                            $newField['enable'] = $radicalType . ' == "' . $collection . '"';
+                        }
+
+                        // Set type for field
                         if ($fieldType = self::getFieldType($field))
                         {
                             $newField['type'] = $fieldType;
@@ -123,8 +144,16 @@ final class YooHelper
                         }
                         else
                         {
-                            $type['fields'][$field]['enable'] .= ' || ' . $radicalType . ' == "' . $collection . '"';
-                            $type['fields'][$field]['show']   .= ' || ' . $radicalType . ' == "' . $collection . '"';
+                            // Add extra conditions for schema.org
+                            if (self::isSchemaOrg($radicalType))
+                            {
+                                $type['fields'][$field]['enable'] .= ' || ' . $radicalType . ' == "' . $collection . '"';
+                                $type['fields'][$field]['show']   .= ' || ' . $radicalType . ' == "' . $collection . '"';
+                            }
+                            else
+                            {
+                                $type['fields'][$field]['label'] .= '_' . $collection;
+                            }
                         }
                     }
                 }
@@ -132,7 +161,11 @@ final class YooHelper
                 $config = array_merge($config, $collectionConfig);
             }
 
-            $type['fields'][$radicalType] = $typeField;
+            // Add schema.org select with options to config
+            if (self::isSchemaOrg($radicalType))
+            {
+                $type['fields'][$radicalType] = $typeField;
+            }
 
             // Add new fieldset settings tab
             $newFieldset = [
@@ -152,7 +185,7 @@ final class YooHelper
      *
      * @return string|void
      *
-     * @since 1.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getFieldType($label)
     {
@@ -172,6 +205,16 @@ final class YooHelper
         }
 
         return 'text';
+    }
+
+    public static function isSchemaOrg($type)
+    {
+        if ($type === 'schema')
+        {
+            return true;
+        }
+
+        return false;
     }
 
 }
