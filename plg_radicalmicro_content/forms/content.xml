@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   __DEPLOY_VERSION__
+  ~ @version   0.2.1
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
   ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -16,6 +16,7 @@
                    default="0"
                    class="btn-group"
                    label="PLG_RADICALMICRO_CONTENT_PARAM_ENABLE"
+                   layout="joomla.form.field.radio.switcher"
                    description="PLG_RADICALMICRO_CONTENT_PARAM_ENABLE_DESC">
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>
@@ -42,6 +43,7 @@
                    default="0"
                    class="btn-group"
                    label="PLG_RADICALMICRO_CONTENT_PARAM_ENABLE"
+                   layout="joomla.form.field.radio.switcher"
                    description="PLG_RADICALMICRO_CONTENT_PARAM_ENABLE_DESC">
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>

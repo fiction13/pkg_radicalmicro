@@ -1,0 +1,16 @@
+<updates>
+    <update>
+        <name>pkg_radicalmicro_0.2.0</name>
+        <type>package</type>
+        <client>site</client>
+        <version>0.2.1</version>
+        <infourl title="pkg_radicalmicro_0.2.0">https://github.com/fiction13/pkg_radicalmicro</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://github.com/fiction13/pkg_radicalmicro</downloadurl>
+        </downloads>
+        <tags>
+            <tag>dev</tag>
+        </tags>
+        <targetPlatform name="joomla" version=".*"/>
+    </update>
+</updates>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   __DEPLOY_VERSION__
+  ~ @version   0.2.1
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
   ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -11,11 +11,11 @@
 <extension type="package" version="3.9" method="upgrade">
  	<name>PKG_RADICALMICRO</name>
     <author>Dmitriy Vasyukov</author>
-    <creationDate>September 2022</creationDate>
+    <creationDate>October 2022</creationDate>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.2.1-dev</version>
+    <version>0.2.1</version>
     <description>PKG_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
@@ -34,4 +34,14 @@
         <folder type="plugin" group="radicalmicro" id="radicalmicro_default">plg_radicalmicro_default</folder>
         <folder type="plugin" group="radicalmicro" id="radicalmicro_image">plg_radicalmicro_image</folder>
     </files>
+
+    <!--  Changelog  -->
+    <changelogurl>https://raw.githubusercontent.com/fiction13/pkg_radicalmicro/master/changelog.xml</changelogurl>
+
+    <!--  Update server  -->
+    <updateservers>
+        <server type="extension" name="Radical Micro package" priority="1">
+            https://raw.githubusercontent.com/fiction13/pkg_radicalmicro/master/update.xml
+        </server>
+    </updateservers>
 </extension>

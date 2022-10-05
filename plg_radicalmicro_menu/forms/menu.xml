@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ @package   pkg_radicalmicro
+  ~ @version   0.2.1
+  ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
+  ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
+  ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+  ~ @link      https://fictionlabs.ru/
+  -->
+
 <form>
     <fields name="params" addfieldpath="/plugins/system/radicalmicro/fields">
         <fieldset name="radicalmicro_schema">
@@ -7,6 +16,7 @@
                    default="0"
                    class="btn-group"
                    label="PLG_RADICALMICRO_MENU_PARAM_ENABLE"
+                   layout="joomla.form.field.radio.switcher"
                    description="PLG_RADICALMICRO_MENU_PARAM_ENABLE_DESC">
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>
@@ -33,6 +43,7 @@
                    default="0"
                    class="btn-group"
                    label="PLG_RADICALMICRO_MENU_PARAM_ENABLE"
+                   layout="joomla.form.field.radio.switcher"
                    description="PLG_RADICALMICRO_MENU_PARAM_ENABLE_DESC">
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>

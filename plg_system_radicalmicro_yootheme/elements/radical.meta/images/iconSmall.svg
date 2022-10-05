@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  - @package   pkg_radicalmicro
+  - @version   0.2.1
+  - @author    Dmitriy Vasyukov - https://fictionlabs.ru
+  - @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
+  - @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+  - @link      https://fictionlabs.ru/
+  -->
+
 <svg version="1.1" id="Flat" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="20px" height="20px" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
 <path d="M5.6,7.5l-3,2.5l3,2.5c0.3,0.2,0.3,0.6,0.1,0.8c-0.2,0.3-0.6,0.3-0.8,0.1c0,0,0,0,0,0l-3.6-3C1,10.3,0.9,9.9,1.1,9.6

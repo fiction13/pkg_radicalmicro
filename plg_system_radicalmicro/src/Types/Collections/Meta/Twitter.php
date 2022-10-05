@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.1
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -41,8 +41,8 @@ class Twitter implements InterfaceTypes
         $data['twitter:card']        = 'summary_large_image';
         $data['twitter:title']       = htmlspecialchars($item->title);
         $data['twitter:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
-        $data['twitter:site']        = $item->site ?? Uri::root();
-        $data['twitter:creator']     = $item->creator ?? Uri::root();
+        $data['twitter:site']        = $item->site ?? '';
+        $data['twitter:creator']     = $item->creator ?? '';
         $data['twitter:image']       = UtilityHelper::prepareLink($item->image);
         $data['priority']            = $priority;
 
@@ -64,8 +64,8 @@ class Twitter implements InterfaceTypes
             'title'       => '',
             'description' => '',
             'image'       => '',
-            'creator'     => Uri::root(),
-            'site'        => Uri::root()
+            'creator'     => '',
+            'site'        => ''
         ];
 
         if ($addUid)
