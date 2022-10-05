@@ -109,7 +109,7 @@ class plgRadicalMicroDefault extends CMSPlugin
         }
         else if ($this->params->get('image_choice') === 'body')
         {
-            list(, $body) = explode('<body>', $this->app->getBody());
+            list(, $body) = explode('<body', $this->app->getBody());
             $object->image = UtilityHelper::getFirstImage($body);
         }
 
