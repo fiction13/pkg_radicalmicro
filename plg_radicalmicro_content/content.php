@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -12,12 +12,17 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\PathHelper;
+use RadicalMicro\Helpers\CheckHelper;
+use RadicalMicro\Provider\Content\Helpers\ContentHelper;
 
 /**
  * Radicalmicro
@@ -54,11 +59,8 @@ class plgRadicalMicroContent extends CMSPlugin
     {
         parent::__construct($subject, $config);
 
-        // Include helper
-        JLoader::register('plgRadicalMicroContentHelper', __DIR__ . '/src/Helpers/Helper.php');
-
         // Helper
-        $this->helper = new plgRadicalMicroContentHelper($this->params);
+        $this->helper = new ContentHelper($this->params);
     }
 
 
@@ -107,30 +109,78 @@ class plgRadicalMicroContent extends CMSPlugin
 
             if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
             {
+                FormHelper::addFieldPrefix('RadicalMicro\\Provider\\Content\\Fields');
+
                 // Set Schema.org params fields
-                $this->helper->setSchemaFields($form);
+                if (CheckHelper::isSchemaEnabled() && CheckHelper::isEnabled())
+                {
+                    $this->helper->setSchemaFields($form);
+                }
+                else
+                {
+                    $form->removeField('type', 'params');
+                    $form->setFieldAttribute('schema_note', 'class', 'alert alert-danger w-100', 'params');
+                    $form->setFieldAttribute('schema_note', 'description', Text::_('PLG_RADICALMICRO_CONTENT_PARAM_DISABLED_ERROR_SCHEMA'), 'params');
+                }
 
                 // Set Meta params fields
-                $this->helper->setMetaFields($form);
+                if (CheckHelper::isMetaEnabled() && CheckHelper::isEnabled())
+                {
+                    $this->helper->setMetaFields($form);
+                }
+                else
+                {
+                     $form->setFieldAttribute('meta_note', 'class', 'alert alert-danger w-100', 'params');
+                     $form->setFieldAttribute('meta_note', 'description', Text::_('PLG_RADICALMICRO_CONTENT_PARAM_DISABLED_ERROR_SCHEMA'), 'params');
+                }
             }
         }
 
-        $component = $this->app->input->get('option');
-        $layout    = $this->app->input->get('layout');
-        $view      = $this->app->input->get('view');
-
         // Check article edit form
-        if ($this->app->isClient('administrator') && $component === 'com_content' && $view === 'article' && $layout === 'edit')
+        if ($this->app->isClient('administrator') && $form->getName() === 'com_content.article')
         {
-            // Add fieldset for menu
-            Form::addFormPath(__DIR__ . '/forms');
+            // Add fieldset for article
+            FormHelper::addFormPath(__DIR__ . '/forms');
             $form->loadFile('content', true);
 
-            // Set schema.org fields
-            $this->helper->setSchemaFields($form, true);
+            // Add css
+            Factory::getDocument()->addStyleDeclaration(
+                '#attrib-radicalmicro[active] {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);;
+                    gap: 2vw;
+                    grid-auto-rows: minmax(100px, auto);
+                }
+                @media (max-width: 769px) {
+                    #attrib-radicalmicro {
+                        grid-template-columns: repeat(1, 1fr);
+                    }
+                }'
+            );
 
-            // Set meta fields
-            $this->helper->setMetaFields($form, true);
+            // Set Schema.org params fields
+            if (CheckHelper::isSchemaEnabled())
+            {
+                $this->helper->setSchemaFields($form, new Registry($data));
+            }
+            else
+            {
+                $form->removeField('radicalmicro_schema_content_type', 'attribs');
+                $form->removeField('radicalmicro_schema_content_note', 'attribs');
+                $form->setValue('radicalmicro_schema_content_enable', 'attribs', 0);
+                $form->setFieldAttribute('radicalmicro_schema_content_enable', 'readonly', true, 'attribs');
+            }
+
+            // Set Meta params fields
+            if (CheckHelper::isMetaEnabled())
+            {
+                $this->helper->setMetaFields($form, true);
+            }
+            else
+            {
+                $form->setValue('radicalmicro_meta_content_enable', 'attribs', 0);
+                $form->setFieldAttribute('radicalmicro_meta_content_enable', 'readonly', true, 'attribs');
+            }
         }
 
         return true;
@@ -139,26 +189,26 @@ class plgRadicalMicroContent extends CMSPlugin
     /**
      * OnRadicalmicroProvider event
      *
-     * @return void
+     * @return bool
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function onRadicalmicroProvider($params)
+    public function onRadicalMicroProvider($params)
     {
         // Get schema type
-        $type = $this->params->get('type', 'article');
+        $type = $this->helper->getActualSchemaType();
 
         // Get and set schema data
         $schemaObject = $this->helper->getSchemaObject();
 
         if ($schemaObject)
         {
-            $schemaData   = TypesHelper::execute('schema', $type, $schemaObject);
+            $schemaData = TypesHelper::execute('schema', $type, $schemaObject);
             SchemaHelper::getInstance()->addChild('root', $schemaData);
         }
 
         // Get and set opengraph data
-        $metaObject  = $this->helper->getMetaObject();
+        $metaObject = $this->helper->getMetaObject();
 
         if ($metaObject)
         {
@@ -171,6 +221,6 @@ class plgRadicalMicroContent extends CMSPlugin
             }
         }
 
-        return;
+        return true;
     }
 }

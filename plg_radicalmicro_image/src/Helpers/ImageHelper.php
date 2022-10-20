@@ -1,12 +1,14 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link      https://fictionlabs.ru/
  */
+
+namespace RadicalMicro\Addon\Image\Helpers;
 
 defined('_JEXEC') or die;
 
@@ -18,6 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\UtilityHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use stdClass;
 
 
 /**
@@ -25,7 +28,7 @@ use Joomla\CMS\Language\LanguageHelper;
  *
  * @since       __DEPLOY_VERSION__
  */
-class plgRadicalMicroImageHelper
+class ImageHelper
 {
     /**
      * @var array

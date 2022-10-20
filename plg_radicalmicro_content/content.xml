@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   0.2.1
+  ~ @version   __DEPLOY_VERSION__
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
   ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -16,9 +16,10 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
-    <version>0.2.1</version>
+    <version>0.2.4-dev</version>
     <description>PLG_RADICALMICRO_CONTENT_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
+    <namespace path="src">RadicalMicro\Provider\Content</namespace>
 
     <!-- Language files -->
     <languages folder="language">
@@ -32,36 +33,51 @@
     <files>
         <filename plugin="content">content.php</filename>
         <folder>language</folder>
-        <folder>fields</folder>
         <folder>forms</folder>
         <folder>src</folder>
     </files>
 
     <!-- Config parameter -->
     <config>
-        <fields name="params" addfieldpath="/plugins/radicalmicro/content/fields">
-            <fieldset name="schema" addfieldpath="/plugins/system/radicalmicro/fields">
+        <fields name="params">
+            <fieldset name="basic" addfieldprefix="RadicalMicro\Fields">
+                <field type="radicalmicrocheck"
+                       name="radicalmicrocheck"
+                       label="PLG_RADICALMICRO_CONTENT_PARAM_CHECK"
+                />
+            </fieldset>
+            <fieldset name="schema" label="PLG_RADICALMICRO_CONTENT_FIELDSET_RADICALMICRO_SCHEMA_LABEL">
                 <field type="note"
                        name="schema_note"
-                       class="alert alert-info"
-                       label="PLG_CONTENT_RADICALMICRO_PARAM_SPACER_SCHEMA"
-                       description="PLG_CONTENT_RADICALMICRO_PARAM_SPACER_SCHEMA_DESC"
+                       class="alert alert-info w-100"
+                       label="PLG_RADICALMICRO_CONTENT_PARAM_SPACER_SCHEMA"
+                       description="PLG_RADICALMICRO_CONTENT_PARAM_SPACER_SCHEMA_DESC"
                 />
 
-                <field type="schematypes"
+                <field type="radicalmicroschematypes"
                        name="type"
                        default="article"
-                       label="PLG_CONTENT_RADICALMICRO_PARAM_TYPE">
+                       label="PLG_RADICALMICRO_CONTENT_PARAM_SCHEMA_TYPE">
                 </field>
             </fieldset>
-            <fieldset name="meta">
+            <fieldset name="meta" label="PLG_RADICALMICRO_CONTENT_FIELDSET_RADICALMICRO_META_LABEL">
                 <field type="note"
                        name="meta_note"
-                       class="alert alert-info"
-                       label="PLG_CONTENT_RADICALMICRO_PARAM_SPACER_META"
-                       description="PLG_CONTENT_RADICALMICRO_PARAM_SPACER_META_DESC"
+                       class="alert alert-info w-100"
+                       label="PLG_RADICALMICRO_CONTENT_PARAM_SPACER_META"
+                       description="PLG_RADICALMICRO_CONTENT_PARAM_SPACER_META_DESC"
                 />
             </fieldset>
         </fields>
     </config>
+
+    <!-- Media parametr -->
+    <media destination="plg_radicalmicro_content" folder="media">
+		<folder>js</folder>
+	</media>
+
+    <!-- Layouts parametr -->
+	<layouts destination="plugins/radicalmicro/content" folder="layouts">
+		<folder>fields</folder>
+	</layouts>
 </extension>

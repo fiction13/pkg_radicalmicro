@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -132,9 +132,15 @@ class UtilityHelper
             return '';
         }
 
+        // No prepare direct links
         if (strpos($url, 'http://') !== false || strpos($url, 'https://') !== false)
         {
             return $url;
+        }
+
+        // Clean image providers
+        if ($pos = strpos($url, '#')) {
+            $url = substr($url, 0, $pos);
         }
 
         return rtrim(Uri::root(), '/') . '/' . ltrim($url, '/');
@@ -185,7 +191,7 @@ class UtilityHelper
 
             $crumbs[$i]       = new stdClass;
             $crumbs[$i]->name = trim(stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8')));
-            $crumbs[$i]->link = Route::_($items[$i]->link);
+            $crumbs[$i]->link = Route::_($items[$i]->link, true, 0, true);
         }
 
         // Add home menu
@@ -196,7 +202,7 @@ class UtilityHelper
 
             $item       = new stdClass;
             $item->name = htmlspecialchars(Text::_('PLG_SYSTEM_RADICALMICRO_BREADCRUMBS_HOME'));
-            $item->link = self::prepareLink(Route::_('index.php?Itemid=' . $home->id));
+            $item->link = self::prepareLink(Route::_('index.php?Itemid=' . $home->id, true, 0, true));
 
             array_unshift($crumbs, $item);
         }

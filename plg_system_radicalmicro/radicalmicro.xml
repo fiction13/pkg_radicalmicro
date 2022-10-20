@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   0.2.1
+  ~ @version   __DEPLOY_VERSION__
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
   ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -16,13 +16,13 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
-    <version>0.2.1</version>
+    <version>0.2.4-dev</version>
     <description>PLG_SYSTEM_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
+    <namespace path="src">RadicalMicro</namespace>
 
     <!-- Plugin files -->
     <files>
-        <folder>fields</folder>
         <folder>src</folder>
         <filename plugin="radicalmicro">radicalmicro.php</filename>
     </files>
@@ -214,7 +214,6 @@
 						name="extra_insert_place"
 						type="radio"
 						class="btn-group"
-                        layout="joomla.form.field.radio.switcher"
 						label="PLG_SYSTEM_RADICALMICRO_PARAM_EXTRA_INSERT_PLACE"
                         description="PLG_SYSTEM_RADICALMICRO_PARAM_EXTRA_INSERT_PLACE_DESC"
 						size="1"
@@ -225,5 +224,10 @@
             </fieldset>
         </fields>
     </config>
+
+    <!-- Layouts parametr -->
+	<layouts destination="plugins/system/radicalmicro" folder="layouts">
+		<folder>fields</folder>
+	</layouts>
 
 </extension>

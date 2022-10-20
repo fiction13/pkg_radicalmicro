@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\TypesHelper;
+use RadicalMicro\Addon\Image\Helpers\ImageHelper;
 
 /**
  * Radicalmicro
@@ -52,11 +53,8 @@ class plgRadicalMicroImage extends CMSPlugin
     {
         parent::__construct($subject, $config);
 
-        // Include helper
-        JLoader::register('plgRadicalMicroImageHelper', __DIR__ . '/src/Helpers/Helper.php');
-
         // Helper
-        $this->helper = new plgRadicalMicroImageHelper($this->params);
+        $this->helper = new ImageHelper($this->params);
     }
 
     /**

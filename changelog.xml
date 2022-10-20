@@ -2,7 +2,19 @@
     <changelog>
         <element>pkg_radicalmicro</element>
         <type>package</type>
-        <version>0.2.1</version>
+        <version>0.2.4-dev</version>
+        <fix>
+            <item>Fix Content plugin</item>
+            <item>Refactoring for Joomla4 structure</item>
+        </fix>
+        <addition>
+            <item>Add check main system plugin fields</item>
+        </addition>
+    </changelog>
+    <changelog>
+        <element>pkg_radicalmicro</element>
+        <type>package</type>
+        <version>0.2.4-dev</version>
         <fix>
             <item>Warning and error fixes for Joomla4</item>
             <item>Fix En-gb translation</item>

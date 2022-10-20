@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -53,7 +53,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      */
     public function onAfterInitialise()
     {
-        JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src', false, false, 'psr4');
+//        JLoader::registerNamespace('RadicalMicro', __DIR__ . '/src', false, false, 'psr4');
 
         // Init collections
         $this->initCollections();

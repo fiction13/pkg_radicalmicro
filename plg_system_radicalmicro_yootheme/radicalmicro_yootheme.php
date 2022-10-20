@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -10,9 +10,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use YOOtheme\Application;
 
 /**
@@ -53,9 +51,6 @@ class plgSystemRadicalMicro_Yootheme extends CMSPlugin
 		{
 			return;
 		}
-
-		// Register namespace
-		JLoader::registerNamespace('RadicalMicroYootheme', __DIR__ . '/src', false, false, 'psr4');
 
 		// Load a single module from the same directory
 		$app = Application::getInstance();

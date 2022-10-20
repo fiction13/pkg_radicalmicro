@@ -1,21 +1,22 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link      https://fictionlabs.ru/
  */
 
+namespace RadicalMicro\Fields;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use RadicalMicro\Helpers\PathHelper;
+use stdClass;
 
-FormHelper::loadFieldClass('list');
-
-class JFormFieldSchemaTypes extends JFormFieldList
+class RadicalmicroschematypesField extends ListField
 {
     /**
      * The form field type.
@@ -24,7 +25,7 @@ class JFormFieldSchemaTypes extends JFormFieldList
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected $type = 'schemaTypes';
+    protected $type = 'radicalmicroschematypes';
 
     /**
      * Method to get the field options.

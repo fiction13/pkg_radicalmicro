@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -10,14 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\TypesHelper;
-use RadicalMicro\Helpers\UtilityHelper;
+use RadicalMicro\Provider\Menu\Helpers\MenuHelper;
 
 /**
  * Radicalmicro
@@ -53,11 +53,8 @@ class plgRadicalMicroMenu extends CMSPlugin
     {
         parent::__construct($subject, $config);
 
-        // Include helper
-        JLoader::register('plgRadicalMicroMenuHelper', __DIR__ . '/src/Helpers/Helper.php');
-
         // Helper
-        $this->helper = new plgRadicalMicroMenuHelper($this->params);
+        $this->helper = new MenuHelper($this->params);
     }
 
     /**
@@ -72,11 +69,8 @@ class plgRadicalMicroMenu extends CMSPlugin
      */
     public function onContentPrepareForm(Form $form, $data)
     {
-        $component = $this->app->input->get('option');
-        $layout    = $this->app->input->get('layout');
-
         // Check menu edit form
-        if ($this->app->isClient('administrator') && $component === 'com_menus' && $layout === 'edit')
+        if ($this->app->isClient('administrator') && $form->getName() === 'com_menus.item' && !in_array($data->type, ['heading', 'url', 'separator']))
         {
             // Add fieldset for menu
             Form::addFormPath(__DIR__ . '/forms');
@@ -87,6 +81,21 @@ class plgRadicalMicroMenu extends CMSPlugin
 
             // Set meta fields
             $this->helper->setMetaFields($form);
+
+            // Add css
+            Factory::getDocument()->addStyleDeclaration(
+                '#attrib-radicalmicro[active] {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);;
+                    gap: 2vw;
+                    grid-auto-rows: minmax(100px, auto);
+                }
+                @media (max-width: 769px) {
+                    #attrib-radicalmicro {
+                        grid-template-columns: repeat(1, 1fr);
+                    }
+                }'
+            );
         }
 
         return true;
@@ -101,10 +110,10 @@ class plgRadicalMicroMenu extends CMSPlugin
      */
     public function onRadicalMicroProvider($params)
     {
-        $menu = $this->app->getMenu()->getActive();
+        $menu = Factory::getApplication()->getMenu()->getActive();
 
         // Check is article view
-        if ($menu === null)
+        if (!MenuHelper::checkActive($menu))
         {
             return;
         }

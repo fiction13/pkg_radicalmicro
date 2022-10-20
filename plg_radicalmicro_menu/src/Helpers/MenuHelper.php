@@ -1,12 +1,14 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link      https://fictionlabs.ru/
  */
+
+namespace RadicalMicro\Provider\Menu\Helpers;
 
 defined('_JEXEC') or die;
 
@@ -17,6 +19,7 @@ use Joomla\Registry\Registry;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\XMLHelper;
+use stdClass;
 
 
 /**
@@ -24,7 +27,7 @@ use RadicalMicro\Helpers\XMLHelper;
  *
  * @since       __DEPLOY_VERSION__
  */
-class plgRadicalMicroMenuHelper
+class MenuHelper
 {
     /**
      * Param prefix
@@ -193,5 +196,35 @@ class plgRadicalMicroMenuHelper
         }
 
         return $addFields;
+    }
+
+    /**
+     * Method for check current menu page
+     *
+     * @return mixed|stdClass
+     *
+     * @since __DEPLOY_VERSION__
+     */
+
+    public static function checkActive($menu)
+    {
+        if ($menu === null)
+        {
+            return false;
+        }
+
+        $current   = true;
+        $inputVars = Factory::getApplication()->input->getArray();
+
+        foreach ($menu->query as $key => $value)
+        {
+            if (!isset($inputVars[$key]) || $inputVars[$key] !== $value)
+            {
+                $current = false;
+                break;
+            }
+        }
+
+        return $current;
     }
 }

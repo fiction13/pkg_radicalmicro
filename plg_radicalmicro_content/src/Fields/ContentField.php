@@ -1,23 +1,46 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   0.2.1
+ * @version   __DEPLOY_VERSION__
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link      https://fictionlabs.ru/
  */
 
+namespace RadicalMicro\Provider\Content\Fields;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\Language\Text;
 use RadicalMicro\Helpers\UtilityHelper;
 
-FormHelper::loadFieldClass('groupedList');
-
-class JFormFieldFields extends JFormFieldGroupedList
+class ContentField extends GroupedlistField
 {
+    /**
+     * @var array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $params = [];
+
+    /**
+     * The form field type.
+     *
+     * @var  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $type = 'content';
+
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $layout = 'plugins.radicalmicro.content.fields.contentfield';
     /**
      * @var array
      * @since __DEPLOY_VERSION__
@@ -43,34 +66,19 @@ class JFormFieldFields extends JFormFieldGroupedList
      */
     protected $optionsList = [
         'content' => [
-            'title',
-            'introtext',
-            'fulltext',
-            'image_intro',
-            'image_fulltext',
-            'created_by',
-            'created',
-            'modified',
-            'publish_up',
-            'publish_down',
+            'title'             => 'core.title',
+            'Intro Text'        => 'core.introtext',
+            'Full Text'         => 'core.fulltext',
+            'Meta Description'  => 'core.metadesc',
+            'Image Intro'       => 'core.image_intro',
+            'Image Fulltext'    => 'core.image_fulltext',
+            'Created By'        => 'core.created_by',
+            'Created Date'      => 'core.created',
+            'Modified Date'     => 'core.modified',
+            'Publish Up Date'   => 'core.publish_up',
+            'Publish Down Date' => 'core.publish_down',
         ]
     ];
-
-    /**
-     * @var array
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected $params = [];
-
-    /**
-     * The form field type.
-     *
-     * @var  string
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $type = 'fields';
 
     /**
      * Method to get the field option groups.
@@ -90,6 +98,10 @@ class JFormFieldFields extends JFormFieldGroupedList
             [
                 'text'  => Text::_('PLG_RADICALMICRO_CONTENT_GROUP_EXTRA_OPTION_NO_SELECT'),
                 'value' => '_noselect_'
+            ],
+            [
+                'text'  => Text::_('PLG_RADICALMICRO_CONTENT_GROUP_EXTRA_OPTION_CUSTOM'),
+                'value' => '_custom_'
             ]
         ];
 
@@ -187,7 +199,7 @@ class JFormFieldFields extends JFormFieldGroupedList
     public function getOptions()
     {
         $fieldsArray = [];
-        $fields = $this->getFields();
+        $fields      = $this->getFields();
 
         if ($fields)
         {
@@ -203,5 +215,23 @@ class JFormFieldFields extends JFormFieldGroupedList
         }
 
         return array_merge($this->optionsList, ['fields' => $fieldsArray]);
+    }
+
+    /**
+     * Method to get the field input markup fora grouped list.
+     * Multiselect is enabled by using the multiple attribute.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getInput()
+    {
+        $data = $this->getLayoutData();
+
+        // Get the field groups.
+        $data['groups'] = (array) $this->getGroups();
+
+        return $this->getRenderer($this->layout)->render($data);
     }
 }
