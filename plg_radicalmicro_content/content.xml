@@ -71,12 +71,12 @@
         </fields>
     </config>
 
-    <!-- Media parametr -->
+    <!-- Media parameter -->
     <media destination="plg_radicalmicro_content" folder="media">
 		<folder>js</folder>
 	</media>
 
-    <!-- Layouts parametr -->
+    <!-- Layouts parameter -->
 	<layouts destination="plugins/radicalmicro/content" folder="layouts">
 		<folder>fields</folder>
 	</layouts>
