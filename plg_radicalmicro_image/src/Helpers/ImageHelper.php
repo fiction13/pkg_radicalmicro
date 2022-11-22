@@ -75,7 +75,7 @@ class ImageHelper
     {
         $fileName = $this->getCacheFile();
         $file     = $this->getCachePath() . '/' . $fileName . '.jpg';
-
+//d(111);
 
         if (file_exists(JPATH_ROOT . '/' . $file))
         {
@@ -101,7 +101,8 @@ class ImageHelper
 
         return UtilityHelper::prepareLink('/index.php?' . http_build_query([
                 'option' => 'com_ajax',
-                'plugin' => 'radicalmicroimage',
+                'group'  => 'radicalmicro',
+                'plugin' => 'image',
                 'task'   => 'generate',
                 'title'  => urlencode($title),
                 'file'   => $fileName,

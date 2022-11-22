@@ -63,7 +63,7 @@ class plgRadicalMicroImage extends CMSPlugin
      *
      * @since         __DEPLOY_VERSION__
      */
-    public function onAjaxRadicalMicroImage()
+    public function onAjaxImage()
     {
         $task = $this->app->input->get('task');
 

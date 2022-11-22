@@ -39,8 +39,10 @@ class PlgRadicalMicroImageInstallerScript
 		if ($type == 'install')
         {
             $this->enablePlugin($parent);
-            $this->generateKey();
         }
+
+        // Generate key
+        $this->generateKey($parent);
 
         // Parse layouts
 		$this->parseLayouts($parent->getParent()->getManifest()->layouts, $parent->getParent());
@@ -73,7 +75,7 @@ class PlgRadicalMicroImageInstallerScript
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-    protected function generateKey()
+    protected function generateKey($parent)
     {
         $db = Factory::getDbo();
 
@@ -91,7 +93,7 @@ class PlgRadicalMicroImageInstallerScript
 
         // Set secret key
 
-        if (!isset($params['imagetype_generate_secret_key']))
+        if (!isset($params['imagetype_generate_secret_key']) || empty($params['imagetype_generate_secret_key']))
         {
             $params['imagetype_generate_secret_key'] = uniqid(rand());
 
