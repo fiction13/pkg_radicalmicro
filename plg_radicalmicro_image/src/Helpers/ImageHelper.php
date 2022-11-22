@@ -97,7 +97,7 @@ class ImageHelper
             return $this->showDefaultImage(false);
         }
 
-        $hash = md5($title . ':' . $fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
+        $hash = md5(urlencode($title) . ':' . $fileName . ':' . $this->params->get('imagetype_generate_secret_key'));
 
         return UtilityHelper::prepareLink('/index.php?' . http_build_query([
                 'option' => 'com_ajax',
