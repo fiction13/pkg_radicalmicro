@@ -116,16 +116,16 @@
 
                 <field
                         name="imagetype_generate_background_width"
-                        type="text"
-                        default="1200"
+                        type="number"
+                        min="0" default="1200"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_WIDTH"
                         showon="imagetype_generate_background:fill"
                 />
 
                 <field
                         name="imagetype_generate_background_height"
-                        type="text"
-                        default="630"
+                        type="number"
+                        min="0" default="630"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_HEIGHT"
                         showon="imagetype_generate_background:fill"
                 />
@@ -175,24 +175,24 @@
 
                 <field
                         name="imagetype_generate_background_text_fontsize"
-                        type="integer"
-                        first="10" last="50" step="1" default="20"
+                        type="number"
+                        min="0" step="1" default="20"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_FONT_SIZE"
                         description=""
                 />
 
                 <field
                         name="imagetype_generate_background_text_margin"
-                        type="integer"
-                        first="0" last="100" step="5" default="10"
+                        type="number"
+                        min="0" step="1" default="10"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_MARGIN"
                         description=""
                 />
 
                 <field
                         name="imagetype_generate_background_text_padding"
-                        type="integer"
-                        first="0" last="100" step="5" default="10"
+                        type="number"
+                        min="0" step="1" default="10"
                         label="PLG_RADICALMICRO_IMAGE_PARAM_BACKGROUND_TEXT_PADDING"
                         description=""
                 />
