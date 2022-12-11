@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -26,41 +26,41 @@ use stdClass;
 /**
  * @package     pkg_radicalmicro
  *
- * @since       __DEPLOY_VERSION__
+ * @since       0.2.2
  */
 class ContentHelper
 {
     /**
      * Param prefix
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     const PREFIX_SCHEMA = 'schema_';
 
     /**
      * Param prefix
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     const PREFIX_META = 'meta_';
 
     /**
      * @var array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $params = [];
 
     /**
      * @var array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $fields = array();
 
     /**
      * @var
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $item;
 
@@ -80,7 +80,7 @@ class ContentHelper
      *
      * @return void|object
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getSchemaObject()
     {
@@ -135,7 +135,7 @@ class ContentHelper
      *
      * @return void|object
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getMetaObject()
     {
@@ -187,7 +187,7 @@ class ContentHelper
      *
      * @return bool|Table
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getItem()
     {
@@ -218,7 +218,7 @@ class ContentHelper
      *
      * @return mixed|string|void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getData($value, $item)
     {
@@ -269,7 +269,7 @@ class ContentHelper
     /**
      * Check article page view
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function isArticleView()
     {
@@ -283,7 +283,7 @@ class ContentHelper
      *
      * @return void|string.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function getImage(string $images, string $type)
     {
@@ -299,7 +299,7 @@ class ContentHelper
      *
      * @return bool
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function isYoothemeBuider($description)
     {
@@ -322,7 +322,7 @@ class ContentHelper
      * @param   Form  $form
      * @param         $data
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function setSchemaFields(Form $form, $data = null)
     {
@@ -359,7 +359,7 @@ class ContentHelper
      *
      * @param   Form  $form
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function setMetaFields(Form $form, $isArticle = false)
     {
@@ -388,7 +388,7 @@ class ContentHelper
      *
      * @return mixed
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getFields($item = null)
     {
@@ -411,7 +411,7 @@ class ContentHelper
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getMetaFields()
     {
@@ -454,7 +454,7 @@ class ContentHelper
      *
      * @return mixed|stdClass
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getActualSchemaType()
     {

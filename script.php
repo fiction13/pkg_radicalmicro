@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -21,7 +21,7 @@ class pkg_radicalmicroInstallerScript
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
 	protected $minimumPhp = '7.0';
 
@@ -30,16 +30,16 @@ class pkg_radicalmicroInstallerScript
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
-	protected $minimumJoomla = '3.9.0';
+	protected $minimumJoomla = '4.2.0';
 
 	/**
 	 * Method to check compatible.
 	 *
 	 * @throws  Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
 	function preflight()
 	{

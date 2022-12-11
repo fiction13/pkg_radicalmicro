@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -21,7 +21,7 @@ use RadicalMicro\Addon\Image\Helpers\ImageHelper;
  * Radicalmicro
  *
  * @package   plgRadicalmicroContent
- * @since     __DEPLOY_VERSION__
+ * @since     0.2.2
  */
 class plgRadicalMicroImage extends CMSPlugin
 {
@@ -29,7 +29,7 @@ class plgRadicalMicroImage extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $app;
 
@@ -37,7 +37,7 @@ class plgRadicalMicroImage extends CMSPlugin
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $autoloadLanguage = true;
 
@@ -45,7 +45,7 @@ class plgRadicalMicroImage extends CMSPlugin
      * @param          $subject
      * @param   array  $config
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      *
      * @throws Exception
      */
@@ -61,7 +61,7 @@ class plgRadicalMicroImage extends CMSPlugin
      *
      * @return string||bool
      *
-     * @since         __DEPLOY_VERSION__
+     * @since         0.2.2
      */
     public function onAjaxImage()
     {
@@ -82,7 +82,7 @@ class plgRadicalMicroImage extends CMSPlugin
      *
      * @return array|void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function onRadicalMicroProvider($params)
     {

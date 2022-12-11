@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -26,7 +26,7 @@ class PlgSystemRadicalMicro_YoothemeInstallerScript
 	 *
 	 * @return  boolean True on success, False on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.2.2
 	 */
 	function postflight($type, $parent)
 	{
@@ -56,7 +56,7 @@ class PlgSystemRadicalMicro_YoothemeInstallerScript
 	 *
 	 * @param   InstallerAdapter  $parent  Parent object calling object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.2.2
 	 */
 	protected function enablePlugin($parent)
 	{

@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -21,7 +21,7 @@ class ContentField extends GroupedlistField
     /**
      * @var array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $params = [];
 
@@ -30,7 +30,7 @@ class ContentField extends GroupedlistField
      *
      * @var  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $type = 'content';
 
@@ -38,12 +38,12 @@ class ContentField extends GroupedlistField
      * Name of the layout being used to render the field
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $layout = 'plugins.radicalmicro.content.fields.contentfield';
     /**
      * @var array
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $accessFields = [
         'text',
@@ -62,7 +62,7 @@ class ContentField extends GroupedlistField
 
     /**
      * @var array
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $optionsList = [
         'content' => [
@@ -86,7 +86,7 @@ class ContentField extends GroupedlistField
      * @return  array  The field option objects as a nested array in groups.
      *
      * @throws  UnexpectedValueException
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     protected function getGroups()
     {
@@ -170,7 +170,7 @@ class ContentField extends GroupedlistField
      *
      * @return mixed
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getFields($item = null)
     {
@@ -194,7 +194,7 @@ class ContentField extends GroupedlistField
     /**
      * Add fields to options
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getOptions()
     {
@@ -223,7 +223,7 @@ class ContentField extends GroupedlistField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     protected function getInput()
     {

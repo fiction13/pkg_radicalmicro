@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -30,7 +30,7 @@ class UtilityHelper
      * @param   int     $limit
      *
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function prepareText(string $text, $limit = 0)
     {
@@ -61,7 +61,7 @@ class UtilityHelper
      *
      * @return mixed|Date|string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function prepareDate($date)
     {
@@ -99,7 +99,7 @@ class UtilityHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function prepareUser($user)
     {
@@ -123,7 +123,7 @@ class UtilityHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function prepareLink($url)
     {
@@ -151,7 +151,7 @@ class UtilityHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function cleanText(string $string)
     {
@@ -168,7 +168,7 @@ class UtilityHelper
     /**
      * Get breadcrumbs
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function getBreadCrumbs($home = true)
     {
@@ -224,7 +224,7 @@ class UtilityHelper
      *
      * @return boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function checkSchema(Registry $params, string $name, $body)
     {
@@ -300,7 +300,7 @@ class UtilityHelper
      *
      * @return boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function checkMeta(Registry $params, string $name, string $attribute, $body)
     {
@@ -344,7 +344,7 @@ class UtilityHelper
      *
      * @return mixed|string|void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function getFirstImage($text)
 	{
@@ -368,7 +368,7 @@ class UtilityHelper
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function getArrayFromText($text)
 	{
@@ -392,7 +392,7 @@ class UtilityHelper
     /**
      * @return bool
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public static function isJ4()
 	{

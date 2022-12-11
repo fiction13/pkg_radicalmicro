@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -25,7 +25,7 @@ use RadicalMicro\Helpers\XMLHelper;
  * Radicalmicro
  *
  * @package   pkgRadicalMicro
- * @since     __DEPLOY_VERSION__
+ * @since     0.2.2
  */
 class plgRadicalMicroDefault extends CMSPlugin
 {
@@ -33,7 +33,7 @@ class plgRadicalMicroDefault extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $app;
 
@@ -42,7 +42,7 @@ class plgRadicalMicroDefault extends CMSPlugin
      *
      * @var    boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $autoloadLanguage = true;
 
@@ -54,7 +54,7 @@ class plgRadicalMicroDefault extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -86,7 +86,7 @@ class plgRadicalMicroDefault extends CMSPlugin
      *
      * @return array|void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function onRadicalMicroProvider($params)
     {

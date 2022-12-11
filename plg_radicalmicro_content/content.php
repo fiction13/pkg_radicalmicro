@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -28,7 +28,7 @@ use RadicalMicro\Provider\Content\Helpers\ContentHelper;
  * Radicalmicro
  *
  * @package   plgRadicalmicroContent
- * @since     __DEPLOY_VERSION__
+ * @since     0.2.2
  */
 class plgRadicalMicroContent extends CMSPlugin
 {
@@ -36,7 +36,7 @@ class plgRadicalMicroContent extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $app;
 
@@ -45,7 +45,7 @@ class plgRadicalMicroContent extends CMSPlugin
      *
      * @var    boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $autoloadLanguage = true;
 
@@ -67,7 +67,7 @@ class plgRadicalMicroContent extends CMSPlugin
     /**
      * OnRadicalmicroRegisterTypes for init your types for each collection
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function onRadicalMicroRegisterTypes()
     {
@@ -81,7 +81,7 @@ class plgRadicalMicroContent extends CMSPlugin
     /**
      * OnRadicalmicroRegisterTypes for init your types for each collection
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function onRadicalMicroLoadLanguages()
     {
@@ -98,7 +98,7 @@ class plgRadicalMicroContent extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -191,7 +191,7 @@ class plgRadicalMicroContent extends CMSPlugin
      *
      * @return bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function onRadicalMicroProvider($params)
     {

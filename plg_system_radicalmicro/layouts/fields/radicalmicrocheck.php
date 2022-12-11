@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    System - JLSitemap Cron Plugin
- * @version    __DEPLOY_VERSION__
+ * @version    0.2.4
  * @author     Joomline - joomline.ru
  * @copyright  Copyright (c) 2010 - 2020 Joomline. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html

@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -20,7 +20,7 @@ class Breadcrumblist implements InterfaceTypes
 {
     /**
      * @var string
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     private $uid = 'radicalmicro.schema.breadcrumblist';
 
@@ -30,7 +30,7 @@ class Breadcrumblist implements InterfaceTypes
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function execute($item, $priority)
     {
@@ -71,7 +71,7 @@ class Breadcrumblist implements InterfaceTypes
      *
      * @return string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getConfig($addUid = true)
     {

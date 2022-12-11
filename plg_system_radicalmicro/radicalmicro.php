@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -24,7 +24,7 @@ use RadicalMicro\Helpers\XMLHelper;
  * Radicalmicro
  *
  * @package   plgSystemRadicalmicro
- * @since     __DEPLOY_VERSION__
+ * @since     0.2.2
  */
 class plgSystemRadicalMicro extends CMSPlugin
 {
@@ -32,7 +32,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $app;
 
@@ -40,7 +40,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $autoloadLanguage = true;
 
@@ -49,7 +49,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      *
      * Register RadicalMicro namespace.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function onAfterInitialise()
     {
@@ -67,7 +67,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -99,7 +99,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      *
      * @return  bool|void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     public function onAfterRender()
     {
@@ -182,7 +182,7 @@ class plgSystemRadicalMicro extends CMSPlugin
      * Init types of each collections
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected function initCollections()
     {

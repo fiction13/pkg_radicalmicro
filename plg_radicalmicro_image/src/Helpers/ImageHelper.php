@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -26,14 +26,14 @@ use stdClass;
 /**
  * @package     pkg_radicalmicro
  *
- * @since       __DEPLOY_VERSION__
+ * @since       0.2.2
  */
 class ImageHelper
 {
     /**
      * @var array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $params = [];
 
@@ -53,7 +53,7 @@ class ImageHelper
      *
      * @return object|void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getProviderData()
     {
@@ -69,7 +69,7 @@ class ImageHelper
      *
      * @return void|string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getImage()
     {
@@ -118,7 +118,7 @@ class ImageHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function generate()
     {
@@ -287,7 +287,7 @@ class ImageHelper
      *
      * @return false|int
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     private function hexColorAllocate($im, $hex)
     {
@@ -302,7 +302,7 @@ class ImageHelper
     /**
      * If an error occurred during generation, then show the default picture
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     private function showDefaultImage($redirect = true)
     {
@@ -324,7 +324,7 @@ class ImageHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     private function getCachePath($file = null)
     {
@@ -353,7 +353,7 @@ class ImageHelper
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     private function getCacheFile()
     {
@@ -374,7 +374,7 @@ class ImageHelper
      *
      * @return string|void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getImageFromText($text)
     {
@@ -394,7 +394,7 @@ class ImageHelper
      *
      * @return string|void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getCurrentLangSef()
     {

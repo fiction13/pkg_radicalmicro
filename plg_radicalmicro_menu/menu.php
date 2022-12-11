@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -23,7 +23,7 @@ use RadicalMicro\Provider\Menu\Helpers\MenuHelper;
  * Radicalmicro
  *
  * @package   plgRadicalmicroContent
- * @since     __DEPLOY_VERSION__
+ * @since     0.2.2
  */
 class plgRadicalMicroMenu extends CMSPlugin
 {
@@ -31,7 +31,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      * Application object
      *
      * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $app;
 
@@ -39,7 +39,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $autoloadLanguage = true;
 
@@ -65,7 +65,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -106,7 +106,7 @@ class plgRadicalMicroMenu extends CMSPlugin
      *
      * @return array|void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     public function onRadicalMicroProvider($params)
     {

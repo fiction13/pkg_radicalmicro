@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -32,7 +32,7 @@ class PlgSystemRadicalMicroInstallerScript
 	 *
 	 * @return  boolean True on success, False on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.2.2
 	 */
 	function preflight($type, $parent)
 	{
@@ -55,7 +55,7 @@ class PlgSystemRadicalMicroInstallerScript
 	 *
 	 * @return  boolean True on success, False on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.2.2
 	 */
 	function postflight($type, $parent)
 	{
@@ -76,7 +76,7 @@ class PlgSystemRadicalMicroInstallerScript
 	 *
 	 * @param   InstallerAdapter  $parent  Parent object calling object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.2.2
 	 */
 	protected function enablePlugin($parent)
 	{
@@ -99,7 +99,7 @@ class PlgSystemRadicalMicroInstallerScript
 	 *
 	 * @return  boolean     True on success
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
 	public function parseLayouts(SimpleXMLElement $element, $installer)
 	{
@@ -150,7 +150,7 @@ class PlgSystemRadicalMicroInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
 	public function uninstall($parent)
 	{
@@ -165,7 +165,7 @@ class PlgSystemRadicalMicroInstallerScript
 	 *
 	 * @return  boolean     True on success
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
 	protected function removeLayouts(SimpleXMLElement $element)
 	{
@@ -216,7 +216,7 @@ class PlgSystemRadicalMicroInstallerScript
     /**
 	 * This method check installed RadicalMicro plugins and return Exception if they are.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.2.2
 	 */
 	public function checkRadicalMicroPlugins()
     {

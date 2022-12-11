@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -22,7 +22,7 @@ class RadicalmicrocheckField extends FormField
     /**
      * @var array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $params = [];
 
@@ -31,7 +31,7 @@ class RadicalmicrocheckField extends FormField
      *
      * @var  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $type = 'radicalmicrocheck';
 
@@ -39,7 +39,7 @@ class RadicalmicrocheckField extends FormField
      * Name of the layout being used to render the field
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $layout = 'plugins.system.radicalmicro.fields.radicalmicrocheck';
 
@@ -47,7 +47,7 @@ class RadicalmicrocheckField extends FormField
      * Hide the label when rendering the form field.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     protected $hiddenLabel = true;
 
@@ -56,7 +56,7 @@ class RadicalmicrocheckField extends FormField
 	 *
 	 * @param   Form  $form  The form to attach to the form field object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.2.2
 	 */
     public function __construct($form = null)
     {
@@ -71,7 +71,7 @@ class RadicalmicrocheckField extends FormField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     protected function getInput()
     {
@@ -86,7 +86,7 @@ class RadicalmicrocheckField extends FormField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   0.2.2
      */
     protected function checkPlugin()
     {

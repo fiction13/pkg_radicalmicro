@@ -1,7 +1,7 @@
 <?php
 /*
  * @package   pkg_radicalmicro
- * @version   __DEPLOY_VERSION__
+ * @version   0.2.4
  * @author    Dmitriy Vasyukov - https://fictionlabs.ru
  * @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -25,28 +25,28 @@ use stdClass;
 /**
  * @package     pkg_radicalmicro
  *
- * @since       __DEPLOY_VERSION__
+ * @since       0.2.2
  */
 class MenuHelper
 {
     /**
      * Param prefix
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     const PREFIX_SCHEMA = 'radicalmicro_schema_menu_';
 
     /**
      * Param prefix
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  0.2.2
      */
     const PREFIX_META = 'radicalmicro_meta_menu_';
 
     /**
      * @var array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     protected $params = [];
 
@@ -66,7 +66,7 @@ class MenuHelper
      *
      * @return object|void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getMetaObject(Registry $params)
     {
@@ -87,7 +87,7 @@ class MenuHelper
     /**
      * Method get provider data
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getSchemaObject(Registry $params)
     {
@@ -110,7 +110,7 @@ class MenuHelper
      *
      * @param   Form  $form
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function setSchemaFields(Form $form, $data)
     {
@@ -136,7 +136,7 @@ class MenuHelper
     /**
      * @param $form
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function setMetaFields($form)
     {
@@ -161,7 +161,7 @@ class MenuHelper
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
     public function getMetaFields()
     {
@@ -203,7 +203,7 @@ class MenuHelper
      *
      * @return mixed|stdClass
      *
-     * @since __DEPLOY_VERSION__
+     * @since 0.2.2
      */
 
     public static function checkActive($menu)
