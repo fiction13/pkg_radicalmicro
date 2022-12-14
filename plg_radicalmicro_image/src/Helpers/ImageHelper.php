@@ -150,7 +150,7 @@ class ImageHelper
         // Generate image
         $titlePosition            = $this->params->get('imagetype_generate_position', 'middle');
         $backgroundType           = $this->params->get('imagetype_generate_background', 'fill');
-        $backgroundImage          = $this->params->get('imagetype_generate_background_image');
+        $backgroundImage          = UtilityHelper::prepareLink($this->params->get('imagetype_generate_background_image'), true);
         $backgroundWidth          = (int) $this->params->get('imagetype_generate_background_width', 1200);
         $backgroundHeight         = (int) $this->params->get('imagetype_generate_background_height', 630);
         $backgroundColor          = $this->params->get('imagetype_generate_background_color', '#000000');

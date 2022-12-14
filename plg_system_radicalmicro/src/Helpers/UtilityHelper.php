@@ -125,7 +125,7 @@ class UtilityHelper
      *
      * @since 0.2.2
      */
-    public static function prepareLink($url)
+    public static function prepareLink($url, $relative = false)
     {
         if (empty($url))
         {
@@ -141,6 +141,11 @@ class UtilityHelper
         // Clean image providers
         if ($pos = strpos($url, '#')) {
             $url = substr($url, 0, $pos);
+        }
+
+        if ($relative)
+        {
+            return $url;
         }
 
         return rtrim(Uri::root(), '/') . '/' . ltrim($url, '/');
@@ -327,7 +332,7 @@ class UtilityHelper
         // We need check meta tags in the body
         if (strpos($body, $attribute) !== false)
         {
-            $regex = '/<meta.*' . $attribute . '="' . $name . '".*content="(.*)".*\/>/';
+            $regex = '/<meta.*' . $attribute . '="' . $name . '".*content="(.*)".*>/';
 
             if (preg_match($regex, $body))
             {
