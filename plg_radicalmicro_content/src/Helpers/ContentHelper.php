@@ -222,7 +222,6 @@ class ContentHelper
      */
     public function getData($value, $item)
     {
-        d($item);
         // Set empty value if default value was selected
         if ($value === '_noselect_')
         {
