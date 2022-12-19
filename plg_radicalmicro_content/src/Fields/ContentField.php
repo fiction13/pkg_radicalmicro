@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use RadicalMicro\Helpers\UtilityHelper;
 
 class ContentField extends GroupedlistField
@@ -66,7 +67,8 @@ class ContentField extends GroupedlistField
      */
     protected $optionsList = [
         'content' => [
-            'title'             => 'core.title',
+            'Title'             => 'core.title',
+            'Page title'        => 'core.attribs.article_page_title',
             'Intro Text'        => 'core.introtext',
             'Full Text'         => 'core.fulltext',
             'Meta Description'  => 'core.metadesc',
@@ -176,16 +178,7 @@ class ContentField extends GroupedlistField
     {
         if (!$this->fields)
         {
-            if (UtilityHelper::isJ4())
-            {
-                $this->fields = \Joomla\Component\Fields\Administrator\Helper\FieldsHelper::getFields('com_content.article', $item);
-            }
-            else
-            {
-                JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
-                $this->fields = FieldsHelper::getFields('com_content.article', $item);
-            }
+            $this->fields = FieldsHelper::getFields('com_content.article', $item);
         }
 
         return $this->fields;

@@ -13,11 +13,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Registry\Registry;
 use RadicalMicro\Helpers\PathHelper;
 use RadicalMicro\Helpers\Tree\OGHelper;
 use RadicalMicro\Helpers\Tree\SchemaHelper;
 use RadicalMicro\Helpers\TypesHelper;
 use RadicalMicro\Provider\Menu\Helpers\MenuHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Radicalmicro
@@ -60,7 +62,7 @@ class plgRadicalMicroMenu extends CMSPlugin
     /**
      * Adds forms for override
      *
-     * @param   Form  $form  The form to be altered.
+     * @param   Form   $form  The form to be altered.
      * @param   mixed  $data  The associated data for the form.
      *
      * @return  boolean
@@ -131,7 +133,7 @@ class plgRadicalMicroMenu extends CMSPlugin
 
             if ($schemaObject && $type)
             {
-                $schemaData   = TypesHelper::execute('schema', $type, $schemaObject, 0.7);
+                $schemaData = TypesHelper::execute('schema', $type, $schemaObject, 0.7);
                 SchemaHelper::getInstance()->addChild('root', $schemaData);
             }
         }
@@ -139,7 +141,7 @@ class plgRadicalMicroMenu extends CMSPlugin
         // Get and set opengraph data
         if ($menuParams->get('radicalmicro_meta_menu_enable', 0))
         {
-            $metaObject  = $this->helper->getMetaObject($menuParams);
+            $metaObject = $this->helper->getMetaObject($menuParams);
 
             if ($metaObject)
             {
@@ -149,6 +151,50 @@ class plgRadicalMicroMenu extends CMSPlugin
                 {
                     $ogData = TypesHelper::execute('meta', $collection, $metaObject, 0.7);
                     OGHelper::getInstance()->addChild('root', $ogData);
+                }
+            }
+        }
+
+        // Replace title and description
+        if ($this->params->get('replace_title', 1) || $this->params->get('replace_description', 1))
+        {
+            $menuComponent = str_replace('com_', '', $menu->component);
+            $currentPlugin = PluginHelper::getPlugin('radicalmicro', $menuComponent);
+
+            if ($currentPlugin)
+            {
+                $currentPluginParams = new Registry($currentPlugin->params);
+                $schemaType          = $currentPluginParams->get('type');
+
+                $object = array();
+
+                // Replace title data
+                if ($this->params->get('replace_title', 1))
+                {
+                    $source          = $this->params->get('replace_title_source', 'page_title');
+                    $object['title'] = $menuParams->get($source);
+                }
+
+                // Replace description data
+                if ($this->params->get('replace_description', 1))
+                {
+                    $object['description'] = $menuParams->get('menu-meta_description');
+                }
+
+                // Set meta data
+                $collections = PathHelper::getInstance()->getTypes('meta');
+
+                foreach ($collections as $collection)
+                {
+                    $ogData = TypesHelper::execute('meta', $collection, $object, 0.7);
+                    OGHelper::getInstance()->addChild('root', $ogData);
+                }
+
+                // Set schema data
+                if ($schemaType)
+                {
+                    $schemaData = TypesHelper::execute('schema', $schemaType, $object, 0.7);
+                    SchemaHelper::getInstance()->addChild('root', $schemaData);
                 }
             }
         }

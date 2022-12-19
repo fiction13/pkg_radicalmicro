@@ -45,6 +45,40 @@
                        name="radicalmicrocheck"
                        label="PLG_RADICALMICRO_CONTENT_PARAM_CHECK"
                 />
+
+                <field name="replace_title"
+                       type="radio"
+                       default="1"
+                       class="btn-group"
+                       label="PLG_RADICALMICRO_MENU_PARAM_REPLACE_TITLE"
+                       layout="joomla.form.field.radio.switcher"
+                       description="PLG_RADICALMICRO_MENU_PARAM_REPLACE_TITLE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                        name="replace_title_source"
+                        type="list"
+                        class="btn-group"
+                        label="PLG_RADICALMICRO_MENU_PARAM_REPLACE_TITLE_SOURCE"
+                        size="1"
+                        default="browser"
+                        showon="replace_title:1">
+                    <option value="page_title">PLG_RADICALMICRO_MENU_PARAM_REPLACE_TITLE_SOURCE_TITLE</option>
+                    <option value="page_heading">PLG_RADICALMICRO_MENU_PARAM_REPLACE_TITLE_SOURCE_HEADING</option>
+                </field>
+
+                <field name="replace_description"
+                       type="radio"
+                       default="0"
+                       class="btn-group"
+                       label="PLG_RADICALMICRO_MENU_PARAM_REPLACE_DESCRIPTION"
+                       layout="joomla.form.field.radio.switcher"
+                       description="PLG_RADICALMICRO_MENU_PARAM_REPLACE_DESCRIPTION_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
             </fieldset>
         </fields>
     </config>

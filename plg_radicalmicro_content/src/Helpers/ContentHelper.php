@@ -222,6 +222,7 @@ class ContentHelper
      */
     public function getData($value, $item)
     {
+        d($item);
         // Set empty value if default value was selected
         if ($value === '_noselect_')
         {
@@ -250,6 +251,14 @@ class ContentHelper
         else if (strpos($value, 'core.') !== false)
         {
             $value = str_replace('core.', '', $value);
+
+            // Get Registry values if value contains dot like attribs.param
+            if (strpos($value, '.') !== FALSE)
+            {
+                list($level, $val) = explode('.', $value, 2);
+
+                return (new Registry($item->{$level}))->get($val, '');
+            }
 
             return $item->{$value} ?? '';
         }

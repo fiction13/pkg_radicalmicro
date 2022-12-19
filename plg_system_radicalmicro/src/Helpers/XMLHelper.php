@@ -114,10 +114,8 @@ class XMLHelper
             $element->addAttribute('default', $default);
         }
 
-        if (UtilityHelper::isJ4())
-        {
-            $element->addAttribute('layout', 'joomla.form.field.radio.switcher');
-        }
+        // Add switcher layout
+        $element->addAttribute('layout', 'joomla.form.field.radio.switcher');
 
         // Add options
         $element->addChild('option', Text::_('JNO'))->addAttribute('value', 0);

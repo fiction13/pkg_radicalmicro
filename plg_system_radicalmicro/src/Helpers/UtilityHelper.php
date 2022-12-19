@@ -393,20 +393,4 @@ class UtilityHelper
 
         return $text;
 	}
-
-    /**
-     * @return bool
-     *
-     * @since 0.2.2
-     */
-    public static function isJ4()
-	{
-        if ((new Version())->isCompatible('4.0'))
-        {
-            return true;
-        }
-
-        return false;
-	}
-
 }
