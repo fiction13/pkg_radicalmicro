@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   0.2.4
+  ~ @version   __DEPLOY_VERSION__
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
-  ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
+  ~ @copyright Copyright (c) 2023 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
   ~ @link      https://fictionlabs.ru/
   -->
@@ -15,7 +15,7 @@
     <authorEmail>info@fictionlabs.ru</authorEmail>
     <authorUrl>https://fictionlabs.ru</authorUrl>
     <packagename>radicalmicro</packagename>
-    <version>0.2.4</version>
+    <version>0.2.5-dev</version>
     <description>PKG_RADICALMICRO_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
@@ -27,17 +27,17 @@
 
     <!-- Package files -->
     <files>
-        <folder type="plugin" group="radicalmicro" id="content">plg_radicalmicro_content</folder>
-        <folder type="plugin" group="radicalmicro" id="menu">plg_radicalmicro_menu</folder>
-        <folder type="plugin" group="radicalmicro" id="default">plg_radicalmicro_default</folder>
-        <folder type="plugin" group="radicalmicro" id="image">plg_radicalmicro_image</folder>
-        <folder type="plugin" group="system" id="radicalmicro_yootheme">plg_system_radicalmicro_yootheme</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro">plg_radicalmicro_content</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro">plg_radicalmicro_menu</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro">plg_radicalmicro_default</folder>
+        <folder type="plugin" group="radicalmicro" id="radicalmicro">plg_radicalmicro_image</folder>
+        <folder type="plugin" group="system" id="radicalmicro">plg_system_radicalmicro_yootheme</folder>
         <folder type="plugin" group="system" id="radicalmicro">plg_system_radicalmicro</folder>
     </files>
 
     <!--  Update server  -->
     <updateservers>
-        <server type="extension" name="Radical Micro package" priority="1">
+        <server type="extension" name="RadicalMicro package" priority="1">
             https://sovmart.ru/download?version_id=39&amp;element=pkg_system_radicalmicro
         </server>
     </updateservers>

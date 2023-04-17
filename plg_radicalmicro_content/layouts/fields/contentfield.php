@@ -1,11 +1,11 @@
 <?php
-/**
- * @package    System - JLSitemap Cron Plugin
- * @version    0.2.4
- * @author     Joomline - joomline.ru
- * @copyright  Copyright (c) 2010 - 2020 Joomline. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
- * @link       https://joomline.ru/
+/*
+ * @package   pkg_radicalmicro
+ * @version   __DEPLOY_VERSION__
+ * @author    Dmitriy Vasyukov - https://fictionlabs.ru
+ * @copyright Copyright (c) 2023 Fictionlabs. All rights reserved.
+ * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @link      https://fictionlabs.ru/
  */
 
 defined('_JEXEC') or die;

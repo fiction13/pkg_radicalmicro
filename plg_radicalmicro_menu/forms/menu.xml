@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ @package   pkg_radicalmicro
-  ~ @version   0.2.4
+  ~ @version   __DEPLOY_VERSION__
   ~ @author    Dmitriy Vasyukov - https://fictionlabs.ru
-  ~ @copyright Copyright (c) 2022 Fictionlabs. All rights reserved.
+  ~ @copyright Copyright (c) 2023 Fictionlabs. All rights reserved.
   ~ @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
   ~ @link      https://fictionlabs.ru/
   -->
 
 <form>
-    <fields name="params" addfieldprefix="RadicalMicro\Fields">
+    <fields name="params" addfieldprefix="Joomla\Plugin\System\RadicalMicro\Field">
         <fieldset name="radicalmicro" label="PLG_RADICALMICRO_MENU_FIELDSET_RADICALMICRO_LABEL">
             <fieldset name="radicalmicro_schema" label="PLG_RADICALMICRO_MENU_FIELDSET_RADICALMICRO_SCHEMA_LABEL">
                 <field name="radicalmicro_schema_menu_enable"

@@ -1,11 +1,11 @@
 <?php
-/**
- * @package    System - JLSitemap Cron Plugin
- * @version    0.2.4
- * @author     Joomline - joomline.ru
- * @copyright  Copyright (c) 2010 - 2020 Joomline. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
- * @link       https://joomline.ru/
+/*
+ * @package   pkg_radicalmicro
+ * @version   __DEPLOY_VERSION__
+ * @author    Dmitriy Vasyukov - https://fictionlabs.ru
+ * @copyright Copyright (c) 2023 Fictionlabs. All rights reserved.
+ * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @link      https://fictionlabs.ru/
  */
 
 defined('_JEXEC') or die;
@@ -45,12 +45,13 @@ extract($displayData);
  * @var   array   $groups         Groups of options available for this field.
  * @var   string  $dataAttribute  Miscellaneous data attributes preprocessed for HTML output
  * @var   array   $dataAttributes Miscellaneous data attribute for eg, data-*
+ * @var   bool    $isEnabled      Enable or disable main plugin
  */
 
 ?>
 
-<div class="alert alert-<?php echo $isEnabled ? 'success' : 'danger' ;?>">
-    <h4 class="alert-heading"><?php echo Text::_('PLG_SYSTEM_RADICALMICRO_FIELD_CHECK_HEADING');?></h4>
+<div class="alert alert-<?php echo $isEnabled ? 'success' : 'danger'; ?>">
+    <h4 class="alert-heading"><?php echo Text::_('PLG_SYSTEM_RADICALMICRO_FIELD_CHECK_HEADING'); ?></h4>
     <div><?php echo Text::_('PLG_SYSTEM_RADICALMICRO_FIELD_CHECK_TITLE'); ?></div>
     <hr>
     <div><?php echo $isEnabled ? Text::_('PLG_SYSTEM_RADICALMICRO_FIELD_CHECK_RESULT_ENABLED') : Text::_('PLG_SYSTEM_RADICALMICRO_FIELD_CHECK_RESULT_DISABLED'); ?></div>
