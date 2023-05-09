@@ -86,7 +86,7 @@ class Radicalmicro extends CMSPlugin implements SubscriberInterface
 
         $plugin = PluginHelper::getPlugin('system', 'radicalmicro');
 
-        if ($this->app->input->getInt('extension_id') === (int) $plugin->id)
+        if ($app->input->getInt('extension_id') === (int) $plugin->id)
         {
             // Get all collections of types
             $collections = PathHelper::getInstance()->getTypes('meta');
