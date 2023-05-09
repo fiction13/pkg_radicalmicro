@@ -37,8 +37,8 @@
 
     <!--  Update server  -->
     <updateservers>
-        <server type="extension" name="RadicalMicro package" priority="1">
-            https://sovmart.ru/download?version_id=39&amp;element=pkg_system_radicalmicro
+        <server type="extension" name="RadicalMicro Package" priority="1">
+            https://sovmart.ru/update?element=pkg_radicalmicro
         </server>
     </updateservers>
 </extension>

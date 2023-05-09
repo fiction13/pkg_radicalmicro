@@ -162,7 +162,7 @@ return new class () implements ServiceProviderInterface {
                     $this->parseLayouts($installer->getManifest()->layouts, $installer);
 
                     // Generate key
-                    $this->generateKey($parent);
+                    $this->generateKey($adapter);
                 }
                 else
                 {
@@ -336,11 +336,13 @@ return new class () implements ServiceProviderInterface {
             /**
              * Generate key after installation.
              *
+             * @param   InstallerAdapter  $adapter  Parent object calling object.
+             *
              * @since   0.2.2
              */
-            protected function generateKey($parent)
+            protected function generateKey(InstallerAdapter $adapter)
             {
-                $db = Factory::getDbo();
+                $db = Factory::getContainer()->get('DatabaseDriver');
 
                 // Get params
                 $params = $db->setQuery(
@@ -363,12 +365,12 @@ return new class () implements ServiceProviderInterface {
                     // Prepare plugin object
                     $plugin          = new stdClass();
                     $plugin->type    = 'plugin';
-                    $plugin->element = $parent->getElement();
-                    $plugin->folder  = (string) $parent->getParent()->manifest->attributes()['group'];
+                    $plugin->element = $adapter->getElement();
+                    $plugin->folder  = (string) $adapter->getParent()->manifest->attributes()['group'];
                     $plugin->params  = json_encode($params);
 
                     // Update
-                    Factory::getDbo()->updateObject('#__extensions', $plugin, array('type', 'element', 'folder'));
+                    $db->updateObject('#__extensions', $plugin, array('type', 'element', 'folder'));
                 }
             }
         });
