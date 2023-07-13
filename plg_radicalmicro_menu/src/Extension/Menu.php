@@ -35,6 +35,13 @@ class Menu extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
+     * @var MenuHelper
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $helper;
+
+    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -82,7 +89,8 @@ class Menu extends CMSPlugin implements SubscriberInterface
         if ($app->isClient('administrator') && $form->getName() === 'com_menus.item' && !in_array($data->type, ['heading', 'url', 'separator']))
         {
             // Add fieldset for menu
-            Form::addFormPath(__DIR__ . '/forms');
+            $path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
+            Form::addFormPath($path . '/forms');
             $form->loadFile('menu', true);
 
             // Set schema.org fields
@@ -92,7 +100,7 @@ class Menu extends CMSPlugin implements SubscriberInterface
             $this->helper->setMetaFields($form);
 
             // Add css
-            Factory::getDocument()->addStyleDeclaration(
+            Factory::getApplication()->getDocument()->addStyleDeclaration(
                 '#attrib-radicalmicro[active] {
                     display: grid;
                     grid-template-columns: repeat(2, 1fr);;

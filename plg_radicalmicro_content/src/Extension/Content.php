@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\RadicalMicro\Content\Extension;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -35,6 +36,13 @@ class Content extends CMSPlugin implements SubscriberInterface
      * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * @var ContentHelper
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $helper;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -118,11 +126,12 @@ class Content extends CMSPlugin implements SubscriberInterface
         if ($app->isClient('administrator') && $form->getName() === 'com_content.article')
         {
             // Add fieldset for article
-            FormHelper::addFormPath(__DIR__ . '/forms');
+            $path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
+            Form::addFormPath($path . '/forms');
             $form->loadFile('content', true);
 
             // Add css
-            Factory::getDocument()->addStyleDeclaration(
+            Factory::getApplication()->getDocument()->addStyleDeclaration(
                 '#attrib-radicalmicro[active] {
                     display: grid;
                     grid-template-columns: repeat(2, 1fr);;

@@ -48,7 +48,7 @@ Meta разметка добавляется в тэге `<meta>`.
 Добавление коллекций Schema.org и Meta (`$path` - абcолютный путь до папки, где лежат необходимые коллекции) необходимо делать в методе `onRadicalMicroRegisterTypes`:
 
 ```
-use RadicalMicro\Helpers\PathHelper;
+use Joomla\Plugin\System\RadicalMicro\Helper\PathHelper;
 
 PathHelper::getInstance()->register($path, 'schema');
 PathHelper::getInstance()->register($path, 'schema_extra');
@@ -60,8 +60,8 @@ PathHelper::getInstance()->register($path, 'meta');
 Добавление своих данных в существующие коллекции необходимо делать в методе `onRadicalmicroProvider:`
 
 ```
-use RadicalMicro\Helpers\Tree\SchemaHelper;
-use RadicalMicro\Helpers\Tree\OGHelper;
+use Joomla\Plugin\System\RadicalMicro\Tree\SchemaHelper;
+use Joomla\Plugin\System\RadicalMicro\Tree\OGHelper;
 
 $schemaData = TypesHelper::execute('schema', 'schema_collection_name', ['name' => 'John'], $priority);
 SchemaHelper::getInstance()->addChild('root', 'collection_name', ['name' => 'John'], $priority);
@@ -83,7 +83,7 @@ OGHelper::getInstance()->addChild('root', 'meta_collection_name', ['name' => 'Jo
 Например, если в любом месте шаблона или вывода любого компонента прописать следующее:
 
 ```
-use RadicalMicro\Helpers\Tree\OGHelper;
+use Joomla\Plugin\System\RadicalMicro\Helper\Tree\OGHelper;
 
 $data = [
     'uid'         => 'radicalmicro.meta.twitter',

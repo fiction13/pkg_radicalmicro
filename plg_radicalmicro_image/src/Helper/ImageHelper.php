@@ -38,6 +38,13 @@ class ImageHelper
     protected $params = [];
 
     /**
+     * @var \Joomla\CMS\Application\CMSApplication
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $app;
+
+    /**
      * @param   Registry  $params
      *
      * @throws \Exception

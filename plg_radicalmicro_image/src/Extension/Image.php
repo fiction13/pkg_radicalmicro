@@ -31,6 +31,13 @@ class Image extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
+     * @var ImageHelper
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $helper;
+
+    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array

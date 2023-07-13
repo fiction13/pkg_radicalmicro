@@ -51,17 +51,25 @@ class ContentHelper
     protected $params = [];
 
     /**
-     * @var array
+     * @var \Joomla\CMS\Application\CMSApplication
      *
-     * @since 0.2.2
+     * @since __DEPLOY_VERSION__
      */
-    protected $fields = array();
+    protected $app;
 
     /**
      * @var
+     *
      * @since 0.2.2
      */
     protected $item;
+
+    /**
+     * @var mixed
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $fields = null;
 
     /**
      * @param   Registry  $params
