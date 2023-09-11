@@ -8,7 +8,7 @@
   ~ @link      https://fictionlabs.ru/
   -->
 
-<extension type="plugin" group="system" method="upgrade" version="3.9">
+<extension type="plugin" group="system" method="upgrade" version="4.2">
 	<name>PLG_SYSTEM_RADICALMICRO_YOOTHEME</name>
 	<creationDate>December 2022</creationDate>
 	<author>Dmitriy Vasyukov</author>
@@ -32,12 +32,12 @@
 
 	<!-- Plugin languages -->
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro_yootheme.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro_yootheme.json</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_radicalmicro_yootheme.sys.ini</language>
-		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro_yootheme.ini</language>
-		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro_yootheme.json</language>
-		<language tag="ru-RU">language/ru-RU/ru-RU.plg_system_radicalmicro_yootheme.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_radicalmicro_yootheme.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_radicalmicro_yootheme.json</language>
+		<language tag="en-GB">language/en-GB/plg_system_radicalmicro_yootheme.sys.ini</language>
+		<language tag="ru-RU">language/ru-RU/plg_system_radicalmicro_yootheme.ini</language>
+		<language tag="ru-RU">language/ru-RU/plg_system_radicalmicro_yootheme.json</language>
+		<language tag="ru-RU">language/ru-RU/plg_system_radicalmicro_yootheme.sys.ini</language>
 	</languages>
 
 	<!-- Config parameter -->

@@ -27,8 +27,10 @@ class EventHelper
      */
     public static $events = [
         'registerTypes' => 'onRadicalMicroRegisterTypes',
-        'provider'      => 'onRadicalMicroProvider'
+        'provider'      => 'onRadicalMicroProvider',
+        'beforeBuild'   => 'onRadicalMicroBeforeBuild',
     ];
+
 
     /**
      * Method for register Radical Micro types.
@@ -70,7 +72,7 @@ class EventHelper
      */
     public static function provider($subject, $params)
     {
-        // Process the RadicalMart Import plugins
+        // Process the RadicalMart plugins
         PluginHelper::importPlugin('radicalmicro');
 
         // Trigger event
@@ -81,6 +83,38 @@ class EventHelper
                 [
                     'subject' => $subject,
                     'params'  => $params,
+                ]
+            )
+        );
+
+        return true;
+    }
+
+    /**
+     * Method for get data from source by offset.
+     *
+     * @param   object  $subject  Event subject.
+     * @param   string  $context  Context.
+     * @param   array   $data     Array of data
+     *
+     * @return  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function beforeBuild(object $subject, string $context, array &$data)
+    {
+        // Process the RadicalMart plugins
+        PluginHelper::importPlugin('radicalmicro');
+
+        // Trigger event
+        Factory::getApplication()->getDispatcher()->dispatch(
+            self::$events[__FUNCTION__],
+            AbstractEvent::create(
+                self::$events[__FUNCTION__],
+                [
+                    'subject' => $subject,
+                    'context' => $context,
+                    'data'    => &$data
                 ]
             )
         );

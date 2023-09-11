@@ -8,7 +8,7 @@
  * @link      https://fictionlabs.ru/
  */
 
-use RadicalMicro\Addon\Yootheme\Helpers\YooHelper;
+use Joomla\Plugin\System\RadicalMicroYootheme\Helper\YooHelper;
 use YOOtheme\Builder;
 use YOOtheme\Path;
 

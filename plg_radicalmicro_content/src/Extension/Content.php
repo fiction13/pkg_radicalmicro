@@ -95,7 +95,7 @@ class Content extends CMSPlugin implements SubscriberInterface
 
             if ($app->getInput()->getInt('extension_id') === (int) $plugin->id)
             {
-                FormHelper::addFieldPrefix('RadicalMicro\\Provider\\Content\\Fields');
+                FormHelper::addFieldPrefix('\\Joomla\\Plugin\\RadicalMicro\\Content\\Field');
 
                 // Set Schema.org params fields
                 if (CheckHelper::isSchemaEnabled() && CheckHelper::isEnabled())

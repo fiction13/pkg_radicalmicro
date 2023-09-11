@@ -12,10 +12,14 @@ namespace Joomla\Plugin\RadicalMicro\Content\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Event\Event;
 use Joomla\Plugin\System\RadicalMicro\Helper\PathHelper;
 use Joomla\Plugin\System\RadicalMicro\Helper\TypesHelper;
 use Joomla\Plugin\System\RadicalMicro\Helper\XMLHelper;
@@ -203,13 +207,21 @@ class ContentHelper
             $item_id = (int) $this->app->input->get('id', 0);
 
             // Get Article
-            $item = Table::getInstance('Content', 'JTable');
-            $item->load($item_id);
+            $model = Factory::getApplication()->bootComponent('com_content')->getMVCFactory()->createModel('Article', 'Site', ['ignore_request' => true]);
+            $model->setState('params', ComponentHelper::getParams('com_content'));
+            $item = $model->getItem($item_id);
 
             // Prepare fields
             $item->jcfields       = $this->getFields($item);
             $item->image_intro    = $item->images ? $this->getImage($item->images, 'image_intro') : '';
             $item->image_fulltext = $item->images ? $this->getImage($item->images, 'image_fulltext') : '';
+
+            // Process the content plugins.
+            PluginHelper::importPlugin('system');
+            Factory::getApplication()->getDispatcher()->dispatch('onContentPrepare',
+                (new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, 0])
+                )
+            );
 
             $this->item = $item;
         }
@@ -344,7 +356,7 @@ class ContentHelper
         $isArticle   = !empty($data);
         $dependField = !$isArticle ? '' : 'radicalmicro_schema_content_enable';
         $group       = !$isArticle ? 'schema' : 'radicalmicro_schema';
-        $fieldType   = !$isArticle ? 'content' : '';
+        $fieldType   = 'content';
         $type        = $this->params->get('type');
 
         if ($data && $data->get('attribs.radicalmicro_schema_content_enable', 0))
@@ -464,6 +476,12 @@ class ContentHelper
      */
     public function getActualSchemaType()
     {
+        // Check is article view
+        if (!$this->isArticleView())
+        {
+            return false;
+        }
+
         // Get item object
         $item       = $this->getItem();
         $itemParams = new Registry($item->attribs);

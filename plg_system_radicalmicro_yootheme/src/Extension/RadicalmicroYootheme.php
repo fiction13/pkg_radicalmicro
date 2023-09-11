@@ -14,7 +14,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use YOOtheme\Application;
 
-class RadicalmicroYootheme extends CMSPlugin implements SubscriberInterface
+class RadicalMicroYootheme extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Load the language file on instantiation.

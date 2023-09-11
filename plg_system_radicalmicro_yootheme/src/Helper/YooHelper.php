@@ -55,8 +55,8 @@ final class YooHelper
     {
         $locale = str_replace('_', '-', $config('locale.code'));
 
-        $translator->addResource(Path::get('../../../../../administrator/language/' . $locale . '/' . $locale . '.plg_system_radicalmicro_yootheme.json'));
-        $translator->addResource(Path::get('../../../../../administrator/language/' . $locale . '/' . $locale . '.plg_system_radicalmicro_yootheme_custom.json'));
+        $translator->addResource(Path::get('../../../../../administrator/language/' . $locale . '/plg_system_radicalmicro_yootheme.json'));
+        $translator->addResource(Path::get('../../../../../administrator/language/' . $locale . '/plg_system_radicalmicro_yootheme_custom.json'));
     }
 
     /**

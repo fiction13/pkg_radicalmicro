@@ -33,6 +33,9 @@ class MainHelper
         // Get data from tree
         $schemaData = SchemaHelper::getInstance()->getBuild('root');
 
+        // Trigger event
+        EventHelper::beforeBuild((object) self::class, 'schema', $schemaData);
+
         foreach ($schemaData as $key => $schema)
         {
             if (UtilityHelper::checkSchema($params, $key, $body))
@@ -60,6 +63,9 @@ class MainHelper
 
         // Get data from tree
         $metaData = OGHelper::getInstance()->getBuild('root');
+
+        // Trigger event
+        EventHelper::beforeBuild((object) self::class, 'meta', $metaData);
 
         foreach ($metaData as $key => $og)
         {

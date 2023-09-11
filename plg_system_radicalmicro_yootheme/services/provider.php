@@ -16,7 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\RadicalMicroYootheme\Extension\RadicalmicroYootheme;
+use Joomla\Plugin\System\RadicalMicroYootheme\Extension\RadicalMicroYootheme;
+
 
 return new class implements ServiceProviderInterface {
 

@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\RadicalMicro\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use SimpleXMLElement;
 
@@ -33,6 +34,9 @@ class XMLHelper
      */
     public static function createField(string $fieldName, $dependFieldName = null, $type = null, $default = '', $options = null, $addToName = array())
     {
+        FormHelper::addFieldPrefix('\\Joomla\\Plugin\\System\\RadicalMicro\\Field');
+        FormHelper::addFieldPrefix('\\Joomla\\Plugin\\RadicalMicro\\Content\\Field');
+
         if (empty($type))
         {
             $type = self::getFieldType($fieldName);
