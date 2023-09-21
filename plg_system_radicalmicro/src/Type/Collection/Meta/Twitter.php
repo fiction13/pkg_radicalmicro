@@ -38,7 +38,7 @@ class Twitter implements InterfaceType
         $data['uid']                 = $this->uid;
         $data['twitter:card']        = 'summary_large_image';
         $data['twitter:title']       = $item->title ? htmlspecialchars($item->title) : '';
-        $data['twitter:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
+        $data['twitter:description'] = $item->description ? UtilityHelper::prepareText($item->description, 300) : '';
         $data['twitter:site']        = $item->site ?? '';
         $data['twitter:creator']     = $item->creator ?? '';
         $data['twitter:image']       = UtilityHelper::prepareLink($item->image);

@@ -38,7 +38,7 @@ class Og implements InterfaceType
 
         $data['uid']                    = $this->uid;
         $data['og:title']               = $item->title ? htmlspecialchars($item->title) : '';
-        $data['og:description']         = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
+        $data['og:description']         = $item->description ? UtilityHelper::prepareText($item->description, 300) : '';
         $data['og:type']                = $item->type ?? 'website';
         $data['og:url']                 = Uri::current();
         $data['og:image']               = UtilityHelper::prepareLink($item->image);
