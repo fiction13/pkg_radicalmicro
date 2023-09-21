@@ -12,11 +12,10 @@ namespace Joomla\Plugin\System\RadicalMicro\Type\Collection\Meta;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\RadicalMicro\Helper\UtilityHelper;
 use Joomla\Plugin\System\RadicalMicro\Type\InterfaceType;
 
-class Og implements InterfaceType
+class Article implements InterfaceType
 {
     /**
      * @var string
@@ -37,15 +36,8 @@ class Og implements InterfaceType
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
         $data['uid']                    = $this->uid;
-        $data['og:title']               = $item->title ? htmlspecialchars($item->title) : '';
-        $data['og:description']         = $item->description ? UtilityHelper::prepareText($item->description, 300) : '';
-        $data['og:type']                = $item->type ?? 'website';
-        $data['og:url']                 = Uri::current();
-        $data['og:image']               = UtilityHelper::prepareLink($item->image);
-        $data['og:image:width']         = UtilityHelper::getImageSize($item->image)->width;
-        $data['og:image:height']        = UtilityHelper::getImageSize($item->image)->height;
-        $data['og:site_name']           = $item->site_name ?? '';
-        $data['og:locale']              = $item->locale ?? '';
+        $data['article:modified_time']  = isset($item->modified) ? UtilityHelper::prepareDate($item->modified) : '';
+        $data['article:published_time'] = isset($item->created) ? UtilityHelper::prepareDate($item->created) : '';
         $data['priority']               = $priority;
 
         return $data;
@@ -62,14 +54,7 @@ class Og implements InterfaceType
      */
     public function getConfig($addUid = true)
     {
-        $config = [
-            'title'       => '',
-            'description' => '',
-            'image'       => '',
-            'created'     => '',
-            'modified'    => '',
-            'type'        => 'website'
-        ];
+        $config = [];
 
         if ($addUid)
         {
