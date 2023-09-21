@@ -36,19 +36,25 @@ class Og implements InterfaceType
     {
         $item = (object) array_merge($this->getConfig(), (array) $item);
 
-        $data['uid']            = $this->uid;
-        $data['og:title']       = $item->title ? htmlspecialchars($item->title) : '';
-        $data['og:description'] = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
-        $data['og:type']        = $item->type ?? 'website';
-        $data['og:url']         = Uri::current();
-        $data['og:image']       = UtilityHelper::prepareLink($item->image);
-        $data['priority']       = $priority;
+        $data['uid']                    = $this->uid;
+        $data['og:title']               = $item->title ? htmlspecialchars($item->title) : '';
+        $data['og:description']         = $item->description ? UtilityHelper::prepareText($item->description, 200) : '';
+        $data['og:type']                = $item->type ?? 'website';
+        $data['og:url']                 = Uri::current();
+        $data['og:image']               = UtilityHelper::prepareLink($item->image);
+        $data['og:image:width']         = UtilityHelper::getImageSize($item->image)->width;
+        $data['og:image:height']        = UtilityHelper::getImageSize($item->image)->height;
+        $data['og:site_name']           = $item->site_name ?? '';
+        $data['og:locale']              = $item->locale ?? '';
+        $data['priority']               = $priority;
+        $data['article:modified_time']  = $item->modified ? UtilityHelper::prepareDate($item->modified) : '';
+        $data['article:published_time'] = $item->created ? UtilityHelper::prepareDate($item->created) : '';
 
         return $data;
     }
 
     /**
-     * Get config for JForm and YOOtheme Pro elements
+     * Get config for Form and YOOtheme Pro elements
      *
      * @param   bool  $addUid
      *
@@ -62,6 +68,9 @@ class Og implements InterfaceType
             'title'       => '',
             'description' => '',
             'image'       => '',
+            'created'     => '',
+            'modified'    => '',
+            'sitename'    => '',
             'type'        => 'website'
         ];
 

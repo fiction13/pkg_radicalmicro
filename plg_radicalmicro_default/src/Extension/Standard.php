@@ -42,47 +42,8 @@ class Standard extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepareForm'   => 'onContentPrepareForm',
             'onRadicalMicroProvider' => 'onRadicalMicroProvider'
         ];
-    }
-
-    /**
-     * Adds forms for override
-     *
-     * @param   Event  $event  Event.
-     *
-     * @return  boolean
-     *
-     * @since   0.2.2
-     */
-    public function onContentPrepareForm(Event $event)
-    {
-        $form = $event->getArgument(0);
-        $data = $event->getArgument(1);
-        $app  = Factory::getApplication();
-
-        // Check current plugin form edit
-        if ($app->isClient('administrator') && $form->getName() == 'com_plugins.plugin')
-        {
-            $plugin = PluginHelper::getPlugin('radicalmicro', 'default');
-
-            if ($app->getInput()->getInt('extension_id') === (int) $plugin->id)
-            {
-                // Create simple xml element
-                $element = new \SimpleXMLElement('<field />');
-
-                $element->addAttribute('name', 'title');
-                $element->addAttribute('label', Text::_('PLG_RADICALMICRO_DEFAULT_PARAM_TITLE'));
-                $element->addAttribute('type', 'text');
-                $element->addAttribute('default', Text::_('PLG_RADICALMICRO_DEFAULT_PARAM_TITLE_VALUE'));
-                $element->addAttribute('disabled', true);
-
-                $form->setField($element, null, true, 'basic');
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -103,7 +64,10 @@ class Standard extends CMSPlugin implements SubscriberInterface
         $object = new \stdClass();
 
         // Set title
-        $object->title = $document->getTitle();
+        if ($this->params->get('title') !== 'none')
+        {
+            $object->title = $document->getTitle();
+        }
 
         // Set description
         if ($this->params->get('description') !== 'none')
@@ -120,6 +84,33 @@ class Standard extends CMSPlugin implements SubscriberInterface
         {
             list(, $body) = explode('<body', $this->app->getBody());
             $object->image = UtilityHelper::getFirstImage($body);
+        }
+
+        // Set site name
+        if ($this->params->get('site_name'))
+        {
+            $object->site_name = $this->params->get('site_name');
+        }
+
+        // Set locale
+        if ($this->params->get('locale'))
+        {
+            $language = Factory::getApplication()->getLanguage();
+            $tag      = $language->getTag();
+            list($locale) = explode('-', $tag);
+            $object->locale = $locale;
+        }
+
+        // Set twitter site
+        if ($this->params->get('site'))
+        {
+            $object->site = $this->params->get('site');
+        }
+
+        // Set twitter creator
+        if ($this->params->get('creator'))
+        {
+            $object->creator = $this->params->get('creator');
         }
 
         // Get and set opengraph data

@@ -25,9 +25,12 @@ use stdClass;
 class UtilityHelper
 {
     /**
+     * Method for prepare text
+     *
      * @param   string  $text
      * @param   int     $limit
      *
+     * @return string
      *
      * @since 0.2.2
      */
@@ -37,7 +40,7 @@ class UtilityHelper
         $text = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $text);
 
         // Strip HTML tags/comments and minify
-        $text = str_replace(array("\r\n", "\n", "\r"),' ', trim(strip_tags($text)));
+        $text = str_replace(array("\r\n", "\n", "\r"), ' ', trim(strip_tags($text)));
 
         // Truncate text
         if ($limit > 0)
@@ -56,6 +59,8 @@ class UtilityHelper
     }
 
     /**
+     * Method for prepare date
+     *
      * @param $date
      *
      * @return mixed|Date|string
@@ -94,7 +99,9 @@ class UtilityHelper
     }
 
     /**
-     * @param  int|string  $user
+     * Method for prepare user
+     *
+     * @param   int|string  $user
      *
      * @return string
      *
@@ -118,6 +125,8 @@ class UtilityHelper
     }
 
     /**
+     * Method for prepare link
+     *
      * @param   string  $url
      *
      * @return string
@@ -138,7 +147,8 @@ class UtilityHelper
         }
 
         // Clean image providers
-        if ($pos = strpos($url, '#')) {
+        if ($pos = strpos($url, '#'))
+        {
             $url = substr($url, 0, $pos);
         }
 
@@ -151,6 +161,54 @@ class UtilityHelper
     }
 
     /**
+     * Method for get image size
+     *
+     * @param   string  $src  Image url
+     *
+     * @return stdClass
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getImageSize($src)
+    {
+        $result         = new \stdClass();
+        $result->width  = '';
+        $result->height = '';
+
+        if (empty($src) || strpos($src, 'com_ajax') !== false)
+        {
+            return $result;
+        }
+
+        // Clean image providers
+        if (strpos($src, '#') !== false)
+        {
+            $imgParams      = explode('#', $src);
+            $uri            = new Uri($imgParams[1]);
+            $result->width  = $uri->getVar('width');
+            $result->height = $uri->getVar('height');
+
+            return $result;
+        }
+
+        try
+        {
+            $src = str_replace(Uri::root(), JPATH_ROOT . '/', $src);
+            $imageSize = getimagesize($src);
+            $result->width  = $imageSize[0];
+            $result->height = $imageSize[1];
+        }
+        catch (\Exception $e)
+        {
+            // noop
+        }
+
+        return $result;
+    }
+
+    /**
+     * Method for clean text
+     *
      * @param   string  $string
      *
      * @return string
@@ -176,10 +234,11 @@ class UtilityHelper
      */
     public static function getBreadCrumbs($home = true)
     {
-        $pathway = Factory::getApplication()->getPathway();
+        $app     = Factory::getApplication();
+        $pathway = $app->getPathway();
         $items   = $pathway->getPathWay();
-        $menu    = Factory::getApplication()->getMenu();
-        $lang    = Factory::getLanguage();
+        $menu    = $app->getMenu();
+        $lang    = $app->getLanguage();
         $count   = count($items);
 
         // We don't use $items here as it references JPathway properties directly
@@ -351,21 +410,21 @@ class UtilityHelper
      * @since 0.2.2
      */
     public static function getFirstImage($text)
-	{
-		if (empty($text))
-		{
-			return;
-		}
+    {
+        if (empty($text))
+        {
+            return;
+        }
 
-		preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $text, $img);
+        preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $text, $img);
 
         if (!empty($img) && isset($img['src']))
         {
             return $img['src'];
         }
 
-		return '';
-	}
+        return '';
+    }
 
     /**
      * @param $text
@@ -375,13 +434,13 @@ class UtilityHelper
      * @since 0.2.2
      */
     public static function getArrayFromText($text)
-	{
+    {
         if (empty($text))
         {
             return [];
         }
 
-		if (is_string($text))
+        if (is_string($text))
         {
             $result = preg_split('/\r\n|\r|\n/', $text);
             $result = array_values(array_filter($result));
@@ -391,5 +450,5 @@ class UtilityHelper
         }
 
         return $text;
-	}
+    }
 }

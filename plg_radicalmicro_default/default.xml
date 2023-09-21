@@ -40,47 +40,63 @@
     <config>
         <fields name="params">
             <fieldset name="basic" addfieldprefix="Joomla\Plugin\System\RadicalMicro\Field">
-                <field type="radicalmicrocheck"
-                       name="radicalmicrocheck"
+                <field type="radicalmicrocheck" name="radicalmicrocheck"
                        label="PLG_RADICALMICRO_CONTENT_PARAM_CHECK"
                 />
 
-                <field
-                        name="title"
-                        type="text"
-                        label="PLG_RADICALMICRO_DEFAULT_PARAM_TITLE"
-                        size="1"
-                        disabled="true"
-                        default="Title"
-                />
+                <field name="title" type="list"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_TITLE"
+                       size="1"
+                       default="description">
+                    <option value="none">PLG_RADICALMICRO_DEFAULT_PARAM_TITLE_NONE</option>
+                    <option value="title">PLG_RADICALMICRO_DEFAULT_PARAM_TITLE_PAGE</option>
+                </field>
 
-                <field
-                        name="description"
-                        type="list"
-                        label="PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION"
-                        size="1"
-                        default="description">
+                <field name="description" type="list"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION"
+                       size="1"
+                       default="description">
                     <option value="none">PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION_NONE</option>
                     <option value="description">PLG_RADICALMICRO_DEFAULT_PARAM_DESCRIPTION_PAGE</option>
                 </field>
 
-                <field
-                        name="image_choice"
-                        type="list"
-                        label="PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE"
-                        size="1"
-                        default="static">
+                <field name="image_choice" type="list"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE"
+                       size="1"
+                       default="static">
                     <option value="none">PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE_NONE</option>
                     <option value="static">PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE_STATIC</option>
                     <option value="body">PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE_CHOICE_BODY</option>
                 </field>
 
-                <field
-                        name="image"
-                        type="media"
-                        default=""
-                        label="PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE"
-                        showon="image_choice:static"
+                <field name="image" type="media"
+                       default=""
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_IMAGE"
+                       showon="image_choice:static"
+                />
+
+                <field name="site_name" type="text"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_SITE_NAME"
+                       default=""
+                />
+
+                <field name="locale"
+                       type="radio"
+                       default="0"
+                       class="btn-group btn-group-yesno"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_LOCALE">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="site" type="text"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_SITE"
+                       default=""
+                />
+
+                <field name="creator" type="text"
+                       label="PLG_RADICALMICRO_DEFAULT_PARAM_CREATOR"
+                       default=""
                 />
             </fieldset>
         </fields>

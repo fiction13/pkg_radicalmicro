@@ -62,8 +62,6 @@ class Twitter implements InterfaceType
             'title'       => '',
             'description' => '',
             'image'       => '',
-            'creator'     => '',
-            'site'        => ''
         ];
 
         if ($addUid)

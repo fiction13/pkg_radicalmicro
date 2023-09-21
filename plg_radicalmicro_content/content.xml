@@ -40,7 +40,7 @@
     <!-- Config parameter -->
     <config>
         <fields name="params">
-            <fieldset name="basic" addfieldprefix="Joomla\Plugin\System\RadicalMicro\Field">
+            <fieldset name="basic">
                 <field type="radicalmicrocheck"
                        name="radicalmicrocheck"
                        label="PLG_RADICALMICRO_CONTENT_PARAM_CHECK"
