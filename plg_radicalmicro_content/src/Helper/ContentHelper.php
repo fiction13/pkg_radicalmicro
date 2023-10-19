@@ -216,6 +216,9 @@ class ContentHelper
             $item->image_intro    = $item->images ? $this->getImage($item->images, 'image_intro') : '';
             $item->image_fulltext = $item->images ? $this->getImage($item->images, 'image_fulltext') : '';
 
+            // Fix for content prepare plugins
+            $item->text           = $item->introtext . ' ' . $item->fulltext . '{emailcloak=off}';
+
             // Process the content plugins.
             PluginHelper::importPlugin('system');
             Factory::getApplication()->getDispatcher()->dispatch('onContentPrepare',
