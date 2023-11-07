@@ -61,7 +61,7 @@ class SchemaHelper extends UnversalTreeHelper
             if (isset($output[$item['uid']]))
             {
                 // If current priority less
-                if ($output[$item['uid']]->priority >= $item['priority'])
+                if ($output[$item['uid']]->priority > $item['priority'])
                 {
                     $output[$item['uid']] = (object) array_merge(array_filter($item), (array) $output[$item['uid']]);
                 }

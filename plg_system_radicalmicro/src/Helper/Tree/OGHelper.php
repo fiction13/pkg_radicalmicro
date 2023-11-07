@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 class OGHelper extends UnversalTreeHelper
 {
 
-    public static function getInstance($name = 'opengrapgh')
+    public static function getInstance($name = 'opengraph')
     {
         return parent::getInstance($name);
     }
@@ -61,7 +61,7 @@ class OGHelper extends UnversalTreeHelper
             if (isset($output[$item['uid']]))
             {
                 // If current priority less
-                if ($output[$item['uid']]->priority >= $item['priority'])
+                if ($output[$item['uid']]->priority > $item['priority'])
                 {
                     $output[$item['uid']] = (object) array_merge(array_filter($item), (array) $output[$item['uid']]);
                 }
