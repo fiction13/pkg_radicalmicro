@@ -45,14 +45,14 @@ class ImageHelper
     protected $app;
 
     /**
-     * @param   Registry  $params
+     * @param Registry $params
      *
      * @throws \Exception
      */
     public function __construct(Registry $params)
     {
         $this->params = $params;
-        $this->app    = Factory::getApplication();
+        $this->app = Factory::getApplication();
     }
 
     /**
@@ -65,7 +65,7 @@ class ImageHelper
     public function getProviderData()
     {
         // Data object
-        $object        = new stdClass();
+        $object = new stdClass();
         $object->image = $this->getImage();
 
         return $object;
@@ -81,25 +81,22 @@ class ImageHelper
     public function getImage()
     {
         $fileName = $this->getCacheFile();
-        $file     = $this->getCachePath() . '/' . $fileName . '.jpg';
+        $file = $this->getCachePath() . '/' . $fileName . '.jpg';
 
-        if (file_exists(JPATH_ROOT . '/' . $file))
-        {
+        if (file_exists(JPATH_ROOT . '/' . $file)) {
             return UtilityHelper::prepareLink($file);
         }
 
         // Get title from OG build
         $build = OgHelper::getInstance()->getBuild('root');
 
-        if (!isset($build['radicalmicro.meta.og']))
-        {
+        if (!isset($build['radicalmicro.meta.og'])) {
             return $this->showDefaultImage(false);
         }
 
         $title = $build['radicalmicro.meta.og']->{'og:title'} ?? '';
 
-        if (empty($title))
-        {
+        if (empty($title)) {
             return $this->showDefaultImage(false);
         }
 
@@ -107,14 +104,14 @@ class ImageHelper
 
         return UtilityHelper::prepareLink('/index.php?' . http_build_query([
                 'option' => 'com_ajax',
-                'group'  => 'radicalmicro',
+                'group' => 'radicalmicro',
                 'plugin' => 'image',
-                'task'   => 'generate',
-                'title'  => urlencode($title),
-                'file'   => $fileName,
-                'hash'   => $hash,
+                'task' => 'generate',
+                'title' => urlencode($title),
+                'file' => $fileName,
+                'hash' => $hash,
                 'format' => 'raw',
-                'lang'   => $this->getCurrentLangSef()
+                'lang' => $this->getCurrentLangSef()
             ])
         );
     }
@@ -129,115 +126,101 @@ class ImageHelper
     public function generate()
     {
         // Check file
-        $file  = $this->app->input->get('file', '', 'raw');
+        $file = $this->app->input->get('file', '', 'raw');
         $title = $this->app->input->get('title', '', 'raw');
-        $hash  = $this->app->input->get('hash', '', 'raw');
+        $hash = $this->app->input->get('hash', '', 'raw');
 
         // Check hash, title and file
-        if ($hash != md5($title . ':' . $file . ':' . $this->params->get('imagetype_generate_secret_key')) || empty($title) || empty($file))
-        {
+        if ($hash != md5($title . ':' . $file . ':' . $this->params->get('imagetype_generate_secret_key')) || empty($title) || empty($file)) {
             $this->showDefaultImage();
         }
 
         $local = $this->getCachePath($file);
-        $path  = JPATH_ROOT . '/' . $local;
+        $path = JPATH_ROOT . '/' . $local;
 
-        if (file_exists($path . '/' . $file . '.jpg'))
-        {
+        if (file_exists($path . '/' . $file . '.jpg')) {
             $this->app->redirect($local . '/' . $file . '.jpg');
         }
 
         // Check access on folder
-        if (!is_writable($path))
-        {
+        if (!is_writable($path)) {
             $this->showDefaultImage();
         }
 
         // Generate image
-        $titlePosition            = $this->params->get('imagetype_generate_position', 'middle');
-        $backgroundType           = $this->params->get('imagetype_generate_background', 'fill');
-        $backgroundImage          = UtilityHelper::prepareLink($this->params->get('imagetype_generate_background_image'), true);
-        $backgroundWidth          = (int) $this->params->get('imagetype_generate_background_width', 1200);
-        $backgroundHeight         = (int) $this->params->get('imagetype_generate_background_height', 630);
-        $backgroundColor          = $this->params->get('imagetype_generate_background_color', '#000000');
+        $titlePosition = $this->params->get('imagetype_generate_position', 'middle');
+        $backgroundType = $this->params->get('imagetype_generate_background', 'fill');
+        $backgroundImage = UtilityHelper::prepareLink($this->params->get('imagetype_generate_background_image'), true);
+        $backgroundWidth = (int)$this->params->get('imagetype_generate_background_width', 1200);
+        $backgroundHeight = (int)$this->params->get('imagetype_generate_background_height', 630);
+        $backgroundColor = $this->params->get('imagetype_generate_background_color', '#000000');
         $backgroundTextBackground = $this->params->get('imagetype_generate_background_text_background', '');
-        $backgroundTextColor      = $this->params->get('imagetype_generate_background_text_color', '#ffffff');
-        $backgroundTextFontSize   = (int) $this->params->get('imagetype_generate_background_text_fontsize', 20);
-        $backgroundTextMargin     = (int) $this->params->get('imagetype_generate_background_text_margin', 10);
-        $backgroundTextPadding    = (int) $this->params->get('imagetype_generate_background_text_padding', 10);
-        $fontCustom               = $this->params->get('imagetype_generate_background_text_font', '');
+        $backgroundTextColor = $this->params->get('imagetype_generate_background_text_color', '#ffffff');
+        $backgroundTextFontSize = (int)$this->params->get('imagetype_generate_background_text_fontsize', 20);
+        $backgroundTextMargin = (int)$this->params->get('imagetype_generate_background_text_margin', 10);
+        $backgroundTextPadding = (int)$this->params->get('imagetype_generate_background_text_padding', 10);
+        $fontCustom = $this->params->get('imagetype_generate_background_text_font', '');
 
         // Check background type
-        if ($backgroundType == 'fill')
-        {
+        if ($backgroundType == 'fill') {
             $img = imagecreatetruecolor($backgroundWidth, $backgroundHeight);
-            $bg  = $this->hexColorAllocate($img, $backgroundColor);
+            $bg = $this->hexColorAllocate($img, $backgroundColor);
             imagefilledrectangle($img, 0, 0, $backgroundWidth, $backgroundHeight, $bg);
-        }
-        else
-        {
+        } else {
             // If bg image and no image set
-            if (empty($backgroundImage))
-            {
+            if (empty($backgroundImage)) {
                 $this->showDefaultImage();
             }
 
             $backgroundImage = JPATH_ROOT . '/' . ltrim($backgroundImage, '/');
-            $img             = imagecreatefromstring(file_get_contents($backgroundImage));
+            $img = imagecreatefromstring(file_get_contents($backgroundImage));
         }
 
         $colorForText = $this->hexColorAllocate($img, $backgroundTextColor);
-        $font         = JPATH_ROOT . '/' . implode('/', ['media', 'plg_radicalmicro_image', 'fonts', 'roboto.ttf']);
+        $font = JPATH_ROOT . '/' . implode('/', ['media', 'plg_radicalmicro_image', 'fonts', 'roboto.ttf']);
 
         // Get custom font
-        if (!empty($fontCustom))
-        {
+        if (!empty($fontCustom)) {
             $font = JPATH_ROOT . '/' . ltrim($fontCustom, '/');
 
             // Add custom fonts for other languages support, etc arabic or chines
-            if ($langSef = $this->getCurrentLangSef())
-            {
+            if ($langSef = $this->getCurrentLangSef()) {
                 $fontForLang = str_replace('.ttf', '_' . $langSef . '.ttf', $font);
 
-                if (File::exists($fontForLang))
-                {
+                if (File::exists($fontForLang)) {
                     $font = $fontForLang;
                 }
             }
         }
 
-        $width  = imagesx($img);
+        $width = imagesx($img);
         $height = imagesy($img);
 
-        $maxWidth          = imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2);
+        $maxWidth = imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2);
         $fontSizeWidthChar = $backgroundTextFontSize / 1.7;
-        $countForWrap      = (int) ((imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2)) / $fontSizeWidthChar);
+        $countForWrap = (int)((imagesx($img) - (($backgroundTextMargin + $backgroundTextPadding) * 2)) / $fontSizeWidthChar);
 
         // Set title
-        $txt         = urldecode($title);
-        $text        = explode("\n", wordwrap($txt, $countForWrap, "\n", true));
-        $text_width  = 0;
+        $txt = urldecode($title);
+        $text = explode("\n", wordwrap($txt, $countForWrap, "\n", true));
+        $text_width = 0;
         $text_height = 0;
 
-        foreach ($text as $line)
-        {
-            $dimensions         = imagettfbbox($backgroundTextFontSize, 0, $font, $line);
+        foreach ($text as $line) {
+            $dimensions = imagettfbbox($backgroundTextFontSize, 0, $font, $line);
             $text_width_current = max([$dimensions[2], $dimensions[4]]) - min([$dimensions[0], $dimensions[6]]);
-            $text_height        += $dimensions[3] - $dimensions[5];
+            $text_height += $dimensions[3] - $dimensions[5];
 
-            if ($text_width < $text_width_current)
-            {
+            if ($text_width < $text_width_current) {
                 $text_width = $text_width_current;
             }
         }
 
         $delta_y = 0;
-        if (count($text) > 1)
-        {
+        if (count($text) > 1) {
             $delta_y = $backgroundTextFontSize * -1;
 
-            foreach ($text as $line)
-            {
+            foreach ($text as $line) {
                 $delta_y += ($dimensions[3] + $backgroundTextFontSize * 1.5);
             }
 
@@ -249,14 +232,12 @@ class ImageHelper
         $centerY = $height / 2;
 
         // Title position top
-        if ($titlePosition == 'top')
-        {
+        if ($titlePosition == 'top') {
             $centerY = $text_height + $backgroundTextPadding;
         }
 
         // Title position bottom
-        if ($titlePosition == 'bottom')
-        {
+        if ($titlePosition == 'bottom') {
             $centerY = $height - $backgroundTextPadding - $text_height;
         }
 
@@ -266,8 +247,7 @@ class ImageHelper
         $centerRectX2 += $backgroundTextPadding * 2 + $backgroundTextMargin;
 
         // Check transparent background text color
-        if ($backgroundTextBackground)
-        {
+        if ($backgroundTextBackground) {
             $colorForBackground = $this->hexColorAllocate($img, $backgroundTextBackground);
             imagefilledrectangle($img, $backgroundTextMargin, $centerRectY1, $centerRectX2, $centerRectY2, $colorForBackground);
         }
@@ -275,8 +255,7 @@ class ImageHelper
         $y = $centerRectY1 + $backgroundTextPadding * 2;
 
         $delta_y = 0;
-        foreach ($text as $line)
-        {
+        foreach ($text as $line) {
             imagettftext($img, $backgroundTextFontSize, 0, $backgroundTextMargin + $backgroundTextPadding, $y + $delta_y, $colorForText, $font, $line);
             $delta_y += ($dimensions[3] + $backgroundTextFontSize * 1.5);
         }
@@ -298,9 +277,9 @@ class ImageHelper
     private function hexColorAllocate($im, $hex)
     {
         $hex = ltrim($hex, '#');
-        $a   = hexdec(substr($hex, 0, 2));
-        $b   = hexdec(substr($hex, 2, 2));
-        $c   = hexdec(substr($hex, 4, 2));
+        $a = hexdec(substr($hex, 0, 2));
+        $b = hexdec(substr($hex, 2, 2));
+        $c = hexdec(substr($hex, 4, 2));
 
         return imagecolorallocate($im, $a, $b, $c);
     }
@@ -314,8 +293,7 @@ class ImageHelper
     {
         $img = $this->params->get('imagetype_generate_image_for_error', 'media/plg_radicalmicro_image/images/default.png');
 
-        if ($redirect)
-        {
+        if ($redirect) {
             $this->app->redirect($img, 302);
         }
 
@@ -326,7 +304,7 @@ class ImageHelper
     /**
      * Get cache path for image
      *
-     * @param   bool  $checkPath
+     * @param bool $checkPath
      *
      * @return string
      *
@@ -335,19 +313,17 @@ class ImageHelper
     private function getCachePath($file = null)
     {
         $folder = $this->params->get('imagetype_generate_cache', 'images');
-        $path   = implode('/', [$folder, 'radicalmicro']);
+        $path = implode('/', [$folder, 'radicalmicro']);
 
         // Add subfolder
-        if ($this->params->get('imagetype_generate_cache_subfolder', 0))
-        {
-            $file      = $file ? $file : $this->getCacheFile();
-            $md5path   = md5($file);
+        if ($this->params->get('imagetype_generate_cache_subfolder', 0)) {
+            $file = $file ? $file : $this->getCacheFile();
+            $md5path = md5($file);
             $subfolder = substr($md5path, 0, 2);
-            $path      = $path . '/' . $subfolder;
+            $path = $path . '/' . $subfolder;
         }
 
-        if (!file_exists(JPATH_ROOT . '/' . $path))
-        {
+        if (!file_exists(JPATH_ROOT . '/' . $path)) {
             Folder::create(JPATH_ROOT . '/' . $path);
         }
 
@@ -355,7 +331,7 @@ class ImageHelper
     }
 
     /**
-     * @param   string  $exs
+     * @param string $exs
      *
      * @return string
      *
@@ -366,12 +342,43 @@ class ImageHelper
         $file = trim(preg_replace("#\?.*?$#isu", '', $this->app->input->server->get('REQUEST_URI', '', 'raw')), '/#');
         $file = str_replace('/', '-', $file);
 
-        if (!$file)
-        {
+        if (!$file) {
             $file = 'home';
         }
 
-        return $file;
+        $app = Factory::getApplication();
+
+        $registeredurlparams = new \stdClass();
+
+        // Get url parameters set by plugins
+        if (!empty($app->registeredurlparams)) {
+            $registeredurlparams = $app->registeredurlparams;
+        }
+
+        // Platform defaults
+        $defaulturlparams = [
+            'format' => 'WORD',
+            'option' => 'WORD',
+            'view' => 'WORD',
+            'layout' => 'WORD',
+            'tpl' => 'CMD',
+            'id' => 'INT',
+        ];
+
+        // Use platform defaults if parameter doesn't already exist.
+        foreach ($defaulturlparams as $param => $type) {
+            if (!property_exists($registeredurlparams, $param)) {
+                $registeredurlparams->$param = $type;
+            }
+        }
+
+        $safeuriaddon = new \stdClass();
+
+        foreach ($registeredurlparams as $key => $value) {
+            $safeuriaddon->$key = $app->getInput()->get($key, null, $value);
+        }
+
+        return $file . '/' . md5(serialize($safeuriaddon));
     }
 
 
@@ -386,8 +393,7 @@ class ImageHelper
     {
         preg_match('/< *img[^>]*src *= *["\']?([^"\']*)/i', $text, $matches);
 
-        if (isset($matches[1]) && $matches[1] !== '')
-        {
+        if (isset($matches[1]) && $matches[1] !== '') {
             return UtilityHelper::prepareLink($matches[1]);
         }
 
@@ -409,8 +415,7 @@ class ImageHelper
 
         $langCode = Factory::getApplication()->getLanguage()->getTag();
 
-        if (isset($languages[$langCode]))
-        {
+        if (isset($languages[$langCode])) {
             return $languages[$langCode]->sef;
         }
 
