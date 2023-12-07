@@ -378,7 +378,7 @@ class ImageHelper
             $safeuriaddon->$key = $app->getInput()->get($key, null, $value);
         }
 
-        return $file . '/' . md5(serialize($safeuriaddon));
+        return $file . '_' . md5(serialize($safeuriaddon));
     }
 
 
