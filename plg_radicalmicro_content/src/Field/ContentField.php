@@ -82,6 +82,12 @@ class ContentField extends GroupedlistField
     ];
 
     /**
+     * @var array|null
+     * @since 0.2.5
+     */
+    protected $fields;
+
+    /**
      * Method to get the field option groups.
      *
      * @return  array  The field option objects as a nested array in groups.
@@ -169,13 +175,13 @@ class ContentField extends GroupedlistField
     /**
      * @param   null  $item
      *
-     * @return mixed
+     * @return array
      *
      * @since 0.2.2
      */
     public function getFields($item = null)
     {
-        if (!$this->fields)
+        if (is_null($this->fields))
         {
             $this->fields = FieldsHelper::getFields('com_content.article', $item);
         }
