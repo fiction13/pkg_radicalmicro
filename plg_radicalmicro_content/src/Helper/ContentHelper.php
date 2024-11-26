@@ -13,11 +13,13 @@ namespace Joomla\Plugin\RadicalMicro\Content\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Version;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\Event;
 use Joomla\Plugin\System\RadicalMicro\Helper\PathHelper;
@@ -221,10 +223,14 @@ class ContentHelper
 
             // Process the content plugins.
             PluginHelper::importPlugin('system');
-            Factory::getApplication()->getDispatcher()->dispatch('onContentPrepare',
-                (new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, 0])
-                )
-            );
+            $eventName = 'onContentPrepare';
+            $event = AbstractEvent::create($eventName, [
+                'context' => 'com_content.article',
+                'subject' => &$item,
+                'params'  => &$item->params,
+                'page'    => 0
+            ]);
+            Factory::getApplication()->getDispatcher()->dispatch($eventName, $event);
 
             $this->item = $item;
         }
